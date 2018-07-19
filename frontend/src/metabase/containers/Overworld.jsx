@@ -20,6 +20,7 @@ import Subhead from "metabase/components/Subhead";
 import RetinaImage from "react-retina-image";
 
 import { getUser } from "metabase/home/selectors";
+import EntityItem from "metabase/components/EntityItem";
 
 import CollectionList from "metabase/components/CollectionList";
 
@@ -73,13 +74,14 @@ class Overworld extends React.Component {
               d => d.model === "dashboard" && d.collection_position != null,
             );
 
-            if (!pinnedDashboards.length > 0) {
-              return (
+            console.log(items);
+            return (
+              <Box px={PAGE_PADDING}>
                 <CandidateListLoader>
                   {({ candidates, sampleCandidates, isSample }) => {
                     return (
-                      <Box mx={PAGE_PADDING} mt={2}>
-                        <Box mb={1}>
+                      <Box mt={[2, 3]}>
+                        <Box mb={2}>
                           <h4
                           >{t`Not sure where to start? Try these x-rays based on your data.`}</h4>
                         </Box>
@@ -101,11 +103,6 @@ class Overworld extends React.Component {
                     );
                   }}
                 </CandidateListLoader>
-              );
-            }
-
-            return (
-              <Box px={PAGE_PADDING}>
                 <Box mt={3} mb={1}>
                   <h4>{t`Start here`}</h4>
                 </Box>
@@ -136,49 +133,77 @@ class Overworld extends React.Component {
                     );
                   })}
                 </Grid>
+                <Box my={3}>
+                  <Box mb={2}>
+                    <h4>{t`Our analytics`}</h4>
+                  </Box>
+                  <Card p={[2, 3]}>
+                    {this.props.collections.filter(
+                      c => c.id !== user.personal_collection_id,
+                    ).length > 0 ? (
+                      <CollectionList collections={this.props.collections} />
+                    ) : null}
+                    <Link
+                      to="/collection/root"
+                      color={normal.grey2}
+                      className="text-brand-hover"
+                    >
+                      <Flex color={colors["brand"]} p={2} my={1} align="center">
+                        <Box ml="auto" mr="auto">
+                          <Flex align="center">
+                            <h4>{t`Browse all items`}</h4>
+                            <Icon name="chevronright" size={14} ml={1} />
+                          </Flex>
+                        </Box>
+                      </Flex>
+                    </Link>
+                  </Card>
+                  <Box my={2}>
+                    <Box mb={2}>
+                      <h4>{t`Recently created dashboards`}</h4>
+                    </Box>
+                    <Card>
+                      {items
+                        .filter(i => i.model !== "collection")
+                        .map(item => (
+                          <EntityItem
+                            variant="list"
+                            key={`${item.model}-${item.id}`}
+                            iconName={item.getIcon()}
+                            iconColor={item.getColor()}
+                            item={item}
+                            type={item.type}
+                            name={item.getName()}
+                          />
+                        ))}
+                      <Box>
+                        <Link
+                          to="/collection/root"
+                          color={normal.grey2}
+                          className="text-brand-hover"
+                        >
+                          <Flex
+                            color={colors["brand"]}
+                            p={2}
+                            my={1}
+                            align="center"
+                          >
+                            <Box ml="auto" mr="auto">
+                              <Flex align="center">
+                                <h4>{t`Browse all items`}</h4>
+                                <Icon name="chevronright" size={14} ml={1} />
+                              </Flex>
+                            </Box>
+                          </Flex>
+                        </Link>
+                      </Box>
+                    </Card>
+                  </Box>
+                </Box>
               </Box>
             );
           }}
         </CollectionItemsLoader>
-
-        <Box px={PAGE_PADDING} my={3}>
-          <Box mb={2}>
-            <h4>{t`Our analytics`}</h4>
-          </Box>
-          <Card p={[2, 3]}>
-            {this.props.collections.filter(
-              c => c.id !== user.personal_collection_id,
-            ).length > 0 ? (
-              <CollectionList collections={this.props.collections} />
-            ) : (
-              <Box className="text-centered">
-                <RetinaImage
-                  src="app/img/empty.png"
-                  className="block ml-auto mr-auto"
-                />
-                <h2>
-                  {user.is_superuser
-                    ? t`Once you create collections they'll show up here.`
-                    : t``}
-                </h2>
-              </Box>
-            )}
-            <Link
-              to="/collection/root"
-              color={normal.grey2}
-              className="text-brand-hover"
-            >
-              <Flex color={colors["brand"]} p={2} my={1} align="center">
-                <Box ml="auto" mr="auto">
-                  <Flex align="center">
-                    <h4>{t`Browse all items`}</h4>
-                    <Icon name="chevronright" size={14} ml={1} />
-                  </Flex>
-                </Box>
-              </Flex>
-            </Link>
-          </Card>
-        </Box>
 
         <Box pt={2} px={PAGE_PADDING}>
           <h4>{t`Our data`}</h4>
