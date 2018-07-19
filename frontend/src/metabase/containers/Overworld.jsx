@@ -58,7 +58,8 @@ const PAGE_PADDING = [1, 2, 4];
 })
 class Overworld extends React.Component {
   render() {
-    const { user } = this.props;
+    const { user, collections } = this.props;
+
     return (
       <Box>
         <Flex px={PAGE_PADDING} pt={3} pb={1} align="center">
@@ -74,11 +75,20 @@ class Overworld extends React.Component {
               d => d.model === "dashboard" && d.collection_position != null,
             );
 
-            console.log(items);
+            const dashboards = items.filter(i => i.model !== "collection");
+            const hasPinnedItems = pinnedDashboards.length > 0;
+            const hasCollections =
+              collections.filter(c => c.id !== user.personal_collection_id)
+                .length > 0;
+            const hasDashboards = dashboards.length > 0;
+
             return (
               <Box px={PAGE_PADDING}>
                 <CandidateListLoader>
                   {({ candidates, sampleCandidates, isSample }) => {
+                    if (hasPinnedItems) {
+                      return null;
+                    }
                     return (
                       <Box mt={[2, 3]}>
                         <Box mb={2}>
@@ -103,80 +113,47 @@ class Overworld extends React.Component {
                     );
                   }}
                 </CandidateListLoader>
-                <Box mt={3} mb={1}>
-                  <h4>{t`Start here`}</h4>
-                </Box>
-                <Grid>
-                  {pinnedDashboards.map(pin => {
-                    return (
-                      <GridItem
-                        w={[1, 1 / 2, 1 / 3]}
-                        key={`${pin.model}-${pin.id}`}
-                      >
-                        <Link
-                          to={Urls.dashboard(pin.id)}
-                          hover={{ color: normal.blue }}
-                        >
-                          <Card hoverable p={3}>
-                            <Icon
-                              name="dashboard"
-                              color={normal.blue}
-                              mb={2}
-                              size={28}
-                            />
-                            <Box mt={1}>
-                              <h3>{pin.name}</h3>
-                            </Box>
-                          </Card>
-                        </Link>
-                      </GridItem>
-                    );
-                  })}
-                </Grid>
-                <Box my={3}>
-                  <Box mb={2}>
-                    <h4>{t`Our analytics`}</h4>
-                  </Box>
-                  <Card p={[2, 3]}>
-                    {this.props.collections.filter(
-                      c => c.id !== user.personal_collection_id,
-                    ).length > 0 ? (
-                      <CollectionList collections={this.props.collections} />
-                    ) : null}
-                    <Link
-                      to="/collection/root"
-                      color={normal.grey2}
-                      className="text-brand-hover"
-                    >
-                      <Flex color={colors["brand"]} p={2} my={1} align="center">
-                        <Box ml="auto" mr="auto">
-                          <Flex align="center">
-                            <h4>{t`Browse all items`}</h4>
-                            <Icon name="chevronright" size={14} ml={1} />
-                          </Flex>
-                        </Box>
-                      </Flex>
-                    </Link>
-                  </Card>
-                  <Box my={2}>
+                {hasPinnedItems && (
+                  <Grid>
                     <Box mb={2}>
-                      <h4>{t`Recently created dashboards`}</h4>
+                      <h4
+                      >{t`Not sure where to start? Try these x-rays based on your data.`}</h4>
                     </Box>
-                    <Card>
-                      {items
-                        .filter(i => i.model !== "collection")
-                        .map(item => (
-                          <EntityItem
-                            variant="list"
-                            key={`${item.model}-${item.id}`}
-                            iconName={item.getIcon()}
-                            iconColor={item.getColor()}
-                            item={item}
-                            type={item.type}
-                            name={item.getName()}
-                          />
-                        ))}
-                      <Box>
+                    {pinnedDashboards.map(pin => {
+                      return (
+                        <GridItem
+                          w={[1, 1 / 2, 1 / 3]}
+                          key={`${pin.model}-${pin.id}`}
+                        >
+                          <Link
+                            to={Urls.dashboard(pin.id)}
+                            hover={{ color: normal.blue }}
+                          >
+                            <Card hoverable p={3}>
+                              <Icon
+                                name="dashboard"
+                                color={normal.blue}
+                                mb={2}
+                                size={28}
+                              />
+                              <Box mt={1}>
+                                <h3>{pin.name}</h3>
+                              </Box>
+                            </Card>
+                          </Link>
+                        </GridItem>
+                      );
+                    })}
+                  </Grid>
+                )}
+                <Box my={3}>
+                  {hasCollections && (
+                    <Box>
+                      <Box mb={2}>
+                        <h4>{t`Our analytics`}</h4>
+                      </Box>
+                      <Card p={[2, 3]}>
+                        <CollectionList collections={this.props.collections} />
                         <Link
                           to="/collection/root"
                           color={normal.grey2}
@@ -196,9 +173,55 @@ class Overworld extends React.Component {
                             </Box>
                           </Flex>
                         </Link>
+                      </Card>
+                    </Box>
+                  )}
+
+                  {hasDashboards && (
+                    <Box my={2}>
+                      <Box mb={2}>
+                        <h4>{t`Recently created dashboards`}</h4>
                       </Box>
-                    </Card>
-                  </Box>
+                      <Card>
+                        {dashboards.map(item => (
+                          <Link
+                            to={Urls.dashboard(item.id)}
+                            key={`${item.model}-${item.id}`}
+                          >
+                            <EntityItem
+                              variant="list"
+                              iconName={item.getIcon()}
+                              iconColor={item.getColor()}
+                              item={item}
+                              type={item.type}
+                              name={item.getName()}
+                            />
+                          </Link>
+                        ))}
+                        <Box>
+                          <Link
+                            to="/collection/root"
+                            color={normal.grey2}
+                            className="text-brand-hover"
+                          >
+                            <Flex
+                              color={colors["brand"]}
+                              p={2}
+                              my={1}
+                              align="center"
+                            >
+                              <Box ml="auto" mr="auto">
+                                <Flex align="center">
+                                  <h4>{t`Browse all items`}</h4>
+                                  <Icon name="chevronright" size={14} ml={1} />
+                                </Flex>
+                              </Box>
+                            </Flex>
+                          </Link>
+                        </Box>
+                      </Card>
+                    </Box>
+                  )}
                 </Box>
               </Box>
             );
