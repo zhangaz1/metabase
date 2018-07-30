@@ -6,12 +6,13 @@
 
      CREATE TABLE IF NOT EXISTS ... -- Good
      CREATE TABLE ...               -- Bad"
-  (:require [clojure.java.jdbc :as jdbc]
+  (:require [cemerick.friend.credentials :as creds]
+            [clojure.java.jdbc :as jdbc]
             [clojure.string :as str]
             [clojure.tools.logging :as log]
             [metabase
              [config :as config]
-             [driver :as driver]
+             [db :as mdb]
              [public-settings :as public-settings]
              [util :as u]]
             [metabase.events.activity-feed :refer [activity-feed-topics]]
@@ -30,9 +31,11 @@
              [table :as table :refer [Table]]
              [user :refer [User]]]
             [metabase.query-processor.util :as qputil]
+            [metabase.util.date :as du]
             [toucan
              [db :as db]
-             [models :as models]]))
+             [models :as models]])
+  (:import java.util.UUID))
 
 ;;; # Migration Helpers
 
@@ -50,7 +53,7 @@
       (@migration-var)
       (db/insert! DataMigrations
         :id        migration-name
-        :timestamp (u/new-sql-timestamp)))))
+        :timestamp (du/new-sql-timestamp)))))
 
 (def ^:private data-migrations (atom []))
 
@@ -74,20 +77,6 @@
 ;;; +----------------------------------------------------------------------------------------------------------------+
 ;;; |                                                   MIGRATIONS                                                   |
 ;;; +----------------------------------------------------------------------------------------------------------------+
-
-;; Upgrade for the `Card` model when `:database_id`, `:table_id`, and `:query_type` were added and needed populating.
-;;
-;; This reads through all saved cards, extracts the JSON from the `:dataset_query`, and tries to populate
-;; the values for `:database_id`, `:table_id`, and `:query_type` if possible.
-(defmigration ^{:author "agilliland", :added "0.12.0"} set-card-database-and-table-ids
-  ;; only execute when `:database_id` column on all cards is `nil`
-  (when (zero? (db/count Card
-                 :database_id [:not= nil]))
-    (doseq [{id :id {:keys [type] :as dataset-query} :dataset_query} (db/select [Card :id :dataset_query])]
-      (when type
-        ;; simply resave the card with the dataset query which will automatically set the database, table, and type
-        (db/update! Card id, :dataset_query dataset-query)))))
-
 
 ;; Set the `:ssl` key in `details` to `false` for all existing MongoDB `Databases`.
 ;; UI was automatically setting `:ssl` to `true` for every database added as part of the auto-SSL detection.
@@ -338,10 +327,15 @@
 ;; missing those database ids
 (defmigration ^{:author "senior", :added "0.27.0"} populate-card-database-id
   (doseq [[db-id cards] (group-by #(get-in % [:dataset_query :database])
-                                  (db/select [Card :dataset_query :id] :database_id [:= nil]))
+                                  (db/select [Card :dataset_query :id :name] :database_id [:= nil]))
           :when (not= db-id virtual-id)]
-    (db/update-where! Card {:id [:in (map :id cards)]}
-      :database_id db-id)))
+    (if (and (seq cards)
+             (db/exists? Database :id db-id))
+      (db/update-where! Card {:id [:in (map :id cards)]}
+                        :database_id db-id)
+      (doseq [{id :id card-name :name} cards]
+        (log/warnf "Cleaning up orphaned Question '%s', associated to a now deleted database" card-name)
+        (db/delete! Card :id id)))))
 
 ;; Prior to version 0.28.0 humanization was configured using the boolean setting `enable-advanced-humanization`.
 ;; `true` meant "use advanced humanization", while `false` meant "use simple humanization". In 0.28.0, this Setting
@@ -361,3 +355,48 @@
     ;; either way, delete the old value from the DB since we'll never be using it again.
     ;; use `simple-delete!` because `Setting` doesn't have an `:id` column :(
     (db/simple-delete! Setting {:key "enable-advanced-humanization"})))
+
+;; Starting in version 0.29.0 we switched the way we decide which Fields should get FieldValues. Prior to 29, Fields
+;; would be marked as special type Category if they should have FieldValues. In 29+, the Category special type no
+;; longer has any meaning as far as the backend is concerned. Instead, we use the new `has_field_values` column to
+;; keep track of these things. Fields whose value for `has_field_values` is `list` is the equiavalent of the old
+;; meaning of the Category special type.
+;;
+;; Since the meanings of things has changed we'll want to make sure we mark all Category fields as `list` as well so
+;; their behavior doesn't suddenly change.
+(defmigration ^{:author "camsaul", :added "0.29.0"} mark-category-fields-as-list
+  (db/update-where! Field {:has_field_values nil
+                           :special_type     (mdb/isa :type/Category)
+                           :active           true}
+    :has_field_values "list"))
+
+;; In v0.30.0 we switiched to making standard SQL the default for BigQuery; up until that point we had been using
+;; BigQuery legacy SQL. For a while, we've supported standard SQL if you specified the case-insensitive `#standardSQL`
+;; directive at the beginning of your query, and similarly allowed you to specify legacy SQL with the `#legacySQL`
+;; directive (although this was already the default). Since we're now defaulting to standard SQL, we'll need to go in
+;; and add a `#legacySQL` directive to all existing BigQuery SQL queries that don't have a directive, so they'll
+;; continue to run as legacy SQL.
+(defmigration ^{:author "camsaul", :added "0.30.0"} add-legacy-sql-directive-to-bigquery-sql-cards
+  ;; For each BigQuery database...
+  (doseq [database-id (db/select-ids Database :engine "bigquery")]
+    ;; For each Card belonging to that BigQuery database...
+    (doseq [{query :dataset_query, card-id :id} (db/select [Card :id :dataset_query] :database_id database-id)]
+      ;; If the Card isn't native, ignore it
+      (when (= (:type query) "native")
+        (let [sql (get-in query [:native :query])]
+          ;; if the Card already contains a #standardSQL or #legacySQL (both are case-insenstive) directive, ignore it
+          (when-not (re-find #"(?i)#(standard|legacy)sql" sql)
+            ;; if it doesn't have a directive it would have (under old behavior) defaulted to legacy SQL, so give it a
+            ;; #legacySQL directive...
+            (let [updated-sql (str "#legacySQL\n" sql)]
+              ;; and save the updated dataset_query map
+              (db/update! Card (u/get-id card-id)
+                :dataset_query (assoc-in query [:native :query] updated-sql)))))))))
+
+;; Before 0.30.0, we were storing the LDAP user's password in the `core_user` table (though it wasn't used).  This
+;; migration clears those passwords and replaces them with a UUID. This is similar to a new account setup, or how we
+;; disable passwords for Google authenticated users
+(defmigration ^{:author "senior", :added "0.30.0"} clear-ldap-user-local-passwords
+  (db/transaction
+    (doseq [user (db/select [User :id :password_salt] :ldap_auth [:= true])]
+      (db/update! User (u/get-id user) :password (creds/hash-bcrypt (str (:password_salt user) (UUID/randomUUID)))))))

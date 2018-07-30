@@ -5,6 +5,8 @@ import { createSelector } from "reselect";
 import { push } from "react-router-redux";
 
 import MetabaseAnalytics from "metabase/lib/analytics";
+import colors, { alpha } from "metabase/lib/colors";
+
 import { t } from "c-3po";
 import {
   isDefaultGroup,
@@ -142,9 +144,10 @@ function getPermissionWarningModal(
   );
   if (permissionWarning) {
     return {
-      title: t`${
-        value === "controlled" ? "Limit" : "Revoke"
-      } access even though "${defaultGroup.name}" has greater access?`,
+      title:
+        (value === "controlled" ? t`Limit` : t`Revoke`) +
+        " " +
+        t`access even though "${defaultGroup.name}" has greater access?`,
       message: permissionWarning,
       confirmButtonText:
         value === "controlled" ? t`Limit access` : t`Revoke access`,
@@ -218,20 +221,22 @@ function getRevokingAccessToAllTablesWarningModal(
   }
 }
 
+const BG_ALPHA = 0.15;
+
 const OPTION_GREEN = {
   icon: "check",
-  iconColor: "#9CC177",
-  bgColor: "#F6F9F2",
+  iconColor: colors["success"],
+  bgColor: alpha(colors["success"], BG_ALPHA),
 };
 const OPTION_YELLOW = {
   icon: "eye",
-  iconColor: "#F9D45C",
-  bgColor: "#FEFAEE",
+  iconColor: colors["warning"],
+  bgColor: alpha(colors["warning"], BG_ALPHA),
 };
 const OPTION_RED = {
   icon: "close",
-  iconColor: "#EEA5A5",
-  bgColor: "#FDF3F3",
+  iconColor: colors["error"],
+  bgColor: alpha(colors["error"], BG_ALPHA),
 };
 
 const OPTION_ALL = {
@@ -262,13 +267,6 @@ const OPTION_NATIVE_WRITE = {
   title: t`Write raw queries`,
   tooltip: t`Can write raw queries`,
   icon: "sql",
-};
-
-const OPTION_NATIVE_READ = {
-  ...OPTION_YELLOW,
-  value: "read",
-  title: t`View raw queries`,
-  tooltip: t`Can view raw queries`,
 };
 
 const OPTION_COLLECTION_WRITE = {
@@ -590,7 +588,7 @@ export const getDatabasesPermissionsGrid = createSelector(
             ) {
               return [OPTION_NONE];
             } else {
-              return [OPTION_NATIVE_WRITE, OPTION_NATIVE_READ, OPTION_NONE];
+              return [OPTION_NATIVE_WRITE, OPTION_NONE];
             }
           },
           getter(groupId, entityId) {
@@ -662,7 +660,37 @@ export const getDatabasesPermissionsGrid = createSelector(
   },
 );
 
-const getCollections = state => state.admin.permissions.collections;
+import Collections from "metabase/entities/collections";
+
+const getCollectionId = (state, props) => props && props.collectionId;
+
+const getSingleCollectionPermissionsMode = (state, props) =>
+  (props && props.singleCollectionMode) || false;
+
+const getCollections = createSelector(
+  [
+    Collections.selectors.getExpandedCollectionsById,
+    getCollectionId,
+    getSingleCollectionPermissionsMode,
+  ],
+  (collectionsById, collectionId, singleMode) => {
+    if (collectionId && collectionsById[collectionId]) {
+      if (singleMode) {
+        // pass the `singleCollectionMode=true` prop when we just want to show permissions for the provided collection, and not it's subcollections
+        return [collectionsById[collectionId]];
+      } else {
+        return collectionsById[collectionId].children.filter(
+          collection => !collection.is_personal,
+        );
+      }
+      // default to root collection
+    } else if (collectionsById["root"]) {
+      return [collectionsById["root"]];
+    } else {
+      return null;
+    }
+  },
+);
 const getCollectionPermission = (permissions, groupId, { collectionId }) =>
   getIn(permissions, [groupId, collectionId]);
 
@@ -671,7 +699,7 @@ export const getCollectionsPermissionsGrid = createSelector(
   getGroups,
   getPermissions,
   (collections, groups: Array<Group>, permissions: GroupsPermissions) => {
-    if (!groups || !permissions || !collections) {
+    if (!groups || groups.length === 0 || !permissions || !collections) {
       return null;
     }
 
@@ -727,6 +755,11 @@ export const getCollectionsPermissionsGrid = createSelector(
             collectionId: collection.id,
           },
           name: collection.name,
+          link: collection.children &&
+            collection.children.length > 0 && {
+              name: t`View collections`,
+              url: `/collections/permissions?collectionId=${collection.id}`,
+            },
         };
       }),
     };

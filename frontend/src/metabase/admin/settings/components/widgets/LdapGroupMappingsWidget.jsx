@@ -21,8 +21,8 @@ import SettingToggle from "./SettingToggle";
 type Props = {
   setting: any,
   onChange: (value: any) => void,
-  mappings: { [string]: number[] },
-  updateMappings: (value: { [string]: number[] }) => void,
+  settingValues: { [key: string]: any },
+  onChangeSetting: (key: string, value: any) => void,
 };
 
 type State = {
@@ -48,7 +48,10 @@ export default class LdapGroupMappingsWidget extends React.Component {
 
   _showEditModal = (e: Event) => {
     e.preventDefault();
-    this.setState({ mappings: this.props.mappings || {}, showEditModal: true });
+    this.setState({
+      mappings: this.props.settingValues["ldap-group-mappings"] || {},
+      showEditModal: true,
+    });
     PermissionsApi.groups().then(groups => this.setState({ groups }));
   };
 
@@ -103,10 +106,10 @@ export default class LdapGroupMappingsWidget extends React.Component {
 
   _saveClick = (e: Event) => {
     e.preventDefault();
-    const { state: { mappings }, props: { updateMappings } } = this;
+    const { state: { mappings }, props: { onChangeSetting } } = this;
     SettingsApi.put({ key: "ldap-group-mappings", value: mappings }).then(
       () => {
-        updateMappings && updateMappings(mappings);
+        onChangeSetting("ldap-group-mappings", mappings);
         this.setState({ showEditModal: false, showAddRow: false });
       },
     );
@@ -275,10 +278,10 @@ class MappingGroupSelect extends React.Component {
         ref="popover"
         triggerElement={
           <div className="flex align-center">
-            <span className="mr1 text-grey-4">
+            <span className="mr1 text-medium">
               <GroupSummary groups={groups} selectedGroups={selected} />
             </span>
-            <Icon className="text-grey-2" name="chevrondown" size={10} />
+            <Icon className="text-light" name="chevrondown" size={10} />
           </div>
         }
         triggerClasses="AdminSelectBorderless py1"

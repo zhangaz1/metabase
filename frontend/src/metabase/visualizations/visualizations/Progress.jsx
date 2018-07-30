@@ -110,7 +110,8 @@ export default class Progress extends Component {
       onVisualizationClick,
       visualizationIsClickable,
     } = this.props;
-    const value: number = rows[0][0];
+    const value: number =
+      rows[0] && typeof rows[0][0] === "number" ? rows[0][0] : 0;
     const goal = settings["progress.goal"] || 0;
 
     const mainColor = settings["progress.color"];
@@ -151,7 +152,7 @@ export default class Progress extends Component {
         >
           <div
             ref="container"
-            className="relative text-bold text-grey-4"
+            className="relative text-bold text-medium"
             style={{ height: 20 }}
           >
             <div ref="label" style={{ position: "absolute" }}>

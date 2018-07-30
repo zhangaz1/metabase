@@ -119,7 +119,7 @@ export default class PublicLinksListing extends Component {
                       <td className="flex layout-centered">
                         <Confirm
                           title={t`Disable this link?`}
-                          content={t`They won't work any more, and can't be restored, but you can create new links.`}
+                          content={t`They won't work anymore, and can't be restored, but you can create new links.`}
                           action={() => {
                             this.revoke(link);
                             this.trackEvent("Revoked link");
@@ -127,7 +127,7 @@ export default class PublicLinksListing extends Component {
                         >
                           <Icon
                             name="close"
-                            className="text-grey-2 text-grey-4-hover cursor-pointer"
+                            className="text-light text-medium-hover cursor-pointer"
                           />
                         </Confirm>
                       </td>

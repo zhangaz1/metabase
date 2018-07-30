@@ -20,6 +20,15 @@ import { dimensionIsTimeseries } from "metabase/visualizations/lib/timeseries";
 
 import _ from "underscore";
 
+// NOTE: currently we don't consider any date extracts to be histgrams
+const HISTOGRAM_DATE_EXTRACTS = new Set([
+  // "minute-of-hour",
+  // "hour-of-day",
+  // "day-of-month",
+  // "day-of-year",
+  // "week-of-year",
+]);
+
 function getSeriesDefaultTitles(series, vizSettings) {
   return series.map(s => s.card.name);
 }
@@ -264,7 +273,11 @@ export const GRAPH_AXIS_SETTINGS = {
   },
   "graph.x_axis._is_histogram": {
     getDefault: ([{ data: { cols } }], vizSettings) =>
-      cols[0].binning_info != null,
+      // matches binned numeric columns
+      cols[0].binning_info != null ||
+      // matches certain date extracts like day-of-week, etc
+      // NOTE: currently disabled
+      HISTOGRAM_DATE_EXTRACTS.has(cols[0].unit),
   },
   "graph.x_axis.scale": {
     section: "Axes",
@@ -315,13 +328,28 @@ export const GRAPH_AXIS_SETTINGS = {
   "graph.x_axis.axis_enabled": {
     section: "Axes",
     title: t`Show x-axis line and marks`,
-    widget: "toggle",
+    widget: "select",
+    props: {
+      options: [
+        { name: t`Hide`, value: false },
+        { name: t`Show`, value: true },
+        { name: t`Compact`, value: "compact" },
+        { name: t`Rotate 45°`, value: "rotate-45" },
+        { name: t`Rotate 90°`, value: "rotate-90" },
+      ],
+    },
     default: true,
   },
   "graph.y_axis.axis_enabled": {
     section: "Axes",
     title: t`Show y-axis line and marks`,
-    widget: "toggle",
+    widget: "select",
+    props: {
+      options: [
+        { name: t`Hide`, value: false },
+        { name: t`Show`, value: true },
+      ],
+    },
     default: true,
   },
   "graph.y_axis.auto_range": {

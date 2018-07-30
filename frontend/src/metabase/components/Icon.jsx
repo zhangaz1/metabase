@@ -2,14 +2,16 @@
 
 import React, { Component } from "react";
 import RetinaImage from "react-retina-image";
+import styled from "styled-components";
+import { color, space, hover } from "styled-system";
 import cx from "classnames";
 
 import { loadIcon } from "metabase/icon_paths";
+import { stripLayoutProps } from "metabase/lib/utils";
 
 import Tooltipify from "metabase/hoc/Tooltipify";
 
-@Tooltipify
-export default class Icon extends Component {
+class BaseIcon extends Component {
   static props: {
     name: string,
     size?: string | number,
@@ -17,7 +19,6 @@ export default class Icon extends Component {
     height?: string | number,
     scale?: string | number,
     tooltip?: string, // using Tooltipify
-    className?: string,
   };
 
   render() {
@@ -56,10 +57,18 @@ export default class Icon extends Component {
       return <svg {...props} dangerouslySetInnerHTML={{ __html: icon.svg }} />;
     } else {
       return (
-        <svg {...props}>
+        <svg {...stripLayoutProps(props)}>
           <path d={icon.path} />
         </svg>
       );
     }
   }
 }
+
+const Icon = styled(BaseIcon)`
+  ${space}
+  ${color}
+  ${hover}
+  flex-shrink: 0
+`;
+export default Tooltipify(Icon);

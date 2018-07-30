@@ -10,6 +10,7 @@
              [driver :as driver]
              [task :as task]
              [util :as u]]
+            [metabase.driver.generic-sql :as sql]
             [metabase.models
              [card :refer [Card]]
              [collection :refer [Collection]]
@@ -28,6 +29,7 @@
              [setting :as setting]
              [table :refer [Table]]
              [user :refer [User]]]
+            [metabase.query-processor.util :as qputil]
             [metabase.query-processor.middleware.expand :as ql]
             [metabase.test.data :as data]
             [metabase.test.data
@@ -35,7 +37,8 @@
              [dataset-definitions :as defs]]
             [toucan.db :as db]
             [toucan.util.test :as test])
-  (:import java.util.TimeZone
+  (:import com.mchange.v2.c3p0.PooledDataSource
+           java.util.TimeZone
            org.joda.time.DateTimeZone
            [org.quartz CronTrigger JobDetail JobKey Scheduler Trigger]))
 
@@ -105,7 +108,8 @@
   ([data]
    (boolean-ids-and-timestamps
     (every-pred (some-fn keyword? string?)
-                (some-fn #{:id :created_at :updated_at :last_analyzed :created-at :updated-at :field-value-id :field-id}
+                (some-fn #{:id :created_at :updated_at :last_analyzed :created-at :updated-at :field-value-id :field-id
+                           :fields_hash :date_joined :date-joined :last_login}
                          #(.endsWith (name %) "_id")))
     data))
   ([pred data]
@@ -125,7 +129,6 @@
   ((resolve 'metabase.test.data.users/user->id) username))
 
 (defn- rasta-id [] (user-id :rasta))
-
 
 (u/strict-extend (class Card)
   test/WithTempDefaults
@@ -152,7 +155,7 @@
 (u/strict-extend (class Database)
   test/WithTempDefaults
   {:with-temp-defaults (fn [_] {:details   {}
-                                :engine    :yeehaw ; wtf?
+                                :engine    :h2
                                 :is_sample false
                                 :name      (random-name)})})
 
@@ -378,6 +381,13 @@
                           [:cols])]
     (update-in query-results maybe-data-cols #(map round-fingerprint %))))
 
+(defn round-all-decimals
+  "Uses `walk/postwalk` to crawl `data`, looking for any double values, will round any it finds"
+  [decimal-place data]
+  (qputil/postwalk-pred double?
+                        #(u/round-to-decimals decimal-place %)
+                        data))
+
 
 ;;; +----------------------------------------------------------------------------------------------------------------+
 ;;; |                                                   SCHEDULER                                                    |
@@ -436,16 +446,27 @@
                                   {:cron-schedule (.getCronExpression ^CronTrigger trigger)
                                    :data          (into {} (.getJobDataMap trigger))}))))}))))))
 
+(defn clear-connection-pool
+  "It's possible that a previous test ran and set the session's timezone to something, then returned the session to
+  the pool. Sometimes that connection's session can remain intact and subsequent queries will continue in that
+  timezone. That causes problems for tests that we can determine the database's timezone. This function will reset the
+  connections in the connection pool for `db` to ensure that we get fresh session with no timezone specified"
+  [db]
+  (when-let [^PooledDataSource conn-pool (:datasource (sql/db->pooled-connection-spec db))]
+    (.softResetAllUsers conn-pool)))
+
 (defn db-timezone-id
   "Return the timezone id from the test database. Must be called with `metabase.test.data.datasets/*driver*` bound,
   such as via `metabase.test.data.datasets/with-engine`"
   []
   (assert (bound? #'*driver*))
-  (data/dataset test-data
-    (-> (driver/current-db-time *driver* (data/db))
-        .getChronology
-        .getZone
-        .getID)))
+  (let [db (data/db)]
+    (clear-connection-pool db)
+    (data/dataset test-data
+      (-> (driver/current-db-time *driver* db)
+          .getChronology
+          .getZone
+          .getID))))
 
 (defn call-with-jvm-tz
   "Invokes the thunk `F` with the JVM timezone set to `DTZ`, puts the various timezone settings back the way it found
@@ -478,15 +499,31 @@
   [dtz & body]
   `(call-with-jvm-tz ~dtz (fn [] ~@body)))
 
+
+(defmulti ^:private do-model-cleanup! class)
+
+(defmethod do-model-cleanup! :default
+  [model]
+  (db/delete! model))
+
+(defmethod do-model-cleanup! (class Collection)
+  [_]
+  ;; don't delete Personal Collections <3
+  (db/delete! Collection :personal_owner_id nil))
+
+(defn do-with-model-cleanup [model-seq f]
+  (try
+    (f)
+    (finally
+      (doseq [model model-seq]
+        (do-model-cleanup! (db/resolve-model model))))))
+
 (defmacro with-model-cleanup
-  "This will delete all rows found for each model in `MODEL-SEQ`. This calls `delete!`, so if the model has defined
-  any `pre-delete` behavior, that will be preserved."
+  "This will delete all rows found for each model in `model-seq`. By default, this calls `delete!`, so if the model has
+  defined any `pre-delete` behavior, that will be preserved. Alternatively, you can define a custom implementation by
+  using the `do-model-cleanup!` multimethod above."
   [model-seq & body]
-  `(try
-     ~@body
-     (finally
-       (doseq [model# ~model-seq]
-         (db/delete! model#)))))
+  `(do-with-model-cleanup ~model-seq (fn [] ~@body)))
 
 (defn call-with-paused-query
   "This is a function to make testing query cancellation eaiser as it can be complex handling the multiple threads
@@ -530,3 +567,11 @@
          ;; This releases the fake query function so it finishes
          (deliver pause-query true)
          true)])))
+
+(defmacro throw-if-called
+  "Redefines `fn-var` with a function that throws an exception if it's called"
+  {:style/indent 1}
+  [fn-var & body]
+  `(with-redefs [~fn-var (fn [& args#]
+                           (throw (RuntimeException. "Should not be called!")))]
+     ~@body))
