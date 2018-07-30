@@ -1,21 +1,11 @@
-# #-#-#-#-#  metabase-backend.pot (metabase)  #-#-#-#-#
-# Spanish translations for metabase package.
-# Copyright (C) 2018 Metabase <docs@metabase.com>
-# This file is distributed under the same license as the metabase package.
-# joe <joe@tsolucio.com>, 2018.
-#
 msgid ""
 msgstr ""
-"Project-Id-Version: metabase\n"
-"Report-Msgid-Bugs-To: docs@metabase.com\n"
-"POT-Creation-Date: 2018-07-30 13:29-0700\n"
-"PO-Revision-Date: 2018-03-02 01:00+0100\n"
-"Last-Translator: joe <joe@tsolucio.com>\n"
-"Language-Team: Spanish\n"
-"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: POEditor.com\n"
+"Project-Id-Version: Metabase\n"
+"Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: frontend/src/metabase/admin/databases/components/CreatedDatabaseModal.jsx:19
@@ -62,12 +52,10 @@ msgid "Database syncing"
 msgstr "Sincronizando Base de Datos"
 
 #: frontend/src/metabase/admin/databases/components/DatabaseSchedulingForm.jsx:128
-msgid ""
-"This is a lightweight process that checks for\n"
+msgid "This is a lightweight process that checks for\n"
 "updates to this database’s schema. In most cases, you should be fine leaving this\n"
 "set to sync hourly."
-msgstr ""
-"Este es un proceso rápido que busca \n"
+msgstr "Este es un proceso rápido que busca \n"
 "actualizaciones al esquema de esta base de datos. En la mayoría de los casos, estará bien dejandoesto \n"
 "configurado para sincronizar cada hora."
 
@@ -81,13 +69,11 @@ msgid "Scanning for Filter Values"
 msgstr "Buscando Valores de Filtrado"
 
 #: frontend/src/metabase/admin/databases/components/DatabaseSchedulingForm.jsx:153
-msgid ""
-"Metabase can scan the values present in each\n"
+msgid "Metabase can scan the values present in each\n"
 "field in this database to enable checkbox filters in dashboards and questions. This\n"
 "can be a somewhat resource-intensive process, particularly if you have a very large\n"
 "database."
-msgstr ""
-"Metabase puede escanear los valores presentes en cada \n"
+msgstr "Metabase puede escanear los valores presentes en cada \n"
 "campo en esta base de datos para habilitar filtros de casilla de verificación en cuadros de mando ypreguntas. Esto \n"
 "puede ser un proceso que consume muchos recursos, particularmente si tienes una \n"
 "base de datos grande."
@@ -105,11 +91,9 @@ msgid "Only when adding a new filter widget"
 msgstr "Solo cuando se añade un nuevo elemento de filtro"
 
 #: frontend/src/metabase/admin/databases/components/DatabaseSchedulingForm.jsx:199
-msgid ""
-"When a user adds a new filter to a dashboard or a SQL question, Metabase will\n"
+msgid "When a user adds a new filter to a dashboard or a SQL question, Metabase will\n"
 "scan the field(s) mapped to that filter in order to show the list of selectable values."
-msgstr ""
-"Cuando un usuario añade un nuevo filtro a un cuadro de mando o a una pregunta SQL, Metabaseescaneará\n"
+msgstr "Cuando un usuario añade un nuevo filtro a un cuadro de mando o a una pregunta SQL, Metabaseescaneará\n"
 "los campos asignados a ese filtro para mostrar la lista devalores seleccionables."
 
 #: frontend/src/metabase/admin/databases/components/DatabaseSchedulingForm.jsx:210
@@ -891,14 +875,12 @@ msgid "Make this user an admin"
 msgstr "Convertir a este usuario en administrador"
 
 #: frontend/src/metabase/admin/people/components/GroupDetail.jsx:31
-msgid ""
-"All users belong to the {0} group and can't be removed from it. Setting permissions for this group is a great way to\n"
+msgid "All users belong to the {0} group and can't be removed from it. Setting permissions for this group is a great way to\n"
 "make sure you know what new Metabase users will be able to see."
 msgstr "Todos los usuarios pertenecen al grupo {0} y no se pueden eliminar de él. Establecer permisos para este grupo es una excelente manera de asegurarte de saber qué podrán ver los nuevos usuarios de Metabase."
 
 #: frontend/src/metabase/admin/people/components/GroupDetail.jsx:40
-msgid ""
-"This is a special group whose members can see everything in the Metabase instance, and who can access and make changes to the\n"
+msgid "This is a special group whose members can see everything in the Metabase instance, and who can access and make changes to the\n"
 "settings in the Admin Panel, including changing permissions! So, add people to this group with care."
 msgstr "Este es un grupo especial cuyos miembros pueden ver todo en la instancia de Metabase, y quienes pueden acceder y realizar cambios en la configuración en el Panel de administración, ¡incluyendo el cambio de permisos!Así que añade personas a este grupo con cuidado."
 
@@ -955,11 +937,9 @@ msgid "Remove this group?"
 msgstr "¿Eliminar este grupo?"
 
 #: frontend/src/metabase/admin/people/components/GroupsListing.jsx:57
-msgid ""
-"Are you sure? All members of this group will lose any permissions settings they have based on this group.\n"
+msgid "Are you sure? All members of this group will lose any permissions settings they have based on this group.\n"
 "This can't be undone."
-msgstr ""
-"¿Estás seguro? Todos los miembros de este grupo perderán las configuraciones de permisos que tengan basadas en este grupo.\n"
+msgstr "¿Estás seguro? Todos los miembros de este grupo perderán las configuraciones de permisos que tengan basadas en este grupo.\n"
 "Esto no puede deshacerse."
 
 #: frontend/src/metabase/admin/people/components/GroupsListing.jsx:68
@@ -1057,8 +1037,7 @@ msgid "Add another person"
 msgstr "Añade otra persona"
 
 #: frontend/src/metabase/admin/people/containers/PeopleListingApp.jsx:231
-msgid ""
-"We couldn’t send them an email invitation,\n"
+msgid "We couldn’t send them an email invitation,\n"
 "so make sure to tell them to log in using {0}\n"
 "and this password we’ve generated for them:"
 msgstr "No se ha podido enviarles una invitación por correo electrónico, así que asegúraste de indicarles que inicien sesión con {0} y la contraseña que les hemos generado:"
@@ -1671,8 +1650,7 @@ msgid "Create a mapping"
 msgstr "Crear una asignación"
 
 #: frontend/src/metabase/admin/settings/components/widgets/LdapGroupMappingsWidget.jsx:145
-msgid ""
-"Mappings allow Metabase to automatically add and remove users from groups based on the membership information provided by the\n"
+msgid "Mappings allow Metabase to automatically add and remove users from groups based on the membership information provided by the\n"
 "directory server. Membership to the Admin group can be granted through mappings, but will not be automatically removed as a\n"
 "failsafe measure."
 msgstr "Las asignaciones permiten que Metabase agregue y elimine automáticamente usuarios de grupos según la información de membresía proporcionada por el servidor de directorios. La membresía al grupo de administración se puede otorgar a través de asignaciones, pero no se eliminará automáticamente como una medida a prueba de fallas."
@@ -2095,11 +2073,9 @@ msgid "Whoops, that's an expired link"
 msgstr "Vaya, ese es un enlace caducado"
 
 #: frontend/src/metabase/auth/containers/PasswordResetApp.jsx:122
-msgid ""
-"For security reasons, password reset links expire after a little while. If you still need\n"
+msgid "For security reasons, password reset links expire after a little while. If you still need\n"
 "to reset your password, you can {0}."
-msgstr ""
-"Por razones de seguridad, los enlaces de restablecimiento de contraseña caducan después de un tiempo.\n"
+msgstr "Por razones de seguridad, los enlaces de restablecimiento de contraseña caducan después de un tiempo.\n"
 "Si aún necesita restablecer tu contraseña, puedes {0}"
 
 #: frontend/src/metabase/auth/containers/PasswordResetApp.jsx:147
@@ -2376,12 +2352,10 @@ msgid "Use an SSH-tunnel for database connections"
 msgstr "Utiliza un túnel SSH para las conexiones a la base de datos"
 
 #: frontend/src/metabase/components/DatabaseDetailsForm.jsx:218
-msgid ""
-"Some database installations can only be accessed by connecting through an SSH bastion host.\n"
+msgid "Some database installations can only be accessed by connecting through an SSH bastion host.\n"
 "This option also provides an extra layer of security when a VPN is not available.\n"
 "Enabling this is usually slower than a direct connection."
-msgstr ""
-"Algunas instalaciones de bases de datos solo se pueden acceder conectándose a través de un túnel SSH.\n"
+msgstr "Algunas instalaciones de bases de datos solo se pueden acceder conectándose a través de un túnel SSH.\n"
 "Esta opción también proporciona una capa adicional de seguridad cuando no dispones de una VPN.\n"
 "Esto suele ser más lento que una conexión directa."
 
@@ -2390,11 +2364,9 @@ msgid "This is a large database, so let me choose when Metabase syncs and scans"
 msgstr "Esta es una base de datos grande, así que déjame elegir cuándo Metabase sincroniza y escanea"
 
 #: frontend/src/metabase/components/DatabaseDetailsForm.jsx:249
-msgid ""
-"By default, Metabase does a lightweight hourly sync and an intensive daily scan of field values.\n"
+msgid "By default, Metabase does a lightweight hourly sync and an intensive daily scan of field values.\n"
 "If you have a large database, we recommend turning this on and reviewing when and how often the field value scans happen."
-msgstr ""
-"De forma predeterminada, Metabase realiza una sincronización ligera cada hora y un análisis diario intensivo de los valores de campo.\n"
+msgstr "De forma predeterminada, Metabase realiza una sincronización ligera cada hora y un análisis diario intensivo de los valores de campo.\n"
 "Si tienes una base de datos grande, te recomendamos activarla y revisar cuándo y con qué frecuencia ocurren los escaneos de valores de campo."
 
 #: frontend/src/metabase/components/DatabaseDetailsForm.jsx:265
@@ -2999,7 +2971,7 @@ msgstr "Última modificación"
 
 #: frontend/src/metabase/containers/UndoListing.jsx:34
 msgid "item"
-msgstr ""
+msgstr "elemento"
 
 #: frontend/src/metabase/containers/UndoListing.jsx:81
 msgid "Undo"
@@ -3973,8 +3945,7 @@ msgstr "Suma acumulada de ..."
 
 #: frontend/src/metabase/lib/schema_metadata.js:483
 msgid "Additive sum of all the values of a column.\\ne.x. total revenue over time."
-msgstr ""
-"Suma aditiva de todos los valores de una columna.\n"
+msgstr "Suma aditiva de todos los valores de una columna.\n"
 " e.g. los ingresos totales a lo largo del tiempo"
 
 #: frontend/src/metabase/lib/schema_metadata.js:489
@@ -3983,8 +3954,7 @@ msgstr "Recuento acumulado de filas"
 
 #: frontend/src/metabase/lib/schema_metadata.js:491
 msgid "Additive count of the number of rows.\\ne.x. total number of sales over time."
-msgstr ""
-"Recuento aditiva del número de filas.\n"
+msgstr "Recuento aditiva del número de filas.\n"
 " e.g. número total de ventas en el tiempo"
 
 #: frontend/src/metabase/lib/schema_metadata.js:497
@@ -6387,11 +6357,9 @@ msgid "Metabot is feeling pretty good about all this…"
 msgstr "Metabot se siente bien con todo esto…"
 
 #: frontend/src/metabase/setup/containers/PostSetupApp.jsx:52
-msgid ""
-"We’ll show you some interesting explorations of your data in\n"
+msgid "We’ll show you some interesting explorations of your data in\n"
 "just a few minutes."
-msgstr ""
-"Te mostraremos algunas exploraciones interesantes de tus datos\n"
+msgstr "Te mostraremos algunas exploraciones interesantes de tus datos\n"
 "en solo unos minutos."
 
 #: frontend/src/metabase/setup/containers/PostSetupApp.jsx:72
@@ -6667,8 +6635,7 @@ msgid "Conditional formatting"
 msgstr ""
 
 #: frontend/src/metabase/visualizations/components/settings/ChartSettingsTableFormatting.jsx:171
-msgid ""
-"You can add rules to make the cells in this table change color if\n"
+msgid "You can add rules to make the cells in this table change color if\n"
 "they meet certain conditions."
 msgstr ""
 
@@ -8580,8 +8547,7 @@ msgstr "¡No puedes actualizar una revisión!"
 
 #: src/metabase/models/setting.clj
 msgid "Setting {0} does not exist.nFound: {1}"
-msgstr ""
-"El ajuste {0} no existe.\n"
+msgstr "El ajuste {0} no existe.\n"
 "Encontrado: {1}"
 
 #: src/metabase/models/setting.clj
@@ -8824,8 +8790,7 @@ msgstr "Encontrado ''{0}'' sin terminación ''{1}'' en la consulta ''{2}''"
 
 #: src/metabase/query_processor/middleware/parameters/sql.clj
 msgid "Unable to substitute ''{0}'': param not specified.nFound: {1}"
-msgstr ""
-"No se puede sustituir ''{0}'': parámetro no especificado.\n"
+msgstr "No se puede sustituir ''{0}'': parámetro no especificado.\n"
 "Encontrado: {1}"
 
 #: src/metabase/query_processor/middleware/permissions.clj
@@ -9110,431 +9075,3 @@ msgstr "el valor debe ser un texto JSON válido."
 msgid "value must be a valid embedding params map."
 msgstr "el valor debe ser un mapa de parámetros de integración válido."
 
-#~ msgid "View raw queries"
-#~ msgstr "Ver consultas directas"
-
-#~ msgid "Can view raw queries"
-#~ msgstr "Puede ver consultas directas"
-
-#, fuzzy
-#~ msgid "Your data"
-#~ msgstr "Añade tus datos"
-
-#~ msgid "Pinned items"
-#~ msgstr "Elementos fijados"
-
-#~ msgid "Saved here"
-#~ msgstr "Guardado aquí"
-
-#~ msgid "Sort by"
-#~ msgstr "Ordenar por"
-
-#~ msgid "Add to new dashboard"
-#~ msgstr "Añadir Cuadro de Mando"
-
-#~ msgid "Pinned dashboards"
-#~ msgstr "Cuadros de Mando Fijados"
-
-#~ msgid "No dashboards have been {0} archived yet"
-#~ msgstr "Todavía no se ha archivado {0} ninguno cuadro de mando"
-
-#~ msgid "Account Settings"
-#~ msgstr "Configuración de Cuenta"
-
-#~ msgid "Admin Panel"
-#~ msgstr "Panel de Configuración"
-
-#~ msgid "Raw data cannot be included in pulses"
-#~ msgstr "Los datos brutos no pueden incluirse en pulsos"
-
-#~ msgid "Maps cannot be included in pulses"
-#~ msgstr "Los mapas no pueden ser incluidos en pulsos"
-
-#~ msgid "Type a question name to filter"
-#~ msgstr "Escriba un nombre de pregunta para filtrar"
-
-#~ msgid "Delete this pulse"
-#~ msgstr "Eliminar este pulso"
-
-#~ msgid "Stop delivery and delete this pulse. There's no undo, so be careful."
-#~ msgstr "Detener la entrega y elimina este pulso. No se puede deshacer, así que ten cuidado."
-
-#~ msgid "Delete this Pulse"
-#~ msgstr "Eliminar este Pulso"
-
-#~ msgid "Create a pulse"
-#~ msgstr "Crea un pulso"
-
-#~ msgid "pulses"
-#~ msgstr "pulsos"
-
-#~ msgid "{0} person"
-#~ msgid_plural "{0} people"
-#~ msgstr[0] "{0} persona"
-#~ msgstr[1] "{0} personas"
-
-#~ msgid "Emailed"
-#~ msgstr "Enviado por correo electrónico"
-
-#~ msgid "Slack'd"
-#~ msgstr "Slack'd"
-
-#~ msgid "to"
-#~ msgstr "a"
-
-#~ msgid "You get this {0}"
-#~ msgstr "Obtendrás este {0}"
-
-#~ msgid "Get this {0}"
-#~ msgstr "Obtener este {0}"
-
-#~ msgid "Pulse by {0}"
-#~ msgstr "Pulso por {0}"
-
-#~ msgid "See an exploration of this question"
-#~ msgstr "Ver una exploración de esta pregunta"
-
-#~ msgid "My new fantastic collection"
-#~ msgstr "Mi nueva colección fantástica"
-
-#~ msgid "Fields to include"
-#~ msgstr "Campos a incluir"
-
-#~ msgid "Root Collection"
-#~ msgstr "Colección Principal"
-
-#~ msgid "We don't have a nice error message for schema: {0}."
-#~ msgstr "No tenemos un buen mensaje de error para el esquema: {0}."
-
-#~ msgid "Consider wrapping it in `su/with-api-error-message`."
-#~ msgstr "Considera envolverlo en `su/with-api-error-message`."
-
-#~ msgid "This means a question is either using itself as a source or one or more questions are using each other as sources."
-#~ msgstr "Esto significa que una pregunta se utiliza a si misma como fuente, o una o más preguntas se usan entre sí como fuentes."
-
-#~ msgid "`card` is nil or empty. Cannot calculate permissions."
-#~ msgstr "`tarjeta` es nula o está vacía. No puedo calcular los permisos."
-
-#~ msgid "Name already taken"
-#~ msgstr "Nombre ya en uso"
-
-#~ msgid "A collection with this name already exists"
-#~ msgstr "Una colección con este nombre ya existe"
-
-#~ msgid "other"
-#~ msgstr "otro"
-
-#~ msgid "X-Rays and Comparisons"
-#~ msgstr "RayosX y Comparativas"
-
-#~ msgid "Maximum Cost"
-#~ msgstr "Coste Máximo"
-
-#~ msgid "If you're having performance issues related to x-ray usage you can cap how expensive x-rays are allowed to be."
-#~ msgstr "Si tienes problemas de rendimiento relacionados con el uso de rayos X, puedes limitar el coste de los mismos."
-
-#~ msgid "{0} \"Extended\" is required for viewing time series x-rays."
-#~ msgstr "{0} \"Extendida\" es necesaria para ver los rayos X de la serie temporal."
-
-#~ msgid "Note"
-#~ msgstr "Nota"
-
-#~ msgid "X-Rays"
-#~ msgstr "Rayos-X"
-
-#~ msgid "Enable X-Rays"
-#~ msgstr "Habilitar Rayos-X"
-
-#~ msgid "Unarchive this question"
-#~ msgstr "Desarchiva esta pregunta"
-
-#~ msgid "Unfavorite"
-#~ msgstr "Quitar de Favoritos"
-
-#~ msgid "Favorite"
-#~ msgstr "Favorito"
-
-#~ msgid "Favorites"
-#~ msgstr "Favoritos"
-
-#~ msgid "Saved by me"
-#~ msgstr "Guardados por mi"
-
-#~ msgid "Put the charts and graphs you look at {0}frequently in a single, handy place."
-#~ msgstr "Coloca los gráficos que utilizas con {0}frecuencia en un lugar único y práctico."
-
-#~ msgid "Background job result isn't available for an unknown reason"
-#~ msgstr "El resultado del trabajo en segundo plano no está disponible por un motivo desconocido"
-
-#~ msgid "X-ray {0}"
-#~ msgstr "Aplicar Rayos-X a {0}"
-
-#~ msgid "by time"
-#~ msgstr "por tiempo"
-
-#~ msgid "Select all {0}"
-#~ msgstr "Selecciona los {0}"
-
-#~ msgid "Labels"
-#~ msgstr "Etiquetas"
-
-#~ msgid "Set collection permissions"
-#~ msgstr "Establecer permisos de colección"
-
-#~ msgid "Created"
-#~ msgstr "Creado"
-
-#~ msgid " by {0}"
-#~ msgstr " por {0}"
-
-#~ msgid "Apply labels to {0} questions"
-#~ msgstr "Aplicar etiquetas a {0} preguntas"
-
-#~ msgid "Label as"
-#~ msgstr "Etiqueta como"
-
-#~ msgid "Add and edit labels"
-#~ msgstr "Añade y edita etiquetas"
-
-#~ msgid "In an upcoming release, Labels will be removed in favor of Collections."
-#~ msgstr "En una próxima versión, se eliminará las Etiquetas en favor de Colecciones."
-
-#~ msgid "Alphabetical order"
-#~ msgstr "Orden alfabético"
-
-#~ msgid "Archive collection"
-#~ msgstr "Archivar colección"
-
-#~ msgid "No questions have been added to this collection yet."
-#~ msgstr "No se han añadido preguntas a esta colección todavía."
-
-#~ msgid "All questions"
-#~ msgstr "Todas las preguntas"
-
-#~ msgid "You haven't favorited any questions yet."
-#~ msgstr "Aún no has marcado ninguna pregunta como favorita."
-
-#~ msgid "Recently viewed"
-#~ msgstr "Visto recientemente"
-
-#~ msgid "You haven't viewed any questions recently."
-#~ msgstr "No has visto ninguna pregunta recientemente."
-
-#~ msgid "You haven't saved any questions yet."
-#~ msgstr "Aún no has guardado ninguna pregunta."
-
-#~ msgid "Most popular"
-#~ msgstr "Más popular"
-
-#~ msgid "The most-viewed questions across your company will show up here."
-#~ msgstr "Las preguntas más vistas en tu empresa aparecerán aquí."
-
-#~ msgid "If you no longer need a question, you can archive it."
-#~ msgstr "Si ya no necesitas una pregunta, puedes archivarla."
-
-#~ msgid "There aren't any questions matching that criteria."
-#~ msgstr "No hay preguntas que coincidan con esos criterios."
-
-#~ msgid "Create collections for your saved questions"
-#~ msgstr "Crea colecciones para tus preguntas guardadas"
-
-#~ msgid "Collections help you organize your questions and allow you to decide who gets to see what."
-#~ msgstr "Las colecciones te ayudan a organizar tus preguntas y te permiten decidir quién puede ver qué."
-
-#~ msgid "Explore your data, create charts or maps, and save what you find."
-#~ msgstr "Explora tus datos, crea gráficos o mapas, y guarda lo que encuentres."
-
-#~ msgid "Search results"
-#~ msgstr "Resultado de la búsqueda"
-
-#~ msgid "No matching questions found"
-#~ msgstr "No se encontraron preguntas coincidentes"
-
-#~ msgid "{0} questions were {1}"
-#~ msgstr "{0} preguntas han sido {1}"
-
-#~ msgid "to the"
-#~ msgstr "a la"
-
-#~ msgid "XRay"
-#~ msgstr "Rayo-X"
-
-#~ msgid "Comparing"
-#~ msgstr "Comparando"
-
-#~ msgid "Fidelity"
-#~ msgstr "Exactitud"
-
-#~ msgid "Was this helpful?"
-#~ msgstr "¿Fue esto útil?"
-
-#~ msgid "Normal range of values"
-#~ msgstr "Rango normal de valores"
-
-#~ msgid "You have {0} missing (null) values in your data"
-#~ msgstr "Tienes {0} valores nulos en tus datos"
-
-#~ msgid "Missing data"
-#~ msgstr "Datos perdidos"
-
-#~ msgid "You have {0} zeros in your data. They may be stand-ins for missing data, or might indicate some other abnormality."
-#~ msgstr "Tienes {0} ceros en tus datos. Pueden estar indicando datos que faltan, o pueden indicar alguna otra anormalidad."
-
-#~ msgid "Zeros in your data"
-#~ msgstr "Ceros en los datos"
-
-#~ msgid "Noisy data is highly variable, jumping all over the place with changes carrying relatively little information."
-#~ msgstr "Los datos ruidosos son muy variables, saltando por todos lados con cambios que llevan relativamente poca información."
-
-#~ msgid "A measure of how much changes in previous values predict future values."
-#~ msgstr "Una medida de la cantidad de cambios en valores previos que predicen valores futuros."
-
-#~ msgid "Autocorrelation"
-#~ msgstr "Autocorrelación"
-
-#~ msgid "How variance in your data is changing over time."
-#~ msgstr "Cómo cambia la variación en tus datos a lo largo del tiempo."
-
-#~ msgid "increasingly"
-#~ msgstr "incrementalmente"
-
-#~ msgid "decreasingly"
-#~ msgstr "decrementalmente"
-
-#~ msgid "It looks like this data has grown {0}"
-#~ msgstr "Parece que estos datos han crecido {0}"
-
-#~ msgid "varied"
-#~ msgstr "variado"
-
-#~ msgid "Your data has a {0} seasonal component."
-#~ msgstr "Tus datos tienen un componente estacional {0}."
-
-#~ msgid "Seasonality"
-#~ msgstr "Estacionalidad"
-
-#~ msgid "Data distribution with multiple peaks (modes)."
-#~ msgstr "Distribución de datos con múltiples picos (modos)."
-
-#~ msgid "Multimodal"
-#~ msgstr "Multimodal"
-
-#~ msgid "Outliers"
-#~ msgstr "Valor atípico"
-
-#~ msgid "Structural breaks"
-#~ msgstr "Roturas estructurales"
-
-#~ msgid "The mean does not change over time."
-#~ msgstr "La media no cambia con el tiempo."
-
-#~ msgid "Stationary data"
-#~ msgstr "Datos estacionarios"
-
-#~ msgid "Your data seems to be {0} {1}."
-#~ msgstr "Tus datos parecen ser {0} {1}."
-
-#~ msgid "Trend"
-#~ msgstr "Moda"
-
-#~ msgid "Welcome to the x-ray preview! We'd love {0}"
-#~ msgstr "Bienvenido a la vista previa de rayos-X! Nos encantaría {0}"
-
-#~ msgid "your feedback"
-#~ msgstr "oir tus comentarios"
-
-#~ msgid "Overview"
-#~ msgstr "Visión de Conjunto"
-
-#~ msgid "Potentially interesting differences"
-#~ msgstr "Diferencias potencialmente interesantes"
-
-#~ msgid "Full breakdown"
-#~ msgstr "Desglose completo"
-
-#~ msgid "Field"
-#~ msgstr "Campo"
-
-#~ msgid "Growth Trend"
-#~ msgstr "Tendencia de Crecimiento"
-
-#~ msgid "Seasonal"
-#~ msgstr "Estacional"
-
-#~ msgid "Residual"
-#~ msgstr "Residual"
-
-#~ msgid "X-ray"
-#~ msgstr "Rayo-X"
-
-#~ msgid "Values overview"
-#~ msgstr "Resumen de los valores"
-
-#~ msgid "Statistical overview"
-#~ msgstr "Resumen estadístico"
-
-#~ msgid "Robots"
-#~ msgstr "Robots"
-
-#~ msgid "Segment"
-#~ msgstr "Segmento"
-
-#~ msgid "Approximate"
-#~ msgstr "Aproximado"
-
-#~ msgid ""
-#~ "Get a sense for this data by looking at a sample.\n"
-#~ "This is faster but less precise."
-#~ msgstr ""
-#~ "Obtén una idea de estos datos mirando una muestra.\n"
-#~ "Esto es más rápido pero menos preciso."
-
-#~ msgid "Exact"
-#~ msgstr "Exacto"
-
-#~ msgid ""
-#~ "Go deeper into this data by performing a full scan.\n"
-#~ "This is more precise but slower."
-#~ msgstr ""
-#~ "Profundiza más en estos datos realizando un escaneo completo.\n"
-#~ "Esto es más preciso pero más lento."
-
-#~ msgid "Extended"
-#~ msgstr "Extendido"
-
-#~ msgid ""
-#~ "Adds additional info about this entity by including related objects.\n"
-#~ "This is the slowest but highest fidelity method."
-#~ msgstr ""
-#~ "Añade información adicional sobre esta entidad al incluir objetos relacionados.\n"
-#~ "Este es el método más lento pero de mayor precisión."
-
-#~ msgid "Very different"
-#~ msgstr "Muy diferente"
-
-#~ msgid "Somewhat different"
-#~ msgstr "Bastante diferente"
-
-#~ msgid "Somewhat similar"
-#~ msgstr "Algo parecido"
-
-#~ msgid "Very similar"
-#~ msgstr "Muy similar"
-
-#~ msgid "Generating your x-ray..."
-#~ msgstr "Generando tu rayo-x..."
-
-#~ msgid "Still working..."
-#~ msgstr "Trabajando..."
-
-#~ msgid "Generating your comparison..."
-#~ msgstr "Generando tu comparación ..."
-
-#~ msgid "Cap resorce expanditure for all x-rays. (exact, approximate, or extended)"
-#~ msgstr "Limite el gasto de recursos para todos los rayos X. (exact, approximate o extended)"
-
-#~ msgid "Should x-raying be available at all?"
-#~ msgstr "¿Deben estar disponibles los rayos X?"
-
-#~ msgid "A label with this name already exists"
-#~ msgstr "Ya existe una etiqueta con este nombre"
