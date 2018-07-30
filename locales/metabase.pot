@@ -13,7 +13,7 @@ msgstr ""
 "#-#-#-#-#  metabase-backend.pot (metabase)  #-#-#-#-#\n"
 "Project-Id-Version: metabase\n"
 "Report-Msgid-Bugs-To: docs@metabase.com\n"
-"POT-Creation-Date: 2018-07-30 12:27-0700\n"
+"POT-Creation-Date: 2018-07-30 13:33-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,9 +27,7 @@ msgid "Your database has been added!"
 msgstr ""
 
 #: frontend/src/metabase/admin/databases/components/CreatedDatabaseModal.jsx:22
-msgid ""
-"We took a look at your data, and we have some automated explorations that we "
-"can show you!"
+msgid "We took a look at your data, and we have some automated explorations that we can show you!"
 msgstr ""
 
 #: frontend/src/metabase/admin/databases/components/CreatedDatabaseModal.jsx:27
@@ -60,10 +58,7 @@ msgid "Save"
 msgstr ""
 
 #: frontend/src/metabase/admin/databases/components/DatabaseSchedulingForm.jsx:122
-msgid ""
-"To do some of its magic, Metabase needs to scan your database. We will also "
-"rescan it periodically to keep the metadata up-to-date. You can control when "
-"the periodic rescans happen below."
+msgid "To do some of its magic, Metabase needs to scan your database. We will also rescan it periodically to keep the metadata up-to-date. You can control when the periodic rescans happen below."
 msgstr ""
 
 #: frontend/src/metabase/admin/databases/components/DatabaseSchedulingForm.jsx:127
@@ -73,8 +68,7 @@ msgstr ""
 #: frontend/src/metabase/admin/databases/components/DatabaseSchedulingForm.jsx:128
 msgid ""
 "This is a lightweight process that checks for\n"
-"updates to this database’s schema. In most cases, you should be fine leaving "
-"this\n"
+"updates to this database’s schema. In most cases, you should be fine leaving this\n"
 "set to sync hourly."
 msgstr ""
 
@@ -90,10 +84,8 @@ msgstr ""
 #: frontend/src/metabase/admin/databases/components/DatabaseSchedulingForm.jsx:153
 msgid ""
 "Metabase can scan the values present in each\n"
-"field in this database to enable checkbox filters in dashboards and "
-"questions. This\n"
-"can be a somewhat resource-intensive process, particularly if you have a "
-"very large\n"
+"field in this database to enable checkbox filters in dashboards and questions. This\n"
+"can be a somewhat resource-intensive process, particularly if you have a very large\n"
 "database."
 msgstr ""
 
@@ -111,10 +103,8 @@ msgstr ""
 
 #: frontend/src/metabase/admin/databases/components/DatabaseSchedulingForm.jsx:199
 msgid ""
-"When a user adds a new filter to a dashboard or a SQL question, Metabase "
-"will\n"
-"scan the field(s) mapped to that filter in order to show the list of "
-"selectable values."
+"When a user adds a new filter to a dashboard or a SQL question, Metabase will\n"
+"scan the field(s) mapped to that filter in order to show the list of selectable values."
 msgstr ""
 
 #: frontend/src/metabase/admin/databases/components/DatabaseSchedulingForm.jsx:210
@@ -141,16 +131,11 @@ msgid "Delete this database?"
 msgstr ""
 
 #: frontend/src/metabase/admin/databases/components/DeleteDatabaseModal.jsx:58
-msgid ""
-"<strong>Just a heads up:</strong> without the Sample Dataset, the Query "
-"Builder tutorial won't work. You can always restore the Sample Dataset, but "
-"any questions you've saved using this data will be lost."
+msgid "<strong>Just a heads up:</strong> without the Sample Dataset, the Query Builder tutorial won't work. You can always restore the Sample Dataset, but any questions you've saved using this data will be lost."
 msgstr ""
 
 #: frontend/src/metabase/admin/databases/components/DeleteDatabaseModal.jsx:61
-msgid ""
-"All saved questions, metrics, and segments that rely on this database will "
-"be lost."
+msgid "All saved questions, metrics, and segments that rely on this database will be lost."
 msgstr ""
 
 #: frontend/src/metabase/admin/databases/components/DeleteDatabaseModal.jsx:62
@@ -370,21 +355,15 @@ msgid "Retire this {0}?"
 msgstr ""
 
 #: frontend/src/metabase/admin/datamodel/components/ObjectRetireModal.jsx:38
-msgid ""
-"Saved questions and other things that depend on this {0} will continue to "
-"work, but this {1} will no longer be selectable from the query builder."
+msgid "Saved questions and other things that depend on this {0} will continue to work, but this {1} will no longer be selectable from the query builder."
 msgstr ""
 
 #: frontend/src/metabase/admin/datamodel/components/ObjectRetireModal.jsx:39
-msgid ""
-"If you're sure you want to retire this {0}, please write a quick explanation "
-"of why it's being retired:"
+msgid "If you're sure you want to retire this {0}, please write a quick explanation of why it's being retired:"
 msgstr ""
 
 #: frontend/src/metabase/admin/datamodel/components/ObjectRetireModal.jsx:43
-msgid ""
-"This will show up in the activity feed and in an email that will be sent to "
-"anyone on your team who created something that uses this {0}."
+msgid "This will show up in the activity feed and in an email that will be sent to anyone on your team who created something that uses this {0}."
 msgstr ""
 
 #: frontend/src/metabase/admin/datamodel/components/ObjectRetireModal.jsx:58
@@ -624,9 +603,7 @@ msgid "Filtering on this field"
 msgstr ""
 
 #: frontend/src/metabase/admin/datamodel/containers/FieldApp.jsx:227
-msgid ""
-"When this field is used in a filter, what should people use to enter the "
-"value they want to filter on?"
+msgid "When this field is used in a filter, what should people use to enter the value they want to filter on?"
 msgstr ""
 
 #: frontend/src/metabase/admin/datamodel/containers/FieldApp.jsx:334
@@ -663,8 +640,7 @@ msgid "Unrecognized mapping type"
 msgstr ""
 
 #: frontend/src/metabase/admin/datamodel/containers/FieldApp.jsx:544
-msgid ""
-"Current field isn't a foreign key or FK target table metadata is missing"
+msgid "Current field isn't a foreign key or FK target table metadata is missing"
 msgstr ""
 
 #: frontend/src/metabase/admin/datamodel/containers/FieldApp.jsx:641
@@ -676,9 +652,7 @@ msgid "Display values"
 msgstr ""
 
 #: frontend/src/metabase/admin/datamodel/containers/FieldApp.jsx:704
-msgid ""
-"Choose to show the original value from the database, or have this field "
-"display associated or custom information."
+msgid "Choose to show the original value from the database, or have this field display associated or custom information."
 msgstr ""
 
 #: frontend/src/metabase/admin/datamodel/containers/FieldApp.jsx:730
@@ -694,9 +668,7 @@ msgid "Tip:"
 msgstr ""
 
 #: frontend/src/metabase/admin/datamodel/containers/FieldApp.jsx:772
-msgid ""
-"You might want to update the field name to make sure it still makes sense "
-"based on your remapping choices."
+msgid "You might want to update the field name to make sure it still makes sense based on your remapping choices."
 msgstr ""
 
 #: frontend/src/metabase/admin/datamodel/containers/FieldApp.jsx:781
@@ -705,9 +677,7 @@ msgid "Cached field values"
 msgstr ""
 
 #: frontend/src/metabase/admin/datamodel/containers/FieldApp.jsx:782
-msgid ""
-"Metabase can scan the values for this field to enable checkbox filters in "
-"dashboards and questions."
+msgid "Metabase can scan the values for this field to enable checkbox filters in dashboards and questions."
 msgstr ""
 
 #: frontend/src/metabase/admin/datamodel/containers/FieldApp.jsx:787
@@ -766,12 +736,7 @@ msgid "Make changes to your metric and leave an explanatory note."
 msgstr ""
 
 #: frontend/src/metabase/admin/datamodel/containers/MetricForm.jsx:116
-msgid ""
-"You can create saved metrics to add a named metric option to this table. "
-"Saved metrics include the aggregation type, the aggregated field, and "
-"optionally any filter you add. As an example, you might use this to create "
-"something like the official way of calculating \"Average Price\" for an "
-"Orders table."
+msgid "You can create saved metrics to add a named metric option to this table. Saved metrics include the aggregation type, the aggregated field, and optionally any filter you add. As an example, you might use this to create something like the official way of calculating \"Average Price\" for an Orders table."
 msgstr ""
 
 #: frontend/src/metabase/admin/datamodel/containers/MetricForm.jsx:149
@@ -796,13 +761,11 @@ msgid "Describe Your Metric"
 msgstr ""
 
 #: frontend/src/metabase/admin/datamodel/containers/MetricForm.jsx:167
-msgid ""
-"Give your metric a description to help others understand what it's about."
+msgid "Give your metric a description to help others understand what it's about."
 msgstr ""
 
 #: frontend/src/metabase/admin/datamodel/containers/MetricForm.jsx:171
-msgid ""
-"This is a good place to be more specific about less obvious metric rules"
+msgid "This is a good place to be more specific about less obvious metric rules"
 msgstr ""
 
 #: frontend/src/metabase/admin/datamodel/containers/MetricForm.jsx:175
@@ -812,14 +775,11 @@ msgstr ""
 
 #: frontend/src/metabase/admin/datamodel/containers/MetricForm.jsx:177
 #: frontend/src/metabase/admin/datamodel/containers/SegmentForm.jsx:181
-msgid ""
-"Leave a note to explain what changes you made and why they were required."
+msgid "Leave a note to explain what changes you made and why they were required."
 msgstr ""
 
 #: frontend/src/metabase/admin/datamodel/containers/MetricForm.jsx:181
-msgid ""
-"This will show up in the revision history for this metric to help everyone "
-"remember why things changed"
+msgid "This will show up in the revision history for this metric to help everyone remember why things changed"
 msgstr ""
 
 #: frontend/src/metabase/admin/datamodel/containers/SegmentForm.jsx:49
@@ -855,19 +815,15 @@ msgid "Describe Your Segment"
 msgstr ""
 
 #: frontend/src/metabase/admin/datamodel/containers/SegmentForm.jsx:171
-msgid ""
-"Give your segment a description to help others understand what it's about."
+msgid "Give your segment a description to help others understand what it's about."
 msgstr ""
 
 #: frontend/src/metabase/admin/datamodel/containers/SegmentForm.jsx:175
-msgid ""
-"This is a good place to be more specific about less obvious segment rules"
+msgid "This is a good place to be more specific about less obvious segment rules"
 msgstr ""
 
 #: frontend/src/metabase/admin/datamodel/containers/SegmentForm.jsx:185
-msgid ""
-"This will show up in the revision history for this segment to help everyone "
-"remember why things changed"
+msgid "This will show up in the revision history for this segment to help everyone remember why things changed"
 msgstr ""
 
 #: frontend/src/metabase/admin/datamodel/containers/TableSettingsApp.jsx:91
@@ -879,9 +835,7 @@ msgid "Settings"
 msgstr ""
 
 #: frontend/src/metabase/admin/datamodel/containers/TableSettingsApp.jsx:106
-msgid ""
-"Metabase can scan the values in this table to enable checkbox filters in "
-"dashboards and questions."
+msgid "Metabase can scan the values in this table to enable checkbox filters in dashboards and questions."
 msgstr ""
 
 #: frontend/src/metabase/admin/datamodel/containers/TableSettingsApp.jsx:111
@@ -933,23 +887,18 @@ msgstr ""
 
 #: frontend/src/metabase/admin/people/components/GroupDetail.jsx:31
 msgid ""
-"All users belong to the {0} group and can't be removed from it. Setting "
-"permissions for this group is a great way to\n"
+"All users belong to the {0} group and can't be removed from it. Setting permissions for this group is a great way to\n"
 "make sure you know what new Metabase users will be able to see."
 msgstr ""
 
 #: frontend/src/metabase/admin/people/components/GroupDetail.jsx:40
 msgid ""
-"This is a special group whose members can see everything in the Metabase "
-"instance, and who can access and make changes to the\n"
-"settings in the Admin Panel, including changing permissions! So, add people "
-"to this group with care."
+"This is a special group whose members can see everything in the Metabase instance, and who can access and make changes to the\n"
+"settings in the Admin Panel, including changing permissions! So, add people to this group with care."
 msgstr ""
 
 #: frontend/src/metabase/admin/people/components/GroupDetail.jsx:44
-msgid ""
-"To make sure you don't get locked out of Metabase, there always has to be at "
-"least one user in this group."
+msgid "To make sure you don't get locked out of Metabase, there always has to be at least one user in this group."
 msgstr ""
 
 #: frontend/src/metabase/admin/people/components/GroupDetail.jsx:176
@@ -1002,8 +951,7 @@ msgstr ""
 
 #: frontend/src/metabase/admin/people/components/GroupsListing.jsx:57
 msgid ""
-"Are you sure? All members of this group will lose any permissions settings "
-"they have based on this group.\n"
+"Are you sure? All members of this group will lose any permissions settings they have based on this group.\n"
 "This can't be undone."
 msgstr ""
 
@@ -1056,11 +1004,7 @@ msgid "Create a group"
 msgstr ""
 
 #: frontend/src/metabase/admin/people/components/GroupsListing.jsx:399
-msgid ""
-"You can use groups to control your users' access to your data. Put users in "
-"groups and then go to the Permissions section to control each group's "
-"access. The Administrators and All Users groups are special default groups "
-"that can't be removed."
+msgid "You can use groups to control your users' access to your data. Put users in groups and then go to the Permissions section to control each group's access. The Administrators and All Users groups are special default groups that can't be removed."
 msgstr ""
 
 #: frontend/src/metabase/admin/people/components/UserActionsSelect.jsx:79
@@ -1151,9 +1095,7 @@ msgid "Reactivate"
 msgstr ""
 
 #: frontend/src/metabase/admin/people/containers/PeopleListingApp.jsx:330
-msgid ""
-"They'll be able to log in again, and they'll be placed back into the groups "
-"they were in before their account was deactivated."
+msgid "They'll be able to log in again, and they'll be placed back into the groups they were in before their account was deactivated."
 msgstr ""
 
 #: frontend/src/metabase/admin/people/containers/PeopleListingApp.jsx:341
@@ -1177,9 +1119,7 @@ msgid "{0}'s password has been reset"
 msgstr ""
 
 #: frontend/src/metabase/admin/people/containers/PeopleListingApp.jsx:371
-msgid ""
-"Here’s a temporary password they can use to log in and then change their "
-"password."
+msgid "Here’s a temporary password they can use to log in and then change their password."
 msgstr ""
 
 #: frontend/src/metabase/admin/people/containers/PeopleListingApp.jsx:388
@@ -1302,34 +1242,23 @@ msgid "Sorry, an error occurred."
 msgstr ""
 
 #: frontend/src/metabase/admin/permissions/selectors.js:57
-msgid ""
-"Administrators always have the highest level of access to everything in "
-"Metabase."
+msgid "Administrators always have the highest level of access to everything in Metabase."
 msgstr ""
 
 #: frontend/src/metabase/admin/permissions/selectors.js:59
-msgid ""
-"Every Metabase user belongs to the All Users group. If you want to limit or "
-"restrict a group's access to something, make sure the All Users group has an "
-"equal or lower level of access."
+msgid "Every Metabase user belongs to the All Users group. If you want to limit or restrict a group's access to something, make sure the All Users group has an equal or lower level of access."
 msgstr ""
 
 #: frontend/src/metabase/admin/permissions/selectors.js:61
-msgid ""
-"MetaBot is Metabase's Slack bot. You can choose what it has access to here."
+msgid "MetaBot is Metabase's Slack bot. You can choose what it has access to here."
 msgstr ""
 
 #: frontend/src/metabase/admin/permissions/selectors.js:113
-msgid ""
-"The \"{0}\" group may have access to a different set of {1} than this group, "
-"which may give this group additional access to some {2}."
+msgid "The \"{0}\" group may have access to a different set of {1} than this group, which may give this group additional access to some {2}."
 msgstr ""
 
 #: frontend/src/metabase/admin/permissions/selectors.js:118
-msgid ""
-"The \"{0}\" group has a higher level of access than this, which will "
-"override this setting. You should limit or revoke the \"{1}\" group's access "
-"to this item."
+msgid "The \"{0}\" group has a higher level of access than this, which will override this setting. You should limit or revoke the \"{1}\" group's access to this item."
 msgstr ""
 
 #: frontend/src/metabase/admin/permissions/selectors.js:148
@@ -1368,9 +1297,7 @@ msgid "Allow Raw Query Writing?"
 msgstr ""
 
 #: frontend/src/metabase/admin/permissions/selectors.js:177
-msgid ""
-"This will also change this group's data access to Unrestricted for this "
-"database."
+msgid "This will also change this group's data access to Unrestricted for this database."
 msgstr ""
 
 #: frontend/src/metabase/admin/permissions/selectors.js:178
@@ -1382,8 +1309,7 @@ msgid "Revoke access to all tables?"
 msgstr ""
 
 #: frontend/src/metabase/admin/permissions/selectors.js:216
-msgid ""
-"This will also revoke this group's access to raw queries for this database."
+msgid "This will also revoke this group's access to raw queries for this database."
 msgstr ""
 
 #: frontend/src/metabase/admin/permissions/selectors.js:245
@@ -1462,10 +1388,7 @@ msgstr ""
 
 #: frontend/src/metabase/admin/settings/components/SettingsAuthenticationOptions.jsx:13
 #: frontend/src/metabase/admin/settings/components/SettingsSingleSignOnForm.jsx:120
-msgid ""
-"Allows users with existing Metabase accounts to login with a Google account "
-"that matches their email address in addition to their Metabase username and "
-"password."
+msgid "Allows users with existing Metabase accounts to login with a Google account that matches their email address in addition to their Metabase username and password."
 msgstr ""
 
 #: frontend/src/metabase/admin/settings/components/SettingsAuthenticationOptions.jsx:17
@@ -1481,10 +1404,7 @@ msgid "LDAP"
 msgstr ""
 
 #: frontend/src/metabase/admin/settings/components/SettingsAuthenticationOptions.jsx:25
-msgid ""
-"Allows users within your LDAP directory to log in to Metabase with their "
-"LDAP credentials, and allows automatic mapping of LDAP groups to Metabase "
-"groups."
+msgid "Allows users within your LDAP directory to log in to Metabase with their LDAP credentials, and allows automatic mapping of LDAP groups to Metabase groups."
 msgstr ""
 
 #: frontend/src/metabase/admin/settings/components/SettingsBatchForm.jsx:17
@@ -1568,10 +1488,7 @@ msgid "Google Sign-In"
 msgstr ""
 
 #: frontend/src/metabase/admin/settings/components/SettingsSingleSignOnForm.jsx:123
-msgid ""
-"To allow users to sign in with Google you'll need to give Metabase a Google "
-"Developers console application client ID. It only takes a few steps and "
-"instructions on how to create a key can be found {0}"
+msgid "To allow users to sign in with Google you'll need to give Metabase a Google Developers console application client ID. It only takes a few steps and instructions on how to create a key can be found {0}"
 msgstr ""
 
 #: frontend/src/metabase/admin/settings/components/SettingsSingleSignOnForm.jsx:137
@@ -1579,9 +1496,7 @@ msgid "Your Google client ID"
 msgstr ""
 
 #: frontend/src/metabase/admin/settings/components/SettingsSingleSignOnForm.jsx:142
-msgid ""
-"Allow users to sign up on their own if their Google account email address is "
-"from:"
+msgid "Allow users to sign up on their own if their Google account email address is from:"
 msgstr ""
 
 #: frontend/src/metabase/admin/settings/components/SettingsSlackForm.jsx:242
@@ -1593,10 +1508,7 @@ msgid "Create a Slack Bot User for MetaBot"
 msgstr ""
 
 #: frontend/src/metabase/admin/settings/components/SettingsSlackForm.jsx:261
-msgid ""
-"Once you're there, give it a name and click {0}. Then copy and paste the Bot "
-"API Token into the field below. Once you are done, create a \"metabase_files"
-"\" channel in Slack. Metabase needs this to upload graphs."
+msgid "Once you're there, give it a name and click {0}. Then copy and paste the Bot API Token into the field below. Once you are done, create a \"metabase_files\" channel in Slack. Metabase needs this to upload graphs."
 msgstr ""
 
 #: frontend/src/metabase/admin/settings/components/SettingsUpdatesForm.jsx:90
@@ -1708,18 +1620,11 @@ msgid "Using embedding"
 msgstr ""
 
 #: frontend/src/metabase/admin/settings/components/widgets/EmbeddingLegalese.jsx:9
-msgid ""
-"By enabling embedding you're agreeing to the embedding license located at"
+msgid "By enabling embedding you're agreeing to the embedding license located at"
 msgstr ""
 
 #: frontend/src/metabase/admin/settings/components/widgets/EmbeddingLegalese.jsx:19
-msgid ""
-"In plain English, when you embed charts or dashboards from Metabase in your "
-"own application, that application isn't subject to the Affero General Public "
-"License that covers the rest of Metabase, provided you keep the Metabase "
-"logo and the \"Powered by Metabase\" visible on those embeds. You should, "
-"however, read the license text linked above as that is the actual license "
-"that you will be agreeing to by enabling this feature."
+msgid "In plain English, when you embed charts or dashboards from Metabase in your own application, that application isn't subject to the Affero General Public License that covers the rest of Metabase, provided you keep the Metabase logo and the \"Powered by Metabase\" visible on those embeds. You should, however, read the license text linked above as that is the actual license that you will be agreeing to by enabling this feature."
 msgstr ""
 
 #: frontend/src/metabase/admin/settings/components/widgets/EmbeddingLegalese.jsx:32
@@ -1735,9 +1640,7 @@ msgid "Enter the token you bought from the Metabase Store"
 msgstr ""
 
 #: frontend/src/metabase/admin/settings/components/widgets/EmbeddingLevel.jsx:53
-msgid ""
-"Premium embedding lets you disable \"Powered by Metabase\" on your embedded "
-"dashboards and questions."
+msgid "Premium embedding lets you disable \"Powered by Metabase\" on your embedded dashboards and questions."
 msgstr ""
 
 #: frontend/src/metabase/admin/settings/components/widgets/EmbeddingLevel.jsx:60
@@ -1762,10 +1665,8 @@ msgstr ""
 
 #: frontend/src/metabase/admin/settings/components/widgets/LdapGroupMappingsWidget.jsx:145
 msgid ""
-"Mappings allow Metabase to automatically add and remove users from groups "
-"based on the membership information provided by the\n"
-"directory server. Membership to the Admin group can be granted through "
-"mappings, but will not be automatically removed as a\n"
+"Mappings allow Metabase to automatically add and remove users from groups based on the membership information provided by the\n"
+"directory server. Membership to the Admin group can be granted through mappings, but will not be automatically removed as a\n"
 "failsafe measure."
 msgstr ""
 
@@ -1786,8 +1687,7 @@ msgid "Disable this link?"
 msgstr ""
 
 #: frontend/src/metabase/admin/settings/components/widgets/PublicLinksListing.jsx:122
-msgid ""
-"They won't work anymore, and can't be restored, but you can create new links."
+msgid "They won't work anymore, and can't be restored, but you can create new links."
 msgstr ""
 
 #: frontend/src/metabase/admin/settings/components/widgets/PublicLinksListing.jsx:149
@@ -1827,9 +1727,7 @@ msgid "Regenerate embedding key?"
 msgstr ""
 
 #: frontend/src/metabase/admin/settings/components/widgets/SecretKeyWidget.jsx:36
-msgid ""
-"This will cause existing embeds to stop working until they are updated with "
-"the new key."
+msgid "This will cause existing embeds to stop working until they are updated with the new key."
 msgstr ""
 
 #: frontend/src/metabase/admin/settings/components/widgets/SecretKeyWidget.jsx:39
@@ -1889,9 +1787,7 @@ msgid "Select a timezone"
 msgstr ""
 
 #: frontend/src/metabase/admin/settings/selectors.js:54
-msgid ""
-"Not all databases support timezones, in which case this setting won't take "
-"effect."
+msgid "Not all databases support timezones, in which case this setting won't take effect."
 msgstr ""
 
 #: frontend/src/metabase/admin/settings/selectors.js:59
@@ -2042,8 +1938,7 @@ msgid "Custom Maps"
 msgstr ""
 
 #: frontend/src/metabase/admin/settings/selectors.js:308
-msgid ""
-"Add your own GeoJSON files to enable different region map visualizations"
+msgid "Add your own GeoJSON files to enable different region map visualizations"
 msgstr ""
 
 #: frontend/src/metabase/admin/settings/selectors.js:315
@@ -2133,9 +2028,7 @@ msgid "No Metabase account exists for this Google account."
 msgstr ""
 
 #: frontend/src/metabase/auth/components/GoogleNoAccount.jsx:17
-msgid ""
-"You'll need an administrator to create a Metabase account before you can use "
-"Google to log in."
+msgid "You'll need an administrator to create a Metabase account before you can use Google to log in."
 msgstr ""
 
 #: frontend/src/metabase/auth/components/SSOLoginButton.jsx:18
@@ -2196,8 +2089,7 @@ msgstr ""
 
 #: frontend/src/metabase/auth/containers/PasswordResetApp.jsx:122
 msgid ""
-"For security reasons, password reset links expire after a little while. If "
-"you still need\n"
+"For security reasons, password reset links expire after a little while. If you still need\n"
 "to reset your password, you can {0}."
 msgstr ""
 
@@ -2264,9 +2156,7 @@ msgid "Archive this collection?"
 msgstr ""
 
 #: frontend/src/metabase/components/ArchiveCollectionModal.jsx:45
-msgid ""
-"The dashboards, collections, and pulses in this collection will also be "
-"archived."
+msgid "The dashboards, collections, and pulses in this collection will also be archived."
 msgstr ""
 
 #: frontend/src/metabase/components/ArchiveCollectionModal.jsx:49
@@ -2377,9 +2267,7 @@ msgid "This collection is empty, like a blank canvas"
 msgstr ""
 
 #: frontend/src/metabase/components/CollectionEmptyState.jsx:27
-msgid ""
-"You can use collections to organize and group dashboards, questions and "
-"pulses for your team or yourself"
+msgid "You can use collections to organize and group dashboards, questions and pulses for your team or yourself"
 msgstr ""
 
 #: frontend/src/metabase/components/CollectionEmptyState.jsx:33
@@ -2391,9 +2279,7 @@ msgid "Dashboards let you collect and share data in one place."
 msgstr ""
 
 #: frontend/src/metabase/components/CollectionLanding.jsx:77
-msgid ""
-"Pulses let you send out the latest data to your team on a schedule via email "
-"or slack."
+msgid "Pulses let you send out the latest data to your team on a schedule via email or slack."
 msgstr ""
 
 #: frontend/src/metabase/components/CollectionLanding.jsx:86
@@ -2476,24 +2362,19 @@ msgstr ""
 
 #: frontend/src/metabase/components/DatabaseDetailsForm.jsx:218
 msgid ""
-"Some database installations can only be accessed by connecting through an "
-"SSH bastion host.\n"
-"This option also provides an extra layer of security when a VPN is not "
-"available.\n"
+"Some database installations can only be accessed by connecting through an SSH bastion host.\n"
+"This option also provides an extra layer of security when a VPN is not available.\n"
 "Enabling this is usually slower than a direct connection."
 msgstr ""
 
 #: frontend/src/metabase/components/DatabaseDetailsForm.jsx:247
-msgid ""
-"This is a large database, so let me choose when Metabase syncs and scans"
+msgid "This is a large database, so let me choose when Metabase syncs and scans"
 msgstr ""
 
 #: frontend/src/metabase/components/DatabaseDetailsForm.jsx:249
 msgid ""
-"By default, Metabase does a lightweight hourly sync and an intensive daily "
-"scan of field values.\n"
-"If you have a large database, we recommend turning this on and reviewing "
-"when and how often the field value scans happen."
+"By default, Metabase does a lightweight hourly sync and an intensive daily scan of field values.\n"
+"If you have a large database, we recommend turning this on and reviewing when and how often the field value scans happen."
 msgstr ""
 
 #: frontend/src/metabase/components/DatabaseDetailsForm.jsx:265
@@ -2519,9 +2400,7 @@ msgid "with Google Drive permissions"
 msgstr ""
 
 #: frontend/src/metabase/components/DatabaseDetailsForm.jsx:324
-msgid ""
-"To use Metabase with this data you must enable API access in the Google "
-"Developers Console."
+msgid "To use Metabase with this data you must enable API access in the Google Developers Console."
 msgstr ""
 
 #: frontend/src/metabase/components/DatabaseDetailsForm.jsx:327
@@ -2679,8 +2558,7 @@ msgid "Something's gone wrong"
 msgstr ""
 
 #: frontend/src/metabase/components/GenericError.jsx:9
-msgid ""
-"We've run into an error. You can try refreshing the page, or just go back."
+msgid "We've run into an error. You can try refreshing the page, or just go back."
 msgstr ""
 
 #: frontend/src/metabase/components/Header.jsx:97
@@ -2816,9 +2694,7 @@ msgid "The page you asked for couldn't be found"
 msgstr ""
 
 #: frontend/src/metabase/components/NotFound.jsx:17
-msgid ""
-"You might've been tricked by a ninja, but in all likelihood, you were just "
-"given a bad link."
+msgid "You might've been tricked by a ninja, but in all likelihood, you were just given a bad link."
 msgstr ""
 
 #: frontend/src/metabase/components/NotFound.jsx:18
@@ -3017,9 +2893,7 @@ msgstr ""
 
 #: frontend/src/metabase/containers/Overworld.jsx:105
 #: frontend/src/metabase/setup/containers/PostSetupApp.jsx:85
-msgid ""
-"Once you connect your own data, I can show you some automatic explorations "
-"called x-rays. Here are some examples with sample data."
+msgid "Once you connect your own data, I can show you some automatic explorations called x-rays. Here are some examples with sample data."
 msgstr ""
 
 #: frontend/src/metabase/containers/Overworld.jsx:119
@@ -3129,9 +3003,7 @@ msgid "Archive Dashboard"
 msgstr ""
 
 #: frontend/src/metabase/dashboard/components/DashCardParameterMapper.jsx:20
-msgid ""
-"Make sure to make a selection for each series, or the filter won't work on "
-"this card."
+msgid "Make sure to make a selection for each series, or the filter won't work on this card."
 msgstr ""
 
 #: frontend/src/metabase/dashboard/components/Dashboard.jsx:284
@@ -3279,15 +3151,11 @@ msgid "Show more about this"
 msgstr ""
 
 #: frontend/src/metabase/dashboard/containers/DashCardCardParameterMapper.jsx:140
-msgid ""
-"This card doesn't have any fields or parameters that can be mapped to this "
-"parameter type."
+msgid "This card doesn't have any fields or parameters that can be mapped to this parameter type."
 msgstr ""
 
 #: frontend/src/metabase/dashboard/containers/DashCardCardParameterMapper.jsx:142
-msgid ""
-"The values in this field don't overlap with the values of any other fields "
-"you've chosen."
+msgid "The values in this field don't overlap with the values of any other fields you've chosen."
 msgstr ""
 
 #: frontend/src/metabase/dashboard/containers/DashCardCardParameterMapper.jsx:186
@@ -3443,9 +3311,7 @@ msgid "Ask questions and explore"
 msgstr ""
 
 #: frontend/src/metabase/home/components/NewUserOnboardingModal.jsx:20
-msgid ""
-"Click on charts or tables to explore, or ask a new question using the easy "
-"interface or the powerful SQL editor."
+msgid "Click on charts or tables to explore, or ask a new question using the easy interface or the powerful SQL editor."
 msgstr ""
 
 #: frontend/src/metabase/home/components/NewUserOnboardingModal.jsx:30
@@ -3461,9 +3327,7 @@ msgid "Share what you find"
 msgstr ""
 
 #: frontend/src/metabase/home/components/NewUserOnboardingModal.jsx:42
-msgid ""
-"Create powerful and flexible dashboards, and send regular updates via email "
-"or Slack."
+msgid "Create powerful and flexible dashboards, and send regular updates via email or Slack."
 msgstr ""
 
 #: frontend/src/metabase/home/components/NewUserOnboardingModal.jsx:97
@@ -3534,9 +3398,7 @@ msgid "Entity Name"
 msgstr ""
 
 #: frontend/src/metabase/lib/core.js:15
-msgid ""
-"The \"name\" of each record. Usually a column called \"name\", \"title\", "
-"etc."
+msgid "The \"name\" of each record. Usually a column called \"name\", \"title\", etc."
 msgstr ""
 
 #: frontend/src/metabase/lib/core.js:19
@@ -3745,9 +3607,7 @@ msgid "Everywhere"
 msgstr ""
 
 #: frontend/src/metabase/lib/core.js:245
-msgid ""
-"The default setting. This field will be displayed normally in tables and "
-"charts."
+msgid "The default setting. This field will be displayed normally in tables and charts."
 msgstr ""
 
 #: frontend/src/metabase/lib/core.js:249
@@ -3755,10 +3615,7 @@ msgid "Only in Detail Views"
 msgstr ""
 
 #: frontend/src/metabase/lib/core.js:250
-msgid ""
-"This field will only be displayed when viewing the details of a single "
-"record. Use this for information that's lengthy or that isn't useful in a "
-"table or chart."
+msgid "This field will only be displayed when viewing the details of a single record. Use this for information that's lengthy or that isn't useful in a table or chart."
 msgstr ""
 
 #: frontend/src/metabase/lib/core.js:254
@@ -3766,9 +3623,7 @@ msgid "Do Not Include"
 msgstr ""
 
 #: frontend/src/metabase/lib/core.js:255
-msgid ""
-"Metabase will never retrieve this field. Use this for sensitive or "
-"irrelevant information."
+msgid "Metabase will never retrieve this field. Use this for sensitive or irrelevant information."
 msgstr ""
 
 #: frontend/src/metabase/lib/expressions/config.js:7
@@ -4086,8 +3941,7 @@ msgid "Cumulative sum of ..."
 msgstr ""
 
 #: frontend/src/metabase/lib/schema_metadata.js:483
-msgid ""
-"Additive sum of all the values of a column.\\ne.x. total revenue over time."
+msgid "Additive sum of all the values of a column.\\ne.x. total revenue over time."
 msgstr ""
 
 #: frontend/src/metabase/lib/schema_metadata.js:489
@@ -4095,8 +3949,7 @@ msgid "Cumulative count of rows"
 msgstr ""
 
 #: frontend/src/metabase/lib/schema_metadata.js:491
-msgid ""
-"Additive count of the number of rows.\\ne.x. total number of sales over time."
+msgid "Additive count of the number of rows.\\ne.x. total number of sales over time."
 msgstr ""
 
 #: frontend/src/metabase/lib/schema_metadata.js:497
@@ -4104,9 +3957,7 @@ msgid "Standard deviation of ..."
 msgstr ""
 
 #: frontend/src/metabase/lib/schema_metadata.js:499
-msgid ""
-"Number which expresses how much the values of a column vary among all rows "
-"in the answer."
+msgid "Number which expresses how much the values of a column vary among all rows in the answer."
 msgstr ""
 
 #: frontend/src/metabase/lib/schema_metadata.js:505
@@ -4370,8 +4221,7 @@ msgstr ""
 
 #: frontend/src/metabase/new_query/containers/MetricSearch.jsx:95
 #: frontend/src/metabase/reference/metrics/MetricList.jsx:24
-msgid ""
-"Defining common metrics for your team makes it even easier to ask questions"
+msgid "Defining common metrics for your team makes it even easier to ask questions"
 msgstr ""
 
 #: frontend/src/metabase/new_query/containers/MetricSearch.jsx:99
@@ -4379,9 +4229,7 @@ msgid "How to create metrics"
 msgstr ""
 
 #: frontend/src/metabase/new_query/containers/NewQueryOptions.jsx:138
-msgid ""
-"See data over time, as a map, or pivoted to help you understand trends or "
-"changes."
+msgid "See data over time, as a map, or pivoted to help you understand trends or changes."
 msgstr ""
 
 #: frontend/src/metabase/new_query/containers/NewQueryOptions.jsx:149
@@ -4394,9 +4242,7 @@ msgid "New question"
 msgstr ""
 
 #: frontend/src/metabase/new_query/containers/NewQueryOptions.jsx:152
-msgid ""
-"Use the simple question builder to see trends, lists of things, or to create "
-"your own metrics."
+msgid "Use the simple question builder to see trends, lists of things, or to create your own metrics."
 msgstr ""
 
 #: frontend/src/metabase/new_query/containers/NewQueryOptions.jsx:161
@@ -4405,8 +4251,7 @@ msgid "Native query"
 msgstr ""
 
 #: frontend/src/metabase/new_query/containers/NewQueryOptions.jsx:162
-msgid ""
-"For more complicated questions, you can write your own SQL or native query."
+msgid "For more complicated questions, you can write your own SQL or native query."
 msgstr ""
 
 #: frontend/src/metabase/parameters/components/ParameterValueWidget.jsx:240
@@ -4504,15 +4349,11 @@ msgid "Not found"
 msgstr ""
 
 #: frontend/src/metabase/public/components/widgets/AdvancedEmbedPane.jsx:82
-msgid ""
-"You’ve made changes that need to be published before they will be reflected "
-"in your application embed."
+msgid "You’ve made changes that need to be published before they will be reflected in your application embed."
 msgstr ""
 
 #: frontend/src/metabase/public/components/widgets/AdvancedEmbedPane.jsx:83
-msgid ""
-"You will need to publish this {0} before you can embed it in another "
-"application."
+msgid "You will need to publish this {0} before you can embed it in another application."
 msgstr ""
 
 #: frontend/src/metabase/public/components/widgets/AdvancedEmbedPane.jsx:92
@@ -4565,10 +4406,7 @@ msgid "Preview Locked Parameters"
 msgstr ""
 
 #: frontend/src/metabase/public/components/widgets/AdvancedSettingsPane.jsx:115
-msgid ""
-"Try passing some values to your locked parameters here. Your server will "
-"have to provide the actual values in the signed token when using this for "
-"real."
+msgid "Try passing some values to your locked parameters here. Your server will have to provide the actual values in the signed token when using this for real."
 msgstr ""
 
 #: frontend/src/metabase/public/components/widgets/AdvancedSettingsPane.jsx:126
@@ -4600,9 +4438,7 @@ msgid "To embed this {0} in your application:"
 msgstr ""
 
 #: frontend/src/metabase/public/components/widgets/EmbedCodePane.jsx:64
-msgid ""
-"Insert this code snippet in your server code to generate the signed "
-"embedding URL "
+msgid "Insert this code snippet in your server code to generate the signed embedding URL "
 msgstr ""
 
 #: frontend/src/metabase/public/components/widgets/EmbedCodePane.jsx:87
@@ -4630,9 +4466,7 @@ msgid "Disable this public link?"
 msgstr ""
 
 #: frontend/src/metabase/public/components/widgets/SharingPane.jsx:77
-msgid ""
-"This will cause the existing link to stop working. You can re-enable it, but "
-"when you do it will be a different link."
+msgid "This will cause the existing link to stop working. You can re-enable it, but when you do it will be a different link."
 msgstr ""
 
 #: frontend/src/metabase/public/components/widgets/SharingPane.jsx:117
@@ -4640,9 +4474,7 @@ msgid "Public link"
 msgstr ""
 
 #: frontend/src/metabase/public/components/widgets/SharingPane.jsx:118
-msgid ""
-"Share this {0} with people who don't have a Metabase account using the URL "
-"below:"
+msgid "Share this {0} with people who don't have a Metabase account using the URL below:"
 msgstr ""
 
 #: frontend/src/metabase/public/components/widgets/SharingPane.jsx:158
@@ -4650,9 +4482,7 @@ msgid "Public embed"
 msgstr ""
 
 #: frontend/src/metabase/public/components/widgets/SharingPane.jsx:159
-msgid ""
-"Embed this {0} in blog posts or web pages by copying and pasting this "
-"snippet:"
+msgid "Embed this {0} in blog posts or web pages by copying and pasting this snippet:"
 msgstr ""
 
 #: frontend/src/metabase/public/components/widgets/SharingPane.jsx:176
@@ -4660,9 +4490,7 @@ msgid "Embed this {0} in an application"
 msgstr ""
 
 #: frontend/src/metabase/public/components/widgets/SharingPane.jsx:177
-msgid ""
-"By integrating with your application server code, you can provide a secure "
-"stats {0} limited to a specific user, customer, organization, etc."
+msgid "By integrating with your application server code, you can provide a secure stats {0} limited to a specific user, customer, organization, etc."
 msgstr ""
 
 #: frontend/src/metabase/pulse/components/PulseCardPreview.jsx:94
@@ -4743,10 +4571,7 @@ msgid "Heads up"
 msgstr ""
 
 #: frontend/src/metabase/pulse/components/PulseEditCards.jsx:105
-msgid ""
-"We'll show the first 10 columns and 20 rows of this table in your Pulse. If "
-"you email this, we'll add a file attachment with all columns and up to 2,000 "
-"rows."
+msgid "We'll show the first 10 columns and 20 rows of this table in your Pulse. If you email this, we'll add a file attachment with all columns and up to 2,000 rows."
 msgstr ""
 
 #: frontend/src/metabase/pulse/components/PulseEditCards.jsx:112
@@ -4758,9 +4583,7 @@ msgid "Looks like this pulse is getting big"
 msgstr ""
 
 #: frontend/src/metabase/pulse/components/PulseEditCards.jsx:120
-msgid ""
-"We recommend keeping pulses small and focused to help keep them digestible "
-"and useful to the whole team."
+msgid "We recommend keeping pulses small and focused to help keep them digestible and useful to the whole team."
 msgstr ""
 
 #: frontend/src/metabase/pulse/components/PulseEditCards.jsx:160
@@ -4856,9 +4679,7 @@ msgid "Help everyone on your team stay in sync with your data."
 msgstr ""
 
 #: frontend/src/metabase/pulse/components/WhatsAPulse.jsx:30
-msgid ""
-"Pulses let you send data from Metabase to email or Slack on the schedule of "
-"your choice."
+msgid "Pulses let you send data from Metabase to email or Slack on the schedule of your choice."
 msgstr ""
 
 #: frontend/src/metabase/qb/components/TimeseriesFilterWidget.jsx:100
@@ -5161,9 +4982,7 @@ msgid "Email alerts to:"
 msgstr ""
 
 #: frontend/src/metabase/query_builder/components/AlertModals.jsx:670
-msgid ""
-"{0} Goal-based alerts aren't yet supported for charts with more than one "
-"line, so this alert will be sent whenever the chart has {1}."
+msgid "{0} Goal-based alerts aren't yet supported for charts with more than one line, so this alert will be sent whenever the chart has {1}."
 msgstr ""
 
 #: frontend/src/metabase/query_builder/components/AlertModals.jsx:673
@@ -5171,9 +4990,7 @@ msgid "results"
 msgstr ""
 
 #: frontend/src/metabase/query_builder/components/AlertModals.jsx:677
-msgid ""
-"{0} This kind of alert is most useful when your saved question doesn’t {1} "
-"return any results, but you want to know when it does."
+msgid "{0} This kind of alert is most useful when your saved question doesn’t {1} return any results, but you want to know when it does."
 msgstr ""
 
 #: frontend/src/metabase/query_builder/components/AlertModals.jsx:678
@@ -5329,8 +5146,7 @@ msgid "Warning"
 msgstr ""
 
 #: frontend/src/metabase/query_builder/components/QueryDownloadWidget.jsx:47
-msgid ""
-"Your answer has a large number of rows so it could take a while to download."
+msgid "Your answer has a large number of rows so it could take a while to download."
 msgstr ""
 
 #: frontend/src/metabase/query_builder/components/QueryDownloadWidget.jsx:48
@@ -5450,9 +5266,7 @@ msgid "It's okay to play around with saved questions"
 msgstr ""
 
 #: frontend/src/metabase/query_builder/components/SavedQuestionIntroModal.jsx:14
-msgid ""
-"You won't make any permanent changes to a saved question unless you click "
-"the edit icon in the top-right."
+msgid "You won't make any permanent changes to a saved question unless you click the edit icon in the top-right."
 msgstr ""
 
 #: frontend/src/metabase/query_builder/components/SearchBar.jsx:28
@@ -5476,10 +5290,7 @@ msgid "Your question took too long"
 msgstr ""
 
 #: frontend/src/metabase/query_builder/components/VisualizationError.jsx:47
-msgid ""
-"We didn't get an answer back from your database in time, so we had to stop. "
-"You can try again in a minute, or if the problem persists, you can email an "
-"admin to let them know."
+msgid "We didn't get an answer back from your database in time, so we had to stop. You can try again in a minute, or if the problem persists, you can email an admin to let them know."
 msgstr ""
 
 #: frontend/src/metabase/query_builder/components/VisualizationError.jsx:55
@@ -5487,9 +5298,7 @@ msgid "We're experiencing server issues"
 msgstr ""
 
 #: frontend/src/metabase/query_builder/components/VisualizationError.jsx:56
-msgid ""
-"Try refreshing the page after waiting a minute or two. If the problem "
-"persists we'd recommend you contact an admin."
+msgid "Try refreshing the page after waiting a minute or two. If the problem persists we'd recommend you contact an admin."
 msgstr ""
 
 #: frontend/src/metabase/query_builder/components/VisualizationError.jsx:88
@@ -5497,15 +5306,11 @@ msgid "There was a problem with your question"
 msgstr ""
 
 #: frontend/src/metabase/query_builder/components/VisualizationError.jsx:89
-msgid ""
-"Most of the time this is caused by an invalid selection or bad input value. "
-"Double check your inputs and retry your query."
+msgid "Most of the time this is caused by an invalid selection or bad input value. Double check your inputs and retry your query."
 msgstr ""
 
 #: frontend/src/metabase/query_builder/components/VisualizationResult.jsx:60
-msgid ""
-"This may be the answer you’re looking for. If not, try removing or changing "
-"your filters to make them less specific."
+msgid "This may be the answer you’re looking for. If not, try removing or changing your filters to make them less specific."
 msgstr ""
 
 #: frontend/src/metabase/query_builder/components/VisualizationResult.jsx:66
@@ -5631,10 +5436,7 @@ msgid "Field formula"
 msgstr ""
 
 #: frontend/src/metabase/query_builder/components/expressions/ExpressionWidget.jsx:57
-msgid ""
-"Think of this as being kind of like writing a formula in a spreadsheet "
-"program: you can use numbers, fields in this table, mathematical symbols "
-"like +, and some functions. So you could type something like Subtotal - Cost."
+msgid "Think of this as being kind of like writing a formula in a spreadsheet program: you can use numbers, fields in this table, mathematical symbols like +, and some functions. So you could type something like Subtotal - Cost."
 msgstr ""
 
 #: frontend/src/metabase/query_builder/components/expressions/ExpressionWidget.jsx:62
@@ -5756,19 +5558,11 @@ msgid "What's this for?"
 msgstr ""
 
 #: frontend/src/metabase/query_builder/components/template_tags/TagEditorHelp.jsx:107
-msgid ""
-"Variables in native queries let you dynamically replace values in your "
-"queries using filter widgets or through the URL."
+msgid "Variables in native queries let you dynamically replace values in your queries using filter widgets or through the URL."
 msgstr ""
 
 #: frontend/src/metabase/query_builder/components/template_tags/TagEditorHelp.jsx:112
-msgid ""
-"{0} creates a variable in this SQL template called \"variable_name\". "
-"Variables can be given types in the side panel, which changes their "
-"behavior. All variable types other than \"Field Filter\" will automatically "
-"cause a filter widget to be placed on this question; with Field Filters, "
-"this is optional. When this filter widget is filled in, that value replaces "
-"the variable in the SQL template."
+msgid "{0} creates a variable in this SQL template called \"variable_name\". Variables can be given types in the side panel, which changes their behavior. All variable types other than \"Field Filter\" will automatically cause a filter widget to be placed on this question; with Field Filters, this is optional. When this filter widget is filled in, that value replaces the variable in the SQL template."
 msgstr ""
 
 #: frontend/src/metabase/query_builder/components/template_tags/TagEditorHelp.jsx:121
@@ -5776,20 +5570,11 @@ msgid "Field Filters"
 msgstr ""
 
 #: frontend/src/metabase/query_builder/components/template_tags/TagEditorHelp.jsx:123
-msgid ""
-"Giving a variable the \"Field Filter\" type allows you to link SQL cards to "
-"dashboard filter widgets or use more types of filter widgets on your SQL "
-"question. A Field Filter variable inserts SQL similar to that generated by "
-"the GUI query builder when adding filters on existing columns."
+msgid "Giving a variable the \"Field Filter\" type allows you to link SQL cards to dashboard filter widgets or use more types of filter widgets on your SQL question. A Field Filter variable inserts SQL similar to that generated by the GUI query builder when adding filters on existing columns."
 msgstr ""
 
 #: frontend/src/metabase/query_builder/components/template_tags/TagEditorHelp.jsx:126
-msgid ""
-"When adding a Field Filter variable, you'll need to map it to a specific "
-"field. You can then choose to display a filter widget on your question, but "
-"even if you don't, you can now map your Field Filter variable to a dashboard "
-"filter when adding this question to a dashboard. Field Filters should be "
-"used inside of a \"WHERE\" clause."
+msgid "When adding a Field Filter variable, you'll need to map it to a specific field. You can then choose to display a filter widget on your question, but even if you don't, you can now map your Field Filter variable to a dashboard filter when adding this question to a dashboard. Field Filters should be used inside of a \"WHERE\" clause."
 msgstr ""
 
 #: frontend/src/metabase/query_builder/components/template_tags/TagEditorHelp.jsx:130
@@ -5797,16 +5582,11 @@ msgid "Optional Clauses"
 msgstr ""
 
 #: frontend/src/metabase/query_builder/components/template_tags/TagEditorHelp.jsx:132
-msgid ""
-"brackets around a {0} create an optional clause in the template. If "
-"\"variable\" is set, then the entire clause is placed into the template. If "
-"not, then the entire clause is ignored."
+msgid "brackets around a {0} create an optional clause in the template. If \"variable\" is set, then the entire clause is placed into the template. If not, then the entire clause is ignored."
 msgstr ""
 
 #: frontend/src/metabase/query_builder/components/template_tags/TagEditorHelp.jsx:142
-msgid ""
-"To use multiple optional clauses you can include at least one non-optional "
-"WHERE clause followed by optional clauses starting with \"AND\"."
+msgid "To use multiple optional clauses you can include at least one non-optional WHERE clause followed by optional clauses starting with \"AND\"."
 msgstr ""
 
 #: frontend/src/metabase/query_builder/components/template_tags/TagEditorHelp.jsx:154
@@ -5989,9 +5769,7 @@ msgid "Which 2-3 fields do you usually group this metric by?"
 msgstr ""
 
 #: frontend/src/metabase/reference/components/GuideHeader.jsx:23
-msgid ""
-"This is the perfect place to start if you’re new to your company’s data, or "
-"if you just want to check in on what’s going on."
+msgid "This is the perfect place to start if you’re new to your company’s data, or if you just want to check in on what’s going on."
 msgstr ""
 
 #: frontend/src/metabase/reference/components/MetricImportantFieldsDetail.jsx:65
@@ -6003,8 +5781,7 @@ msgid "Reason for changes"
 msgstr ""
 
 #: frontend/src/metabase/reference/components/RevisionMessageModal.jsx:36
-msgid ""
-"Leave a note to explain what changes you made and why they were required"
+msgid "Leave a note to explain what changes you made and why they were required"
 msgstr ""
 
 #: frontend/src/metabase/reference/databases/DatabaseDetail.jsx:166
@@ -6146,9 +5923,7 @@ msgid "Help your team get started with your data."
 msgstr ""
 
 #: frontend/src/metabase/reference/guide/GettingStartedGuide.jsx:159
-msgid ""
-"Show your team what’s most important by choosing your top dashboard, "
-"metrics, and segments."
+msgid "Show your team what’s most important by choosing your top dashboard, metrics, and segments."
 msgstr ""
 
 #: frontend/src/metabase/reference/guide/GettingStartedGuide.jsx:165
@@ -6164,9 +5939,7 @@ msgid "Numbers that we pay attention to"
 msgstr ""
 
 #: frontend/src/metabase/reference/guide/GettingStartedGuide.jsx:213
-msgid ""
-"Metrics are important numbers your company cares about. They often represent "
-"a core indicator of how the business is performing."
+msgid "Metrics are important numbers your company cares about. They often represent a core indicator of how the business is performing."
 msgstr ""
 
 #: frontend/src/metabase/reference/guide/GettingStartedGuide.jsx:221
@@ -6182,10 +5955,7 @@ msgid "Tables"
 msgstr ""
 
 #: frontend/src/metabase/reference/guide/GettingStartedGuide.jsx:262
-msgid ""
-"Segments and tables are the building blocks of your company's data. Tables "
-"are collections of the raw information while segments are specific slices "
-"with specific meanings, like {0}"
+msgid "Segments and tables are the building blocks of your company's data. Tables are collections of the raw information while segments are specific slices with specific meanings, like {0}"
 msgstr ""
 
 #: frontend/src/metabase/reference/guide/GettingStartedGuide.jsx:267
@@ -6209,10 +5979,7 @@ msgid "Find out more"
 msgstr ""
 
 #: frontend/src/metabase/reference/guide/GettingStartedGuide.jsx:307
-msgid ""
-"A good way to get to know your data is by spending a bit of time exploring "
-"the different tables and other info available to you. It may take a while, "
-"but you'll start to recognize names and meanings over time."
+msgid "A good way to get to know your data is by spending a bit of time exploring the different tables and other info available to you. It may take a while, but you'll start to recognize names and meanings over time."
 msgstr ""
 
 #: frontend/src/metabase/reference/guide/GettingStartedGuide.jsx:313
@@ -6232,10 +5999,7 @@ msgid "Help new Metabase users find their way around."
 msgstr ""
 
 #: frontend/src/metabase/reference/guide/GettingStartedGuideEditForm.jsx:251
-msgid ""
-"The Getting Started guide highlights the dashboard, metrics, segments, and "
-"tables that matter most, and informs your users of important things they "
-"should know before digging into the data."
+msgid "The Getting Started guide highlights the dashboard, metrics, segments, and tables that matter most, and informs your users of important things they should know before digging into the data."
 msgstr ""
 
 #: frontend/src/metabase/reference/guide/GettingStartedGuideEditForm.jsx:258
@@ -6275,9 +6039,7 @@ msgid "Learn how to create a segment"
 msgstr ""
 
 #: frontend/src/metabase/reference/guide/GettingStartedGuideEditForm.jsx:372
-msgid ""
-"What are 3-5 commonly referenced segments or tables that would be useful for "
-"this audience?"
+msgid "What are 3-5 commonly referenced segments or tables that would be useful for this audience?"
 msgstr ""
 
 #: frontend/src/metabase/reference/guide/GettingStartedGuideEditForm.jsx:418
@@ -6285,9 +6047,7 @@ msgid "Add another segment or table"
 msgstr ""
 
 #: frontend/src/metabase/reference/guide/GettingStartedGuideEditForm.jsx:427
-msgid ""
-"Is there anything your users should understand or know before they start "
-"accessing the data?"
+msgid "Is there anything your users should understand or know before they start accessing the data?"
 msgstr ""
 
 #: frontend/src/metabase/reference/guide/GettingStartedGuideEditForm.jsx:433
@@ -6295,16 +6055,11 @@ msgid "What should a user of this data know before they start accessing it?"
 msgstr ""
 
 #: frontend/src/metabase/reference/guide/GettingStartedGuideEditForm.jsx:437
-msgid ""
-"E.g., expectations around data privacy and use, common pitfalls or "
-"misunderstandings, information about data warehouse performance, legal "
-"notices, etc."
+msgid "E.g., expectations around data privacy and use, common pitfalls or misunderstandings, information about data warehouse performance, legal notices, etc."
 msgstr ""
 
 #: frontend/src/metabase/reference/guide/GettingStartedGuideEditForm.jsx:448
-msgid ""
-"Is there someone your users could contact for help if they're confused about "
-"this guide?"
+msgid "Is there someone your users could contact for help if they're confused about this guide?"
 msgstr ""
 
 #: frontend/src/metabase/reference/guide/GettingStartedGuideEditForm.jsx:457
@@ -6383,8 +6138,7 @@ msgid "Segments are interesting subsets of tables"
 msgstr ""
 
 #: frontend/src/metabase/reference/segments/SegmentList.jsx:24
-msgid ""
-"Defining common segments for your team makes it even easier to ask questions"
+msgid "Defining common segments for your team makes it even easier to ask questions"
 msgstr ""
 
 #: frontend/src/metabase/reference/segments/SegmentList.jsx:25
@@ -6448,10 +6202,7 @@ msgid "Connecting to {0}"
 msgstr ""
 
 #: frontend/src/metabase/setup/components/DatabaseConnectionStep.jsx:165
-msgid ""
-"You’ll need some info about your database, like the username and password. "
-"If you don’t have that right now, Metabase also comes with a sample dataset "
-"you can get started with."
+msgid "You’ll need some info about your database, like the username and password. If you don’t have that right now, Metabase also comes with a sample dataset you can get started with."
 msgstr ""
 
 #: frontend/src/metabase/setup/components/DatabaseConnectionStep.jsx:196
@@ -6475,9 +6226,7 @@ msgid "We won't collect any usage events"
 msgstr ""
 
 #: frontend/src/metabase/setup/components/PreferencesStep.jsx:76
-msgid ""
-"In order to help us improve Metabase, we'd like to collect certain data "
-"about usage through Google Analytics."
+msgid "In order to help us improve Metabase, we'd like to collect certain data about usage through Google Analytics."
 msgstr ""
 
 #: frontend/src/metabase/setup/components/PreferencesStep.jsx:85
@@ -6521,9 +6270,7 @@ msgid "Welcome to Metabase"
 msgstr ""
 
 #: frontend/src/metabase/setup/components/Setup.jsx:96
-msgid ""
-"Looks like everything is working. Now let’s get to know you, connect to your "
-"data, and start finding you some answers!"
+msgid "Looks like everything is working. Now let’s get to know you, connect to your data, and start finding you some answers!"
 msgstr ""
 
 #: frontend/src/metabase/setup/components/Setup.jsx:100
@@ -6606,15 +6353,11 @@ msgid ""
 msgstr ""
 
 #: frontend/src/metabase/setup/containers/PostSetupApp.jsx:72
-msgid ""
-"This seems to be taking a while. In the meantime, you can check out one of "
-"these example explorations to see what Metabase can do for you."
+msgid "This seems to be taking a while. In the meantime, you can check out one of these example explorations to see what Metabase can do for you."
 msgstr ""
 
 #: frontend/src/metabase/setup/containers/PostSetupApp.jsx:86
-msgid ""
-"I took a look at the data you just connected, and I have some explorations "
-"of interesting things I found. Hope you like them!"
+msgid "I took a look at the data you just connected, and I have some explorations of interesting things I found. Hope you like them!"
 msgstr ""
 
 #: frontend/src/metabase/setup/containers/PostSetupApp.jsx:98
@@ -6626,9 +6369,7 @@ msgid "Welcome to the Query Builder!"
 msgstr ""
 
 #: frontend/src/metabase/tutorial/QueryBuilderTutorial.jsx:22
-msgid ""
-"The Query Builder lets you assemble questions (or \"queries\") to ask about "
-"your data."
+msgid "The Query Builder lets you assemble questions (or \"queries\") to ask about your data."
 msgstr ""
 
 #: frontend/src/metabase/tutorial/QueryBuilderTutorial.jsx:26
@@ -6636,8 +6377,7 @@ msgid "Tell me more"
 msgstr ""
 
 #: frontend/src/metabase/tutorial/QueryBuilderTutorial.jsx:43
-msgid ""
-"Start by picking the table with the data that you have a question about."
+msgid "Start by picking the table with the data that you have a question about."
 msgstr ""
 
 #: frontend/src/metabase/tutorial/QueryBuilderTutorial.jsx:45
@@ -6657,26 +6397,19 @@ msgid "Here we can pick how many days we want to see data for, try 10"
 msgstr ""
 
 #: frontend/src/metabase/tutorial/QueryBuilderTutorial.jsx:116
-msgid ""
-"Here's where you can choose to add or average your data, count the number of "
-"rows in the table, or just view the raw data."
+msgid "Here's where you can choose to add or average your data, count the number of rows in the table, or just view the raw data."
 msgstr ""
 
 #: frontend/src/metabase/tutorial/QueryBuilderTutorial.jsx:118
-msgid ""
-"Try it: click on <strong>Raw Data</strong> to change it to <strong>Count of "
-"rows</strong> so we can count how many orders there are in this table."
+msgid "Try it: click on <strong>Raw Data</strong> to change it to <strong>Count of rows</strong> so we can count how many orders there are in this table."
 msgstr ""
 
 #: frontend/src/metabase/tutorial/QueryBuilderTutorial.jsx:142
-msgid ""
-"Add a grouping to break out your results by category, day, month, and more."
+msgid "Add a grouping to break out your results by category, day, month, and more."
 msgstr ""
 
 #: frontend/src/metabase/tutorial/QueryBuilderTutorial.jsx:144
-msgid ""
-"Let's do it: click on <strong>Add a grouping</strong>, and choose "
-"<strong>Created At: by Week</strong>."
+msgid "Let's do it: click on <strong>Add a grouping</strong>, and choose <strong>Created At: by Week</strong>."
 msgstr ""
 
 #: frontend/src/metabase/tutorial/QueryBuilderTutorial.jsx:152
@@ -6688,8 +6421,7 @@ msgid "Run Your Query."
 msgstr ""
 
 #: frontend/src/metabase/tutorial/QueryBuilderTutorial.jsx:175
-msgid ""
-"You're doing so well! Click <strong>Run query</strong> to get your results!"
+msgid "You're doing so well! Click <strong>Run query</strong> to get your results!"
 msgstr ""
 
 #: frontend/src/metabase/tutorial/QueryBuilderTutorial.jsx:192
@@ -6697,9 +6429,7 @@ msgid "You can view your results as a chart instead of a table."
 msgstr ""
 
 #: frontend/src/metabase/tutorial/QueryBuilderTutorial.jsx:194
-msgid ""
-"Everbody likes charts! Click the <strong>Visualization</strong> dropdown and "
-"select <strong>Line</strong>."
+msgid "Everbody likes charts! Click the <strong>Visualization</strong> dropdown and select <strong>Line</strong>."
 msgstr ""
 
 #: frontend/src/metabase/tutorial/QueryBuilderTutorial.jsx:216
@@ -6727,9 +6457,7 @@ msgid "Save Your Questions"
 msgstr ""
 
 #: frontend/src/metabase/tutorial/QueryBuilderTutorial.jsx:237
-msgid ""
-"By the way, you can save your questions so you can refer to them later. "
-"Saved Questions can also be put into dashboards or Pulses."
+msgid "By the way, you can save your questions so you can refer to them later. Saved Questions can also be put into dashboards or Pulses."
 msgstr ""
 
 #: frontend/src/metabase/tutorial/QueryBuilderTutorial.jsx:241
@@ -6741,9 +6469,7 @@ msgid "Whoops!"
 msgstr ""
 
 #: frontend/src/metabase/tutorial/Tutorial.jsx:249
-msgid ""
-"Sorry, it looks like something went wrong. Please try restarting the "
-"tutorial in a minute."
+msgid "Sorry, it looks like something went wrong. Please try restarting the tutorial in a minute."
 msgstr ""
 
 #: frontend/src/metabase/user/actions.js:34
@@ -7015,9 +6741,7 @@ msgid "No visualization for {0}"
 msgstr ""
 
 #: frontend/src/metabase/visualizations/lib/LineAreaBarRenderer.js:71
-msgid ""
-"\"{0}\" is an unaggregated field: if it has more than one value at a point "
-"on the x-axis, the values will be summed."
+msgid "\"{0}\" is an unaggregated field: if it has more than one value at a point on the x-axis, the values will be summed."
 msgstr ""
 
 #: frontend/src/metabase/visualizations/lib/LineAreaBarRenderer.js:87
@@ -7034,9 +6758,7 @@ msgid "Goal"
 msgstr ""
 
 #: frontend/src/metabase/visualizations/lib/errors.js:9
-msgid ""
-"Doh! The data from your query doesn't fit the chosen display choice. This "
-"visualization requires at least {0} {1} of data."
+msgid "Doh! The data from your query doesn't fit the chosen display choice. This visualization requires at least {0} {1} of data."
 msgstr ""
 
 #: frontend/src/metabase/visualizations/lib/errors.js:9
@@ -7046,9 +6768,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: frontend/src/metabase/visualizations/lib/errors.js:21
-msgid ""
-"No dice. We have {0} data {1} to show and that's not enough for this "
-"visualization."
+msgid "No dice. We have {0} data {1} to show and that's not enough for this visualization."
 msgstr ""
 
 #: frontend/src/metabase/visualizations/lib/errors.js:21
@@ -7058,9 +6778,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: frontend/src/metabase/visualizations/lib/errors.js:33
-msgid ""
-"Bummer. We can't actually do a pin map for this data because we require both "
-"a latitude and longitude column."
+msgid "Bummer. We can't actually do a pin map for this data because we require both a latitude and longitude column."
 msgstr ""
 
 #: frontend/src/metabase/visualizations/lib/errors.js:42
@@ -7521,9 +7239,7 @@ msgid "Auto binned"
 msgstr ""
 
 #: src/metabase/api/alert.clj
-msgid ""
-"DELETE /api/alert/:id is deprecated. Instead, change its `archived` value "
-"via PUT /api/alert/:id."
+msgid "DELETE /api/alert/:id is deprecated. Instead, change its `archived` value via PUT /api/alert/:id."
 msgstr ""
 
 #: src/metabase/api/automagic_dashboards.clj
@@ -7547,9 +7263,7 @@ msgid "Invalid entity type"
 msgstr ""
 
 #: src/metabase/api/automagic_dashboards.clj
-msgid ""
-"Invalid comparison entity type. Can only be one of \"table\", \"segment\", "
-"or \"adhoc\""
+msgid "Invalid comparison entity type. Can only be one of \"table\", \"segment\", or \"adhoc\""
 msgstr ""
 
 #: src/metabase/api/card.clj
@@ -7557,9 +7271,7 @@ msgid "Error running query to determine Card result metadata:"
 msgstr ""
 
 #: src/metabase/api/card.clj
-msgid ""
-"DELETE /api/card/:id is deprecated. Instead, change its `archived` value via "
-"PUT /api/card/:id."
+msgid "DELETE /api/card/:id is deprecated. Instead, change its `archived` value via PUT /api/card/:id."
 msgstr ""
 
 #: src/metabase/api/common.clj src/metabase/api/common/internal.clj
@@ -7638,9 +7350,7 @@ msgid "Invalid JSON URL or resource: {0}"
 msgstr ""
 
 #: src/metabase/api/geojson.clj
-msgid ""
-"JSON containing information about custom GeoJSON files for use in map "
-"visualizations instead of the default US State or World GeoJSON."
+msgid "JSON containing information about custom GeoJSON files for use in map visualizations instead of the default US State or World GeoJSON."
 msgstr ""
 
 #: src/metabase/api/geojson.clj
@@ -7652,13 +7362,11 @@ msgid "''Some things to know'' text field for the Getting Started guide."
 msgstr ""
 
 #: src/metabase/api/getting_started.clj
-msgid ""
-"Name of somebody users can contact for help in the Getting Started guide."
+msgid "Name of somebody users can contact for help in the Getting Started guide."
 msgstr ""
 
 #: src/metabase/api/getting_started.clj
-msgid ""
-"Email of somebody users can contact for help in the Getting Started guide."
+msgid "Email of somebody users can contact for help in the Getting Started guide."
 msgstr ""
 
 #. ...but if we *still* couldn't find a match, throw an Exception, because we don't want people
@@ -7668,9 +7376,7 @@ msgid "Invalid param: {0}"
 msgstr ""
 
 #: src/metabase/api/pulse.clj
-msgid ""
-"DELETE /api/pulse/:id is deprecated. Instead, change its `archived` value "
-"via PUT /api/pulse/:id."
+msgid "DELETE /api/pulse/:id is deprecated. Instead, change its `archived` value via PUT /api/pulse/:id."
 msgstr ""
 
 #: src/metabase/api/routes.clj
@@ -7686,8 +7392,7 @@ msgid "did not match stored password"
 msgstr ""
 
 #: src/metabase/api/session.clj
-msgid ""
-"Problem connecting to LDAP server, will fallback to local authentication {0}"
+msgid "Problem connecting to LDAP server, will fallback to local authentication {0}"
 msgstr ""
 
 #: src/metabase/api/session.clj
@@ -7695,15 +7400,11 @@ msgid "Invalid reset token"
 msgstr ""
 
 #: src/metabase/api/session.clj
-msgid ""
-"Client ID for Google Auth SSO. If this is set, Google Auth is considered to "
-"be enabled."
+msgid "Client ID for Google Auth SSO. If this is set, Google Auth is considered to be enabled."
 msgstr ""
 
 #: src/metabase/api/session.clj
-msgid ""
-"When set, allow users to sign up on their own if their Google account email "
-"address is from this domain."
+msgid "When set, allow users to sign up on their own if their Google account email address is from this domain."
 msgstr ""
 
 #: src/metabase/api/session.clj
@@ -7715,9 +7416,7 @@ msgid "Email is not verified."
 msgstr ""
 
 #: src/metabase/api/session.clj
-msgid ""
-"You''ll need an administrator to create a Metabase account before you can "
-"use Google to log in."
+msgid "You''ll need an administrator to create a Metabase account before you can use Google to log in."
 msgstr ""
 
 #: src/metabase/api/session.clj
@@ -7741,9 +7440,7 @@ msgid "Set up email"
 msgstr ""
 
 #: src/metabase/api/setup.clj
-msgid ""
-"Add email credentials so you can more easily invite team members and get "
-"updates via Pulses."
+msgid "Add email credentials so you can more easily invite team members and get updates via Pulses."
 msgstr ""
 
 #: src/metabase/api/setup.clj
@@ -7751,9 +7448,7 @@ msgid "Set Slack credentials"
 msgstr ""
 
 #: src/metabase/api/setup.clj
-msgid ""
-"Does your team use Slack? If so, you can send automated updates via pulses "
-"and ask questions with MetaBot."
+msgid "Does your team use Slack? If so, you can send automated updates via pulses and ask questions with MetaBot."
 msgstr ""
 
 #: src/metabase/api/setup.clj
@@ -7781,9 +7476,7 @@ msgid "Organize questions"
 msgstr ""
 
 #: src/metabase/api/setup.clj
-msgid ""
-"Have a lot of saved questions in {0}? Create collections to help manage them "
-"and add context."
+msgid "Have a lot of saved questions in {0}? Create collections to help manage them and add context."
 msgstr ""
 
 #: src/metabase/api/setup.clj
@@ -7795,9 +7488,7 @@ msgid "Create metrics"
 msgstr ""
 
 #: src/metabase/api/setup.clj
-msgid ""
-"Define canonical metrics to make it easier for the rest of your team to get "
-"the right answers."
+msgid "Define canonical metrics to make it easier for the rest of your team to get the right answers."
 msgstr ""
 
 #: src/metabase/api/setup.clj
@@ -7805,9 +7496,7 @@ msgid "Create segments"
 msgstr ""
 
 #: src/metabase/api/setup.clj
-msgid ""
-"Keep everyone on the same page by creating canonical sets of filters anyone "
-"can use while asking questions."
+msgid "Keep everyone on the same page by creating canonical sets of filters anyone can use while asking questions."
 msgstr ""
 
 #: src/metabase/api/table.clj
@@ -8182,9 +7871,7 @@ msgstr ""
 
 #. startup database.  validates connection & runs any necessary migrations
 #: src/metabase/core.clj
-msgid ""
-"Setting up and migrating Metabase DB. Please sit tight, this may take a "
-"minute..."
+msgid "Setting up and migrating Metabase DB. Please sit tight, this may take a minute..."
 msgstr ""
 
 #: src/metabase/core.clj
@@ -8216,9 +7903,7 @@ msgid "Database has migration lock; cannot run migrations."
 msgstr ""
 
 #: src/metabase/db.clj
-msgid ""
-"You can force-release these locks by running `java -jar metabase.jar migrate "
-"release-locks`."
+msgid "You can force-release these locks by running `java -jar metabase.jar migrate release-locks`."
 msgstr ""
 
 #: src/metabase/db.clj
@@ -8226,8 +7911,7 @@ msgid "Checking if Database has unrun migrations..."
 msgstr ""
 
 #: src/metabase/db.clj
-msgid ""
-"Database has unrun migrations. Waiting for migration lock to be cleared..."
+msgid "Database has unrun migrations. Waiting for migration lock to be cleared..."
 msgstr ""
 
 #: src/metabase/db.clj
@@ -8235,9 +7919,7 @@ msgid "Migration lock is cleared. Running migrations..."
 msgstr ""
 
 #: src/metabase/db.clj
-msgid ""
-"Migration lock cleared, but nothing to do here! Migrations were finished by "
-"another instance."
+msgid "Migration lock cleared, but nothing to do here! Migrations were finished by another instance."
 msgstr ""
 
 #. Set up liquibase and let it do its thing
@@ -8315,9 +7997,7 @@ msgstr ""
 
 #. ## CONFIG
 #: src/metabase/driver.clj
-msgid ""
-"Connection timezone to use when executing queries. Defaults to system "
-"timezone."
+msgid "Connection timezone to use when executing queries. Defaults to system timezone."
 msgstr ""
 
 #: src/metabase/driver.clj
@@ -8334,9 +8014,7 @@ msgstr ""
 
 #. all-NULL columns in DBs like Mongo w/o explicit types
 #: src/metabase/driver.clj
-msgid ""
-"Don''t know how to map class ''{0}'' to a Field base_type, falling back to :"
-"type/*."
+msgid "Don''t know how to map class ''{0}'' to a Field base_type, falling back to :type/*."
 msgstr ""
 
 #: src/metabase/driver.clj
@@ -8356,21 +8034,15 @@ msgid "Failed to set timezone:"
 msgstr ""
 
 #: src/metabase/driver/googleanalytics.clj
-msgid ""
-"You must enable the Google Analytics API. Use this link to go to the Google "
-"Developers Console: {0}"
+msgid "You must enable the Google Analytics API. Use this link to go to the Google Developers Console: {0}"
 msgstr ""
 
 #: src/metabase/driver/h2.clj
-msgid ""
-"Running SQL queries against H2 databases using the default (admin) database "
-"user is forbidden."
+msgid "Running SQL queries against H2 databases using the default (admin) database user is forbidden."
 msgstr ""
 
 #: src/metabase/driver/sparksql.clj
-msgid ""
-"Error: metabase.driver.FixedHiveDriver is registered, but JDBC does not seem "
-"to be using it."
+msgid "Error: metabase.driver.FixedHiveDriver is registered, but JDBC does not seem to be using it."
 msgstr ""
 
 #: src/metabase/driver/sparksql.clj
@@ -8440,9 +8112,7 @@ msgid "Use SSL, TLS or plain text."
 msgstr ""
 
 #: src/metabase/integrations/ldap.clj
-msgid ""
-"The Distinguished Name to bind as (if any), this user will be used to lookup "
-"information about other users."
+msgid "The Distinguished Name to bind as (if any), this user will be used to lookup information about other users."
 msgstr ""
 
 #: src/metabase/integrations/ldap.clj
@@ -8454,15 +8124,11 @@ msgid "Search base for users. (Will be searched recursively)"
 msgstr ""
 
 #: src/metabase/integrations/ldap.clj
-msgid ""
-"User lookup filter, the placeholder '{login}' will be replaced by the user "
-"supplied login."
+msgid "User lookup filter, the placeholder '{login}' will be replaced by the user supplied login."
 msgstr ""
 
 #: src/metabase/integrations/ldap.clj
-msgid ""
-"Attribute to use for the user's email. (usually ''mail'', ''email'' or "
-"''userPrincipalName'')"
+msgid "Attribute to use for the user's email. (usually ''mail'', ''email'' or ''userPrincipalName'')"
 msgstr ""
 
 #: src/metabase/integrations/ldap.clj
@@ -8478,9 +8144,7 @@ msgid "Enable group membership synchronization with LDAP."
 msgstr ""
 
 #: src/metabase/integrations/ldap.clj
-msgid ""
-"Search base for groups, not required if your LDAP directory provides a "
-"''memberOf'' overlay. (Will be searched recursively)"
+msgid "Search base for groups, not required if your LDAP directory provides a ''memberOf'' overlay. (Will be searched recursively)"
 msgstr ""
 
 #. Should be in the form: {"cn=Some Group,dc=...": [1, 2, 3]} where keys are LDAP groups and values are lists of MB groups IDs
@@ -8490,14 +8154,11 @@ msgstr ""
 
 #. Define a setting which captures our Slack api token
 #: src/metabase/integrations/slack.clj
-msgid ""
-"Slack API bearer token obtained from https://api.slack.com/web#authentication"
+msgid "Slack API bearer token obtained from https://api.slack.com/web#authentication"
 msgstr ""
 
 #: src/metabase/metabot.clj
-msgid ""
-"Enable MetaBot, which lets you search for and view your saved questions "
-"directly via Slack."
+msgid "Enable MetaBot, which lets you search for and view your saved questions directly via Slack."
 msgstr ""
 
 #: src/metabase/metabot.clj
@@ -8525,9 +8186,7 @@ msgid "Here''s your {0} most recent cards:n{1}"
 msgstr ""
 
 #: src/metabase/metabot.clj
-msgid ""
-"Could you be a little more specific? I found these cards with names that "
-"matched:n{0}"
+msgid "Could you be a little more specific? I found these cards with names that matched:n{0}"
 msgstr ""
 
 #: src/metabase/metabot.clj
@@ -8535,9 +8194,7 @@ msgid "I don''t know what Card `{0}` is. Give me a Card ID or name."
 msgstr ""
 
 #: src/metabase/metabot.clj
-msgid ""
-"Show which card? Give me a part of a card name or its ID and I can show it "
-"to you. If you don''t know which card you want, try `metabot list`."
+msgid "Show which card? Give me a part of a card name or its ID and I can show it to you. If you don''t know which card you want, try `metabot list`."
 msgstr ""
 
 #: src/metabase/metabot.clj
@@ -8614,9 +8271,7 @@ msgid "Card {0} does not exist."
 msgstr ""
 
 #: src/metabase/models/card.clj
-msgid ""
-"You do not have permissions to run ad-hoc native queries against Database "
-"{0}."
+msgid "You do not have permissions to run ad-hoc native queries against Database {0}."
 msgstr ""
 
 #: src/metabase/models/collection.clj
@@ -8660,8 +8315,7 @@ msgid "You cannot move the Root Collection."
 msgstr ""
 
 #: src/metabase/models/collection.clj
-msgid ""
-"You cannot move a Collection into itself or into one of its descendants."
+msgid "You cannot move a Collection into itself or into one of its descendants."
 msgstr ""
 
 #. first move this Collection
@@ -8698,9 +8352,7 @@ msgid "You cannot update a CollectionRevision!"
 msgstr ""
 
 #: src/metabase/models/field_values.clj
-msgid ""
-"Field {0} was previously automatically set to show a list widget, but now "
-"has {1} values."
+msgid "Field {0} was previously automatically set to show a list widget, but now has {1} values."
 msgstr ""
 
 #: src/metabase/models/field_values.clj
@@ -8716,16 +8368,11 @@ msgid "Storing FieldValues for Field {0}..."
 msgstr ""
 
 #: src/metabase/models/humanization.clj
-msgid ""
-"Metabase can attempt to transform your table and field names into more "
-"sensible, human-readable versions, e.g. \"somehorriblename\" becomes \"Some "
-"Horrible Name\"."
+msgid "Metabase can attempt to transform your table and field names into more sensible, human-readable versions, e.g. \"somehorriblename\" becomes \"Some Horrible Name\"."
 msgstr ""
 
 #: src/metabase/models/humanization.clj
-msgid ""
-"This doesn’t work all that well if the names are in a language other than "
-"English, however."
+msgid "This doesn’t work all that well if the names are in a language other than English, however."
 msgstr ""
 
 #: src/metabase/models/humanization.clj
@@ -8749,13 +8396,11 @@ msgid "Delete it and create a new one."
 msgstr ""
 
 #: src/metabase/models/permissions.clj
-msgid ""
-"You cannot edit permissions for a Personal Collection or its descendants."
+msgid "You cannot edit permissions for a Personal Collection or its descendants."
 msgstr ""
 
 #: src/metabase/models/permissions.clj
-msgid ""
-"Looks like someone else edited the permissions and your data is out of date."
+msgid "Looks like someone else edited the permissions and your data is out of date."
 msgstr ""
 
 #: src/metabase/models/permissions.clj
@@ -8837,8 +8482,7 @@ msgid "Checking whether settings cache is out of date (requires DB call)..."
 msgstr ""
 
 #: src/metabase/models/setting.clj
-msgid ""
-"Settings have been changed on another instance, and will be reloaded here."
+msgid "Settings have been changed on another instance, and will be reloaded here."
 msgstr ""
 
 #: src/metabase/models/setting.clj
@@ -8846,15 +8490,11 @@ msgid "Refreshing Settings cache..."
 msgstr ""
 
 #: src/metabase/models/setting.clj
-msgid ""
-"Invalid value for string: must be either \"true\" or \"false\" (case-"
-"insensitive)."
+msgid "Invalid value for string: must be either \"true\" or \"false\" (case-insensitive)."
 msgstr ""
 
 #: src/metabase/models/setting.clj
-msgid ""
-"You cannot update `settings-last-updated` yourself! This is done "
-"automatically."
+msgid "You cannot update `settings-last-updated` yourself! This is done automatically."
 msgstr ""
 
 #: src/metabase/models/setting.clj
@@ -8878,31 +8518,23 @@ msgid "Loading plugin {0}... "
 msgstr ""
 
 #: src/metabase/plugins.clj
-msgid ""
-"It looks like you have some external dependencies in your Metabase plugins "
-"directory."
+msgid "It looks like you have some external dependencies in your Metabase plugins directory."
 msgstr ""
 
 #: src/metabase/plugins.clj
-msgid ""
-"With Java 9 or higher, Metabase cannot automatically add them to your "
-"classpath."
+msgid "With Java 9 or higher, Metabase cannot automatically add them to your classpath."
 msgstr ""
 
 #: src/metabase/plugins.clj
-msgid ""
-"Instead, you should include them at launch with the -cp option. For example:"
+msgid "Instead, you should include them at launch with the -cp option. For example:"
 msgstr ""
 
 #: src/metabase/plugins.clj
-msgid ""
-"See https://metabase.com/docs/latest/operations-guide/start.html#java-"
-"versions for more details."
+msgid "See https://metabase.com/docs/latest/operations-guide/start.html#java-versions for more details."
 msgstr ""
 
 #: src/metabase/plugins.clj
-msgid ""
-"(If you're already running Metabase this way, you can ignore this message.)"
+msgid "(If you're already running Metabase this way, you can ignore this message.)"
 msgstr ""
 
 #: src/metabase/public_settings.clj
@@ -8918,9 +8550,7 @@ msgid "The name used for this instance of Metabase."
 msgstr ""
 
 #: src/metabase/public_settings.clj
-msgid ""
-"The base URL of this Metabase instance, e.g. \"http://metabase.my-company.com"
-"\"."
+msgid "The base URL of this Metabase instance, e.g. \"http://metabase.my-company.com\"."
 msgstr ""
 
 #: src/metabase/public_settings.clj
@@ -8928,38 +8558,27 @@ msgid "The default language for this Metabase instance."
 msgstr ""
 
 #: src/metabase/public_settings.clj
-msgid ""
-"This only applies to emails, Pulses, etc. Users'' browsers will specify the "
-"language used in the user interface."
+msgid "This only applies to emails, Pulses, etc. Users'' browsers will specify the language used in the user interface."
 msgstr ""
 
 #: src/metabase/public_settings.clj
-msgid ""
-"The email address users should be referred to if they encounter a problem."
+msgid "The email address users should be referred to if they encounter a problem."
 msgstr ""
 
 #: src/metabase/public_settings.clj
-msgid ""
-"Enable the collection of anonymous usage data in order to help Metabase "
-"improve."
+msgid "Enable the collection of anonymous usage data in order to help Metabase improve."
 msgstr ""
 
 #: src/metabase/public_settings.clj
-msgid ""
-"The map tile server URL template used in map visualizations, for example "
-"from OpenStreetMaps or MapBox."
+msgid "The map tile server URL template used in map visualizations, for example from OpenStreetMaps or MapBox."
 msgstr ""
 
 #: src/metabase/public_settings.clj
-msgid ""
-"Enable admins to create publicly viewable links (and embeddable iframes) for "
-"Questions and Dashboards?"
+msgid "Enable admins to create publicly viewable links (and embeddable iframes) for Questions and Dashboards?"
 msgstr ""
 
 #: src/metabase/public_settings.clj
-msgid ""
-"Allow admins to securely embed questions and dashboards within other "
-"applications?"
+msgid "Allow admins to securely embed questions and dashboards within other applications?"
 msgstr ""
 
 #: src/metabase/public_settings.clj
@@ -8967,9 +8586,7 @@ msgid "Allow using a saved question as the source for other queries?"
 msgstr ""
 
 #: src/metabase/public_settings.clj
-msgid ""
-"Enabling caching will save the results of queries that take a long time to "
-"run."
+msgid "Enabling caching will save the results of queries that take a long time to run."
 msgstr ""
 
 #: src/metabase/public_settings.clj
@@ -8981,35 +8598,23 @@ msgid "The absolute maximum time to keep any cached query results, in seconds."
 msgstr ""
 
 #: src/metabase/public_settings.clj
-msgid ""
-"Metabase will cache all saved questions with an average query execution time "
-"longer than this many seconds:"
+msgid "Metabase will cache all saved questions with an average query execution time longer than this many seconds:"
 msgstr ""
 
 #: src/metabase/public_settings.clj
-msgid ""
-"To determine how long each saved question''s cached result should stick "
-"around, we take the query''s average execution time and multiply that by "
-"whatever you input here."
+msgid "To determine how long each saved question''s cached result should stick around, we take the query''s average execution time and multiply that by whatever you input here."
 msgstr ""
 
 #: src/metabase/public_settings.clj
-msgid ""
-"So if a query takes on average 2 minutes to run, and you input 10 for your "
-"multiplier, its cache entry will persist for 20 minutes."
+msgid "So if a query takes on average 2 minutes to run, and you input 10 for your multiplier, its cache entry will persist for 20 minutes."
 msgstr ""
 
 #: src/metabase/public_settings.clj
-msgid ""
-"When using the default binning strategy and a number of bins is not "
-"provided, this number will be used as the default."
+msgid "When using the default binning strategy and a number of bins is not provided, this number will be used as the default."
 msgstr ""
 
 #: src/metabase/public_settings.clj
-msgid ""
-"When using the default binning strategy for a field of type Coordinate (such "
-"as Latitude and Longitude), this number will be used as the default bin "
-"width (in degrees)."
+msgid "When using the default binning strategy for a field of type Coordinate (such as Latitude and Longitude), this number will be used as the default bin width (in degrees)."
 msgstr ""
 
 #: src/metabase/public_settings/metastore.clj
@@ -9109,8 +8714,7 @@ msgid "You do not have permissions to run this query."
 msgstr ""
 
 #: src/metabase/sync/analyze.clj
-msgid ""
-"Fingerprint updates attempted {0}, updated {1}, no data found {2}, failed {3}"
+msgid "Fingerprint updates attempted {0}, updated {1}, no data found {2}, failed {3}"
 msgstr ""
 
 #: src/metabase/sync/analyze.clj
@@ -9142,9 +8746,7 @@ msgid "Found timezone id {0}"
 msgstr ""
 
 #: src/metabase/sync/sync_metadata.clj
-msgid ""
-"Total number of foreign keys sync''d {0}, {1} updated and {2} tables failed "
-"to update"
+msgid "Total number of foreign keys sync''d {0}, {1} updated and {2} tables failed to update"
 msgstr ""
 
 #: src/metabase/sync/util.clj
@@ -9223,9 +8825,7 @@ msgid "Configure a report timezone to ensure proper date and time conversions."
 msgstr ""
 
 #: src/metabase/util/embed.clj
-msgid ""
-"Secret key used to sign JSON Web Tokens for requests to `/api/embed` "
-"endpoints."
+msgid "Secret key used to sign JSON Web Tokens for requests to `/api/embed` endpoints."
 msgstr ""
 
 #: src/metabase/util/encryption.clj
@@ -9245,9 +8845,7 @@ msgid "nFor more information, see"
 msgstr ""
 
 #: src/metabase/util/encryption.clj
-msgid ""
-"Cannot decrypt encrypted credentials. Have you changed or forgot to set "
-"MB_ENCRYPTION_SECRET_KEY?"
+msgid "Cannot decrypt encrypted credentials. Have you changed or forgot to set MB_ENCRYPTION_SECRET_KEY?"
 msgstr ""
 
 #: src/metabase/util/schema.clj

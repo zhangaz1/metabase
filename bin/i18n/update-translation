@@ -16,7 +16,7 @@ if [ $# -lt 1 ]; then
 fi
 
 if [ -f "$PO_NAME" ]; then
-  exec msgmerge -U "$PO_NAME" "$POT_NAME"
+  exec msgmerge --no-wrap -U "$PO_NAME" "$POT_NAME"
 else
   exec msginit -i "$POT_NAME" -o "$PO_NAME" -l "$1"
 fi

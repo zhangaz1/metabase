@@ -56,4 +56,4 @@ sed -i".bak" 's/charset=CHARSET/charset=UTF-8/' "$POT_BACKEND_NAME"
 rm "$POT_BACKEND_NAME.bak"
 
 # merge frontend and backend pots
-msgcat "$POT_FRONTEND_NAME" "$POT_BACKEND_NAME" > "$POT_NAME"
+msgcat --no-wrap "$POT_FRONTEND_NAME" "$POT_BACKEND_NAME" > "$POT_NAME"
