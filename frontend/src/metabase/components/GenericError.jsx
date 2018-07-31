@@ -11,7 +11,12 @@ const GenericError = ({
   message = t`We've run into an error. You can try refreshing the page, or just go back.`,
   details = null,
 }) => (
-  <Flex align="center" justify="center" className="full-height">
+  <Flex
+    align="center"
+    direction="column"
+    justify="center"
+    className="full-height"
+  >
     <ErrorMessage type="serverError" title={title} message={message} />
     <ErrorDetails className="pt2" details={details} centered />
   </Flex>
