@@ -3,8 +3,10 @@ import { connect } from "react-redux";
 
 import PermissionsEditor from "../components/PermissionsEditor.jsx";
 import PermissionsApp from "./PermissionsApp.jsx";
+import fitViewport from "metabase/hoc/FitViewPort";
 
 import { CollectionsApi } from "metabase/services";
+import Collections from "metabase/entities/collections";
 
 import {
   getCollectionsPermissionsGrid,
@@ -12,11 +14,7 @@ import {
   getSaveError,
   getDiff,
 } from "../selectors";
-import {
-  updatePermission,
-  savePermissions,
-  loadCollections,
-} from "../permissions";
+import { updatePermission, savePermissions } from "../permissions";
 import { goBack, push } from "react-router-redux";
 
 const mapStateToProps = (state, props) => {
@@ -25,6 +23,7 @@ const mapStateToProps = (state, props) => {
     isDirty: getIsDirty(state, props),
     saveError: getSaveError(state, props),
     diff: getDiff(state, props),
+    tab: "collections",
   };
 };
 
@@ -32,11 +31,16 @@ const mapDispatchToProps = {
   onUpdatePermission: updatePermission,
   onSave: savePermissions,
   onCancel: () => (window.history.length > 1 ? goBack() : push("/questions")),
+  onChangeTab: tab => push(`/admin/permissions/${tab}`),
 };
 
 const Editor = connect(mapStateToProps, mapDispatchToProps)(PermissionsEditor);
 
-@connect(null, { loadCollections })
+@connect(null, {
+  loadCollections: Collections.actions.fetchList,
+  push,
+})
+@fitViewport
 export default class CollectionsPermissionsApp extends Component {
   componentWillMount() {
     this.props.loadCollections();
@@ -47,8 +51,13 @@ export default class CollectionsPermissionsApp extends Component {
         {...this.props}
         load={CollectionsApi.graph}
         save={CollectionsApi.updateGraph}
+        fitClassNames={this.props.fitClassNames + " flex-column"}
       >
-        <Editor {...this.props} modal confirmCancel={false} />
+        <Editor
+          {...this.props}
+          collectionId={this.props.params.collectionId}
+          confirmCancel={false}
+        />
       </PermissionsApp>
     );
   }

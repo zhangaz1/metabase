@@ -2,7 +2,10 @@
   (:require [clojure.walk :as walk]
             [expectations :refer :all]
             [hiccup.core :refer [html]]
-            [metabase.pulse.render :as render :refer :all])
+            [metabase.pulse
+             [color :as color]
+             [render :as render :refer :all]]
+            [metabase.query-processor.util :as qputil])
   (:import java.util.TimeZone))
 
 (def ^:private pacific-tz (TimeZone/getTimeZone "America/Los_Angeles"))
@@ -51,7 +54,28 @@
     [(first results)
      (col-counts results)]))
 
+(def ^:private description-col {:name         "desc_col"
+                                :display_name "Description Column"
+                                :base_type    :type/Text
+                                :special_type :type/Description
+                                :visibility_type :normal})
+(def ^:private detail-col      {:name            "detail_col"
+                                :display_name    "Details Column"
+                                :base_type       :type/Text
+                                :special_type    nil
+                                :visibility_type :details-only})
 
+(def ^:private sensitive-col   {:name            "sensitive_col"
+                                :display_name    "Sensitive Column"
+                                :base_type       :type/Text
+                                :special_type    nil
+                                :visibility_type :sensitive})
+
+(def ^:private retired-col     {:name            "retired_col"
+                                :display_name    "Retired Column"
+                                :base_type       :type/Text
+                                :special_type    nil
+                                :visibility_type :retired})
 
 ;; Testing the format of headers
 (expect
@@ -60,41 +84,25 @@
 
 (expect
   default-header-result
-  (let [cols-with-desc (conj test-columns {:name         "desc_col"
-                                                   :display_name "Description Column"
-                                                   :base_type    :type/Text
-                                                   :special_type :type/Description
-                                                   :visibility_type :normal})
+  (let [cols-with-desc (conj test-columns description-col)
         data-with-desc (mapv #(conj % "Desc") test-data)]
     (prep-for-html-rendering' cols-with-desc data-with-desc nil nil)))
 
 (expect
   default-header-result
-  (let [cols-with-details (conj test-columns {:name            "detail_col"
-                                              :display_name    "Details Column"
-                                              :base_type       :type/Text
-                                              :special_type    nil
-                                              :visibility_type :details-only})
+  (let [cols-with-details (conj test-columns detail-col)
         data-with-details (mapv #(conj % "Details") test-data)]
     (prep-for-html-rendering' cols-with-details data-with-details nil nil)))
 
 (expect
   default-header-result
-  (let [cols-with-sensitive (conj test-columns {:name            "sensitive_col"
-                                                :display_name    "Sensitive Column"
-                                                :base_type       :type/Text
-                                                :special_type    nil
-                                                :visibility_type :sensitive})
+  (let [cols-with-sensitive (conj test-columns sensitive-col)
         data-with-sensitive (mapv #(conj % "Sensitive") test-data)]
     (prep-for-html-rendering' cols-with-sensitive data-with-sensitive nil nil)))
 
 (expect
   default-header-result
-  (let [columns-with-retired (conj test-columns {:name            "retired_col"
-                                                 :display_name    "Retired Column"
-                                                 :base_type       :type/Text
-                                                 :special_type    nil
-                                                 :visibility_type :retired})
+  (let [columns-with-retired (conj test-columns retired-col)
         data-with-retired    (mapv #(conj % "Retired") test-data)]
     (prep-for-html-rendering' columns-with-retired data-with-retired nil nil)))
 
@@ -274,3 +282,74 @@
     [:strong :style-map "11"]
     " columns."]]
   (render-truncation-warning' 10 11 20 21))
+
+(expect
+  4
+  (count-displayed-columns test-columns))
+
+(expect
+  4
+  (count-displayed-columns
+   (concat test-columns [description-col detail-col sensitive-col retired-col])))
+
+(defn- find-table-body
+  "Given the hiccup data structure, find the table body and return it"
+  [results]
+  (qputil/postwalk-collect (every-pred vector? #(= :tbody (first %)))
+                           ;; The Hiccup form is [:tbody (...rows...)], so grab the second item
+                           second
+                           results))
+
+(defn- style-map->background-color
+  "Finds the background color in the style string of a Hiccup style map"
+  [{:keys [style]}]
+  (let [[_ color-str] (re-find #".*background-color: ([^;]*);" style)]
+    color-str))
+
+(defn- cell-value->background-color
+  "Returns a map of cell values to background colors of the pulse table found in the hiccup `results` data
+  structure. This only includes the data cell values, not the header values."
+  [results]
+  (into {} (qputil/postwalk-collect (every-pred vector? #(= :td (first %)))
+                                    (fn [[_ style-map cell-value]]
+                                      [cell-value (style-map->background-color style-map)])
+                                    results)))
+
+(defn- query-results->header+rows
+  "Makes pulse header and data rows with no bar-width. Including bar-width just adds extra HTML that will be ignored."
+  [{:keys [cols rows]}]
+  (for [row-values (cons (map :name cols) rows)]
+    {:row row-values
+     :bar-width nil}))
+
+;; Smoke test for background color selection. Background color decided by some shared javascript code. It's being
+;; invoked and included in the cell color of the pulse table. This is somewhat fragile code as the only way to find
+;; that style information is to crawl the clojure-ized HTML datastructure and pick apart the style string associated
+;; with the cell value. The script right now is hard coded to always return #ff0000. Once the real script is in place,
+;; we should find some similar basic values that can rely on. The goal isn't to test out the javascript choosing in
+;; the color (that should be done in javascript) but to verify that the pieces are all connecting correctly
+(expect
+   {"1" "",                     "2" "",                     "3" "rgba(0, 255, 0, 0.75)"
+    "4" "",                     "5" "",                     "6" "rgba(0, 128, 128, 0.75)"
+    "7" "rgba(255, 0, 0, 0.65)" "8" "rgba(255, 0, 0, 0.2)"  "9" "rgba(0, 0, 255, 0.75)"}
+  (let [viz-settings  {"table.column_formatting" [{:columns       ["a"]
+                                                   :type          :single
+                                                   :operator      ">"
+                                                   :value         5
+                                                   :color         "#ff0000"
+                                                   :highlight_row true}
+                                                  {:columns       ["c"]
+                                                   :type          "range"
+                                                   :min_type      "custom"
+                                                   :min_value     3
+                                                   :max_type      "custom"
+                                                   :max_value     9
+                                                   :colors        ["#00ff00" "#0000ff"]}]}
+        query-results {:cols [{:name "a"} {:name "b"} {:name "c"}]
+                       :rows [[1 2 3]
+                              [4 5 6]
+                              [7 8 9]]}]
+    (-> (color/make-color-selector query-results viz-settings)
+        (#'render/render-table ["a" "b" "c"] (query-results->header+rows query-results))
+        find-table-body
+        cell-value->background-color)))

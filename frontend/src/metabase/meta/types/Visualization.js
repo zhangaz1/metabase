@@ -51,10 +51,6 @@ export type ClickAction = {
 export type ClickActionProps = {
   question: Question,
   clicked?: ClickObject,
-  settings: {
-    enable_xrays: boolean,
-    xray_max_cost: string,
-  },
 };
 
 export type OnChangeCardAndRun = ({
@@ -68,8 +64,11 @@ export type ClickActionPopoverProps = {
 };
 
 export type SingleSeries = { card: Card, data: DatasetData };
-export type Series = SingleSeries[] & { _raw: Series };
+export type RawSeries = SingleSeries[];
+export type TransformedSeries = RawSeries & { _raw: Series };
+export type Series = RawSeries | TransformedSeries;
 
+// These are the props provided to the visualization implementations BY the Visualization component
 export type VisualizationProps = {
   series: Series,
   card: Card,
@@ -91,6 +90,7 @@ export type VisualizationProps = {
     yAxisSplit?: number[][],
     warnings?: string[],
   }) => void,
+  onRenderError: (error: ?Error) => void,
 
   hovered: ?HoverObject,
   onHoverChange: (?HoverObject) => void,

@@ -7,12 +7,7 @@
              [driver :as driver]
              [util :as u]]
             [metabase.driver.druid.query-processor :as qp]
-            [metabase.models
-             [database :refer [Database]]
-             [field :as field]
-             [table :as table]]
-            [metabase.util.ssh :as ssh]
-            [toucan.db :as db]))
+            [metabase.util.ssh :as ssh]))
 
 ;;; ### Request helper fns
 
@@ -63,7 +58,10 @@
       (catch Throwable e
         ;; try to extract the error
         (let [message (or (u/ignore-exceptions
-                            (:error (json/parse-string (:body (:object (ex-data e))) keyword)))
+                            (when-let [body (json/parse-string (:body (:object (ex-data e))) keyword)]
+                              (str (:error body) "\n"
+                                   (:errorMessage body) "\n"
+                                   "Error class:" (:errorClass body))))
                           (.getMessage e))]
           (log/error (u/format-color 'red "Error running query:\n%s" message))
           ;; Re-throw a new exception with `message` set to the extracted message
@@ -142,6 +140,7 @@
 ;;; ### DruidrDriver Class Definition
 
 (defrecord DruidDriver []
+  :load-ns true
   clojure.lang.Named
   (getName [_] "Druid"))
 

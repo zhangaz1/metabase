@@ -2,14 +2,28 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import cx from "classnames";
 import { t } from "c-3po";
+import { Box, Flex } from "grid-styled";
+import styled from "styled-components";
+import { space, width } from "styled-system";
+import colors from "metabase/lib/colors";
+import color from "color";
 
 import { connect } from "react-redux";
 import { push } from "react-router-redux";
-import { Link } from "react-router";
 
-import Icon from "metabase/components/Icon.jsx";
-import LogoIcon from "metabase/components/LogoIcon.jsx";
 import * as Urls from "metabase/lib/urls";
+
+import Button from "metabase/components/Button.jsx";
+import Icon, { IconWrapper } from "metabase/components/Icon";
+import Link from "metabase/components/Link";
+import LogoIcon from "metabase/components/LogoIcon.jsx";
+import Tooltip from "metabase/components/Tooltip";
+import EntityMenu from "metabase/components/EntityMenu";
+import OnClickOutsideWrapper from "metabase/components/OnClickOutsideWrapper";
+
+import Modal from "metabase/components/Modal";
+
+import CreateDashboardModal from "metabase/components/CreateDashboardModal";
 
 import ProfileLink from "metabase/nav/components/ProfileLink.jsx";
 
@@ -23,22 +37,6 @@ const mapStateToProps = (state, props) => ({
 
 const mapDispatchToProps = {
   onChangeLocation: push,
-};
-
-const BUTTON_PADDING_STYLES = {
-  navButton: {
-    paddingLeft: "1.0rem",
-    paddingRight: "1.0rem",
-    paddingTop: "0.75rem",
-    paddingBottom: "0.75rem",
-  },
-
-  newQuestion: {
-    paddingLeft: "1.0rem",
-    paddingRight: "1.0rem",
-    paddingTop: "0.75rem",
-    paddingBottom: "0.75rem",
-  },
 };
 
 const AdminNavItem = ({ name, path, currentPath }) => (
@@ -55,23 +53,105 @@ const AdminNavItem = ({ name, path, currentPath }) => (
   </li>
 );
 
-const MainNavLink = ({ to, name, eventName, icon }) => (
-  <Link
-    to={to}
-    data-metabase-event={`NavBar;${eventName}`}
-    style={BUTTON_PADDING_STYLES.navButton}
-    className={
-      "NavItem cursor-pointer flex-full text-white text-bold no-decoration flex align-center px2 transition-background"
+const DefaultSearchColor = color(colors.brand)
+  .lighten(0.07)
+  .string();
+const ActiveSearchColor = color(colors.brand)
+  .lighten(0.1)
+  .string();
+
+const SearchWrapper = Flex.extend`
+  ${width} background-color: ${props =>
+      props.active ? ActiveSearchColor : DefaultSearchColor};
+  border-radius: 6px;
+  align-items: center;
+  color: white;
+  transition: background 300ms ease-in;
+  &:hover {
+    background-color: ${ActiveSearchColor};
+  }
+`;
+
+const SearchInput = styled.input`
+  ${space} ${width} background-color: transparent;
+  border: none;
+  color: white;
+  font-size: 1em;
+  font-weight: 700;
+  &:focus {
+    outline: none;
+  }
+  &::placeholder {
+    color: ${colors["text-white"]};
+  }
+`;
+
+class SearchBar extends React.Component {
+  state = {
+    active: false,
+    searchText: "",
+  };
+
+  componentWillMount() {
+    this._updateSearchTextFromUrl(this.props);
+  }
+  componentWillReceiveProps(nextProps) {
+    if (this.props.location.pathname !== nextProps.location.pathname) {
+      this._updateSearchTextFromUrl(nextProps);
     }
-    activeClassName="NavItem--selected"
-  >
-    <Icon name={icon} className="md-hide" />
-    <span className="hide md-show">{name}</span>
-  </Link>
-);
+  }
+  _updateSearchTextFromUrl(props) {
+    const components = props.location.pathname.split("/");
+    if (components[components.length - 1] === "search") {
+      this.setState({ searchText: props.location.query.q });
+    } else {
+      this.setState({ searchText: "" });
+    }
+  }
+
+  render() {
+    const { active, searchText } = this.state;
+    return (
+      <OnClickOutsideWrapper
+        handleDismissal={() => this.setState({ active: false })}
+      >
+        <SearchWrapper
+          onClick={() => this.setState({ active: true })}
+          active={active}
+        >
+          <Icon name="search" ml={2} />
+          <SearchInput
+            w={1}
+            py={2}
+            pr={2}
+            pl={1}
+            value={searchText}
+            placeholder="Search…"
+            onClick={() => this.setState({ active: true })}
+            onChange={e => this.setState({ searchText: e.target.value })}
+            onKeyPress={e => {
+              if (e.key === "Enter" && (searchText || "").trim().length > 0) {
+                this.props.onChangeLocation({
+                  pathname: "search",
+                  query: { q: searchText },
+                });
+              }
+            }}
+          />
+        </SearchWrapper>
+      </OnClickOutsideWrapper>
+    );
+  }
+}
+
+const MODAL_NEW_DASHBOARD = "MODAL_NEW_DASHBOARD";
 
 @connect(mapStateToProps, mapDispatchToProps)
 export default class Navbar extends Component {
+  state = {
+    modal: null,
+  };
+
   static propTypes = {
     context: PropTypes.string.isRequired,
     path: PropTypes.string.isRequired,
@@ -82,9 +162,27 @@ export default class Navbar extends Component {
     return this.props.path.startsWith(path);
   }
 
+  setModal(modal) {
+    this.setState({ modal });
+    if (this._newPopover) {
+      this._newPopover.close();
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.location !== this.props.location) {
+      this.setState({ modal: null });
+      if (this._newPopover) {
+        this._newPopover.close();
+      }
+    }
+  }
+
   renderAdminNav() {
     return (
-      <nav className={cx("Nav AdminNav sm-py1")}>
+      // NOTE: DO NOT REMOVE `Nav` CLASS FOR NOW, USED BY MODALS, FULLSCREEN DASHBOARD, ETC
+      // TODO: hide nav using state in redux instead?
+      <nav className={"Nav AdminNav sm-py1"}>
         <div className="sm-pl4 flex align-center pr1">
           <div className="NavTitle flex align-center">
             <Icon name={"gear"} className="AdminGear" size={22} />
@@ -93,27 +191,27 @@ export default class Navbar extends Component {
 
           <ul className="sm-ml4 flex flex-full">
             <AdminNavItem
-              name="Settings"
+              name={t`Settings`}
               path="/admin/settings"
               currentPath={this.props.path}
             />
             <AdminNavItem
-              name="People"
+              name={t`People`}
               path="/admin/people"
               currentPath={this.props.path}
             />
             <AdminNavItem
-              name="Data Model"
+              name={t`Data Model`}
               path="/admin/datamodel"
               currentPath={this.props.path}
             />
             <AdminNavItem
-              name="Databases"
+              name={t`Databases`}
               path="/admin/databases"
               currentPath={this.props.path}
             />
             <AdminNavItem
-              name="Permissions"
+              name={t`Permissions`}
               path="/admin/permissions"
               currentPath={this.props.path}
             />
@@ -121,12 +219,15 @@ export default class Navbar extends Component {
 
           <ProfileLink {...this.props} />
         </div>
+        {this.renderModal()}
       </nav>
     );
   }
 
   renderEmptyNav() {
     return (
+      // NOTE: DO NOT REMOVE `Nav` CLASS FOR NOW, USED BY MODALS, FULLSCREEN DASHBOARD, ETC
+      // TODO: hide nav using state in redux instead?
       <nav className="Nav sm-py1 relative">
         <ul className="wrapper flex align-center">
           <li>
@@ -139,80 +240,116 @@ export default class Navbar extends Component {
             </Link>
           </li>
         </ul>
+        {this.renderModal()}
       </nav>
     );
   }
 
   renderMainNav() {
     return (
-      <nav className="Nav relative bg-brand">
-        <ul className="md-pl4 flex align-center md-pr1">
-          <li>
-            <Link
-              to="/"
-              data-metabase-event={"Navbar;Logo"}
-              className="LogoNavItem NavItem cursor-pointer text-white flex align-center transition-background justify-center"
-              activeClassName="NavItem--selected"
-            >
-              <LogoIcon dark={true} />
+      <Flex
+        // NOTE: DO NOT REMOVE `Nav` CLASS FOR NOW, USED BY MODALS, FULLSCREEN DASHBOARD, ETC
+        // TODO: hide nav using state in redux instead?
+        className="Nav relative bg-brand text-white z3"
+        align="center"
+        py={1}
+        pr={2}
+      >
+        <Link
+          to="/"
+          data-metabase-event={"Navbar;Logo"}
+          className="relative cursor-pointer z2 rounded flex justify-center transition-background"
+          p={1}
+          mx={1}
+          hover={{ backgroundColor: DefaultSearchColor }}
+        >
+          <LogoIcon dark />
+        </Link>
+        <Flex
+          className="absolute top left right bottom z1"
+          px={4}
+          align="center"
+        >
+          <Box w={2 / 3}>
+            <SearchBar
+              location={this.props.location}
+              onChangeLocation={this.props.onChangeLocation}
+            />
+          </Box>
+        </Flex>
+        <Flex ml="auto" align="center" className="relative z2">
+          <Link
+            to={Urls.newQuestion()}
+            mx={2}
+            className="hide sm-show"
+            data-metabase-event={`NavBar;New Question`}
+          >
+            <Button medium>{t`Ask a question`}</Button>
+          </Link>
+          <EntityMenu
+            tooltip={t`Create`}
+            className="hide sm-show"
+            triggerIcon="add"
+            items={[
+              {
+                title: t`New dashboard`,
+                icon: `dashboard`,
+                action: () => this.setModal(MODAL_NEW_DASHBOARD),
+                event: `NavBar;New Dashboard Click;`,
+              },
+              {
+                title: t`New pulse`,
+                icon: `pulse`,
+                link: Urls.newPulse(),
+                event: `NavBar;New Pulse Click;`,
+              },
+            ]}
+          />
+          <Tooltip tooltip={t`Reference`}>
+            <Link to="reference" data-metabase-event={`NavBar;Reference`}>
+              <IconWrapper>
+                <Icon name="reference" />
+              </IconWrapper>
             </Link>
-          </li>
-          <li className="md-pl3 hide xs-show">
-            <MainNavLink
-              to="/dashboards"
-              name={t`Dashboards`}
-              eventName="Dashboards"
-              icon="dashboard"
-            />
-          </li>
-          <li className="md-pl1 hide xs-show">
-            <MainNavLink
-              to="/questions"
-              name={t`Questions`}
-              eventName="Questions"
-              icon="all"
-            />
-          </li>
-          <li className="md-pl1 hide xs-show">
-            <MainNavLink
-              to="/pulse"
-              name={t`Pulses`}
-              eventName="Pulses"
-              icon="pulse"
-            />
-          </li>
-          <li className="md-pl1 hide xs-show">
-            <MainNavLink
-              to="/reference/guide"
-              name={t`Data Reference`}
-              eventName="DataReference"
-              icon="reference"
-            />
-          </li>
-          <li className="md-pl3 hide sm-show">
-            <Link
-              to={Urls.newQuestion()}
-              data-metabase-event={"Navbar;New Question"}
-              style={BUTTON_PADDING_STYLES.newQuestion}
-              className="NavNewQuestion rounded inline-block bg-white text-brand text-bold cursor-pointer px2 no-decoration transition-all"
-            >
-              {t`New Question`}
+          </Tooltip>
+          <Tooltip tooltip={t`Activity`}>
+            <Link to="activity" data-metabase-event={`NavBar;Activity`}>
+              <IconWrapper>
+                <Icon name="bell" />
+              </IconWrapper>
             </Link>
-          </li>
-          <li className="flex-align-right transition-background hide sm-show">
-            <div className="inline-block text-white">
-              <ProfileLink {...this.props} />
-            </div>
-          </li>
-        </ul>
-      </nav>
+          </Tooltip>
+          <ProfileLink {...this.props} />
+        </Flex>
+        {this.renderModal()}
+      </Flex>
     );
+  }
+
+  renderModal() {
+    const { modal } = this.state;
+    if (modal) {
+      return (
+        <Modal onClose={() => this.setState({ modal: null })}>
+          {modal === MODAL_NEW_DASHBOARD ? (
+            <CreateDashboardModal
+              createDashboard={this.props.createDashboard}
+              onClose={() => this.setState({ modal: null })}
+            />
+          ) : null}
+        </Modal>
+      );
+    } else {
+      return null;
+    }
   }
 
   render() {
     const { context, user } = this.props;
 
-    if (!user) return null;
+    if (!user) {
+      return null;
+    }
 
     switch (context) {
       case "admin":

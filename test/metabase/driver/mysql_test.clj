@@ -1,5 +1,6 @@
 (ns metabase.driver.mysql-test
-  (:require [expectations :refer :all]
+  (:require [clj-time.core :as t]
+            [expectations :refer :all]
             [metabase
              [sync :as sync]
              [util :as u]]
@@ -15,7 +16,7 @@
              [datasets :refer [expect-with-engine]]
              [interface :refer [def-database-definition]]]
             [metabase.test.util :as tu]
-            [metabase.util :as u]
+            [metabase.util.date :as du]
             [honeysql.core :as hsql]
             [toucan.db :as db]
             [toucan.util.test :as tt])
@@ -73,7 +74,7 @@
 
 ;; if someone says specifies `tinyInt1isBit=false`, it should come back as a number instead
 (expect-with-engine :mysql
-  #{{:name "number-of-cans", :base_type :type/Integer, :special_type :type/Category}
+  #{{:name "number-of-cans", :base_type :type/Integer, :special_type :type/Quantity}
     {:name "id",             :base_type :type/Integer, :special_type :type/PK}
     {:name "thing",          :base_type :type/Text,    :special_type :type/Category}}
   (data/with-temp-db [db tiny-int-ones]
@@ -97,25 +98,34 @@
   (with-redefs [metabase.driver/execute-query (constantly {:rows [["2018-01-08 23:00:00.008 CET"]]})]
     (tu/db-timezone-id)))
 
-(expect (#'mysql/timezone-id->offset-str "US/Pacific")          "-08:00")
-(expect (#'mysql/timezone-id->offset-str "UTC")                 "+00:00")
-(expect (#'mysql/timezone-id->offset-str "America/Los_Angeles") "-08:00")
+
+(def before-daylight-savings (du/str->date-time "2018-03-10 10:00:00" du/utc))
+(def after-daylight-savings (du/str->date-time "2018-03-12 10:00:00" du/utc))
+
+(expect (#'mysql/timezone-id->offset-str "US/Pacific" before-daylight-savings) "-08:00")
+(expect (#'mysql/timezone-id->offset-str "US/Pacific" after-daylight-savings)  "-07:00")
+
+(expect (#'mysql/timezone-id->offset-str "UTC" before-daylight-savings) "+00:00")
+(expect (#'mysql/timezone-id->offset-str "UTC" after-daylight-savings) "+00:00")
+
+(expect (#'mysql/timezone-id->offset-str "America/Los_Angeles" before-daylight-savings) "-08:00")
+(expect (#'mysql/timezone-id->offset-str "America/Los_Angeles" after-daylight-savings) "-07:00")
 
 ;; make sure DateTime types generate appropriate SQL...
 ;; ...with no report-timezone set
 (expect
-  ["?" (u/->Timestamp "2018-01-03")]
+  ["?" (du/->Timestamp #inst "2018-01-03")]
   (tu/with-temporary-setting-values [report-timezone nil]
-    (hsql/format (sqlqp/->honeysql (MySQLDriver.) (u/->Timestamp "2018-01-03")))))
+    (hsql/format (sqlqp/->honeysql (MySQLDriver.) (du/->Timestamp #inst "2018-01-03")))))
 
 ;; ...with a report-timezone set
 (expect
   ["convert_tz('2018-01-03T00:00:00.000', '+00:00', '-08:00')"]
   (tu/with-temporary-setting-values [report-timezone "US/Pacific"]
-    (hsql/format (sqlqp/->honeysql (MySQLDriver.) (u/->Timestamp "2018-01-03")))))
+    (hsql/format (sqlqp/->honeysql (MySQLDriver.) (du/->Timestamp #inst "2018-01-03")))))
 
 ;; ...with a report-timezone set to the same as the system timezone (shouldn't need to do TZ conversion)
 (expect
-  ["?" (u/->Timestamp "2018-01-03")]
+  ["?" (du/->Timestamp #inst "2018-01-03")]
   (tu/with-temporary-setting-values [report-timezone "UTC"]
-    (hsql/format (sqlqp/->honeysql (MySQLDriver.) (u/->Timestamp "2018-01-03")))))
+    (hsql/format (sqlqp/->honeysql (MySQLDriver.) (du/->Timestamp #inst "2018-01-03")))))

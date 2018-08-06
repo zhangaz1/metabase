@@ -8,6 +8,7 @@
              [field-values :as field-values :refer [FieldValues]]
              [table :refer [Table]]]
             [metabase.query-processor :as qp]
+            [metabase.related :as related]
             [metabase.util :as u]
             [metabase.util.schema :as su]
             [schema.core :as s]
@@ -74,7 +75,7 @@
    points_of_interest (s/maybe su/NonBlankString)
    special_type       (s/maybe FieldType)
    visibility_type    (s/maybe FieldVisibilityType)
-   has_field_values   (s/maybe (s/enum "search" "list" "none"))}
+   has_field_values   (s/maybe (apply s/enum (map name field/has-field-values-options)))}
   (let [field              (hydrate (api/write-check Field id) :dimensions)
         new-special-type   (keyword (get body :special_type (:special_type field)))
         removed-fk?        (removed-fk-special-type? (:special_type field) new-special-type)
@@ -163,8 +164,8 @@
     {:values [], :field_id (:id field)}))
 
 (api/defendpoint GET "/:id/values"
-  "If `Field`'s special type derives from `type/Category`, or its base type is `type/Boolean`, return all distinct
-  values of the field, and a map of human-readable values defined by the user."
+  "If a Field's value of `has_field_values` is `list`, return a list of all the distinct values of the Field, and (if
+  defined by a User) a map of human-readable remapped values."
   [id]
   (field->values (api/read-check Field id)))
 
@@ -211,8 +212,8 @@
   {value-pairs [[(s/one s/Num "value") (s/optional su/NonBlankString "human readable value")]]}
   (let [field (api/write-check Field id)]
     (api/check (field-values/field-should-have-field-values? field)
-      [400 (str "You can only update the human readable values of a mapped values of a Field whose 'special_type' "
-                "is 'category'/'city'/'state'/'country' or whose 'base_type' is 'type/Boolean'.")])
+      [400 (str "You can only update the human readable values of a mapped values of a Field whose value of "
+                "`has_field_values` is `list` or whose 'base_type' is 'type/Boolean'.")])
     (if-let [field-value-id (db/select-one-id FieldValues, :field_id id)]
       (update-field-values! field-value-id value-pairs)
       (create-field-values! field value-pairs)))
@@ -259,6 +260,22 @@
     (db/select-one Field :id fk-target-field-id)
     field))
 
+(defn- search-values-query
+  "Generate the MBQL query used to power FieldValues search in `search-values` below. The actual query generated differs
+  slightly based on whether the two Fields are the same Field."
+  [field search-field value limit]
+  {:database (db-id field)
+   :type     :query
+   :query    {:source-table (table-id field)
+              :filter       [:starts-with [:field-id (u/get-id search-field)] value {:case-sensitive false}]
+              ;; if both fields are the same then make sure not to refer to it twice in the `:breakout` clause.
+              ;; Otherwise this will break certain drivers like BigQuery that don't support duplicate
+              ;; identifiers/aliases
+              :breakout     (if (= (u/get-id field) (u/get-id search-field))
+                              [[:field-id (u/get-id field)]]
+                              [[:field-id (u/get-id field)]
+                               [:field-id (u/get-id search-field)]])
+              :limit        limit}})
 
 (s/defn search-values
   "Search for values of `search-field` that start with `value` (up to `limit`, if specified), and return like
@@ -274,17 +291,16 @@
              (48 \"Maryam Douglas\"))"
   [field search-field value & [limit]]
   (let [field   (follow-fks field)
-        results (qp/process-query
-                  {:database (db-id field)
-                   :type     :query
-                   :query    {:source-table (table-id field)
-                              :filter       [:starts-with [:field-id (u/get-id search-field)] value {:case-sensitive false}]
-                              :breakout     [[:field-id (u/get-id field)]]
-                              :fields       [[:field-id (u/get-id field)]
-                                             [:field-id (u/get-id search-field)]]
-                              :limit        limit}})]
-    ;; return rows if they exist
-    (get-in results [:data :rows])))
+        results (qp/process-query (search-values-query field search-field value limit))
+        rows    (get-in results [:data :rows])]
+    ;; if the two Fields are different, we'll get results like [[v1 v2] [v1 v2]]. That is the expected format and we can
+    ;; return them as-is
+    (if-not (= (u/get-id field) (u/get-id search-field))
+      rows
+      ;; However if the Fields are both the same results will be in the format [[v1] [v1]] so we need to double the
+      ;; value to get the format the frontend expects
+      (for [[result] rows]
+        [result result]))))
 
 (api/defendpoint GET "/:id/search/:search-id"
   "Search for values of a Field that match values of another Field when breaking out by the "
@@ -336,5 +352,9 @@
         value          (parse-query-param-value-for-field field value)]
     (remapped-value field remapped-field value)))
 
+(api/defendpoint GET "/:id/related"
+  "Return related entities."
+  [id]
+  (-> id Field api/read-check related/related))
 
 (api/define-routes)

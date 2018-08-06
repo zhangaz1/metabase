@@ -46,12 +46,13 @@ import type {
   HoverObject,
   ClickObject,
   Series,
+  RawSeries,
   OnChangeCardAndRun,
 } from "metabase/meta/types/Visualization";
 import Metadata from "metabase-lib/lib/metadata/Metadata";
 
 type Props = {
-  rawSeries: Series,
+  rawSeries: RawSeries,
 
   className: string,
 
@@ -91,6 +92,8 @@ type Props = {
   gridSize?: { width: number, height: number },
   // if gridSize isn't specified, compute using this gridSize (4x width, 3x height)
   gridUnit?: number,
+
+  classNameWidgets?: string,
 };
 
 type State = {
@@ -130,6 +133,7 @@ export default class Visualization extends Component {
   }
 
   static defaultProps = {
+    className: "full-height",
     showTitle: false,
     isDashboard: false,
     isEditing: false,
@@ -160,6 +164,13 @@ export default class Visualization extends Component {
     ) {
       this.updateWarnings();
     }
+  }
+
+  componentDidCatch(error, info) {
+    console.error("Error caught in <Visualization>", error, info);
+    this.setState({
+      error: new Error("An error occurred displaying this visualization."),
+    });
   }
 
   // $FlowFixMe
@@ -292,7 +303,9 @@ export default class Visualization extends Component {
   };
 
   hideActions = () => {
-    this.setState({ clicked: null });
+    if (this.state.clicked !== null) {
+      this.setState({ clicked: null });
+    }
   };
 
   render() {
@@ -391,7 +404,7 @@ export default class Visualization extends Component {
       </span>
     );
 
-    let { gridSize, gridUnit } = this.props;
+    let { gridSize, gridUnit, classNameWidgets } = this.props;
     if (!gridSize && gridUnit) {
       gridSize = {
         width: Math.round(width / (gridUnit * 4)),
@@ -410,6 +423,7 @@ export default class Visualization extends Component {
         replacementContent ? (
           <div className="p1 flex-no-shrink">
             <LegendHeader
+              classNameWidgets={classNameWidgets}
               series={
                 settings["card.title"]
                   ? // if we have a card title set, use it
@@ -473,7 +487,7 @@ export default class Visualization extends Component {
                   </div>
                 ) : (
                   <div>
-                    {t`This is usually pretty fast, but seems to be taking awhile right now.`}
+                    {t`This is usually pretty fast but seems to be taking awhile right now.`}
                   </div>
                 )}
               </div>

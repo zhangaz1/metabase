@@ -7,7 +7,6 @@
              [driver :as driver]
              [query-processor :as qp]
              [query-processor-test :refer [rows rows+column-names]]
-             [timeseries-query-processor-test :as timeseries-qp-test]
              [util :as u]]
             [metabase.driver.druid :as druid]
             [metabase.models
@@ -15,24 +14,21 @@
              [metric :refer [Metric]]
              [table :refer [Table]]]
             [metabase.query-processor.middleware.expand :as ql]
-            [metabase.query-processor-test.query-cancellation-test :as cancel-test]
             [metabase.test
              [data :as data]
              [util :as tu]]
-            [metabase.test.data
-             [dataset-definitions :as defs]
-             [datasets :as datasets :refer [expect-with-engine]]]
-            [toucan.util.test :as tt])
-  (:import metabase.driver.druid.DruidDriver))
+            [metabase.test.data.datasets :as datasets :refer [expect-with-engine]]
+            [metabase.timeseries-query-processor-test.util :as tqpt]
+            [toucan.util.test :as tt]))
 
 ;;; table-rows-sample
 (datasets/expect-with-engine :druid
   ;; druid returns a timestamp along with the query, but that shouldn't really matter here :D
-  [["1"    "The Misfit Restaurant + Bar" "2014-04-07T07:00:00.000Z"]
-   ["10"   "Dal Rae Restaurant"          "2015-08-22T07:00:00.000Z"]
-   ["100"  "PizzaHacker"                 "2014-07-26T07:00:00.000Z"]
-   ["1000" "Tito's Tacos"                "2014-06-03T07:00:00.000Z"]
-   ["101"  "Golden Road Brewing"         "2015-09-04T07:00:00.000Z"]]
+  [["1"    "The Misfit Restaurant + Bar" #inst "2014-04-07T07:00:00.000Z"]
+   ["10"   "Dal Rae Restaurant"          #inst "2015-08-22T07:00:00.000Z"]
+   ["100"  "PizzaHacker"                 #inst "2014-07-26T07:00:00.000Z"]
+   ["1000" "Tito's Tacos"                #inst "2014-06-03T07:00:00.000Z"]
+   ["101"  "Golden Road Brewing"         #inst "2015-09-04T07:00:00.000Z"]]
   (->> (driver/table-rows-sample (Table (data/id :checkins))
                                  [(Field (data/id :checkins :id))
                                   (Field (data/id :checkins :venue_name))])
@@ -41,11 +37,11 @@
 
 (datasets/expect-with-engine :druid
   ;; druid returns a timestamp along with the query, but that shouldn't really matter here :D
-  [["1"    "The Misfit Restaurant + Bar" "2014-04-07T00:00:00.000-07:00"]
-   ["10"   "Dal Rae Restaurant"          "2015-08-22T00:00:00.000-07:00"]
-   ["100"  "PizzaHacker"                 "2014-07-26T00:00:00.000-07:00"]
-   ["1000" "Tito's Tacos"                "2014-06-03T00:00:00.000-07:00"]
-   ["101"  "Golden Road Brewing"         "2015-09-04T00:00:00.000-07:00"]]
+  [["1"    "The Misfit Restaurant + Bar" #inst "2014-04-07T00:00:00.000-07:00"]
+   ["10"   "Dal Rae Restaurant"          #inst "2015-08-22T00:00:00.000-07:00"]
+   ["100"  "PizzaHacker"                 #inst "2014-07-26T00:00:00.000-07:00"]
+   ["1000" "Tito's Tacos"                #inst "2014-06-03T00:00:00.000-07:00"]
+   ["101"  "Golden Road Brewing"         #inst "2015-09-04T00:00:00.000-07:00"]]
   (tu/with-temporary-setting-values [report-timezone "America/Los_Angeles"]
     (->> (driver/table-rows-sample (Table (data/id :checkins))
                                    [(Field (data/id :checkins :id))
@@ -55,11 +51,11 @@
 
 (datasets/expect-with-engine :druid
   ;; druid returns a timestamp along with the query, but that shouldn't really matter here :D
-  [["1"    "The Misfit Restaurant + Bar" "2014-04-07T02:00:00.000-05:00"]
-   ["10"   "Dal Rae Restaurant"          "2015-08-22T02:00:00.000-05:00"]
-   ["100"  "PizzaHacker"                 "2014-07-26T02:00:00.000-05:00"]
-   ["1000" "Tito's Tacos"                "2014-06-03T02:00:00.000-05:00"]
-   ["101"  "Golden Road Brewing"         "2015-09-04T02:00:00.000-05:00"]]
+  [["1"    "The Misfit Restaurant + Bar" #inst "2014-04-07T02:00:00.000-05:00"]
+   ["10"   "Dal Rae Restaurant"          #inst "2015-08-22T02:00:00.000-05:00"]
+   ["100"  "PizzaHacker"                 #inst "2014-07-26T02:00:00.000-05:00"]
+   ["1000" "Tito's Tacos"                #inst "2014-06-03T02:00:00.000-05:00"]
+   ["101"  "Golden Road Brewing"         #inst "2015-09-04T02:00:00.000-05:00"]]
   (tu/with-jvm-tz (time/time-zone-for-id "America/Chicago")
     (->> (driver/table-rows-sample (Table (data/id :checkins))
                                    [(Field (data/id :checkins :id))
@@ -82,7 +78,7 @@
 
 (defn- process-native-query [query]
   (datasets/with-engine :druid
-    (timeseries-qp-test/with-flattened-dbdef
+    (tqpt/with-flattened-dbdef
       (-> (qp/process-query {:native   {:query query}
                              :type     :native
                              :database (data/id)})
@@ -131,7 +127,7 @@
 ;;; +------------------------------------------------------------------------------------------------------------------------+
 
 (defmacro ^:private druid-query {:style/indent 0} [& body]
-  `(timeseries-qp-test/with-flattened-dbdef
+  `(tqpt/with-flattened-dbdef
      (qp/process-query {:database (data/id)
                         :type     :query
                         :query    (data/query ~'checkins
@@ -308,7 +304,7 @@
   [["2" 1231.0]
    ["3"  346.0]
    ["4" 197.0]]
-  (timeseries-qp-test/with-flattened-dbdef
+  (tqpt/with-flattened-dbdef
     (tt/with-temp Metric [metric {:definition {:aggregation [:sum [:field-id (data/id :checkins :venue_price)]]
                                                :filter      [:> [:field-id (data/id :checkins :venue_price)] 1]}}]
       (rows (qp/process-query
