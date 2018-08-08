@@ -5,6 +5,7 @@ import { assocIn } from "icepick";
 import { createEntity, undo } from "metabase/lib/entities";
 import * as Urls from "metabase/lib/urls";
 import colors from "metabase/lib/colors";
+import MetabaseAnalytics from "metabase/lib/analytics";
 
 import { canonicalCollectionId } from "metabase/entities/collections";
 
@@ -30,12 +31,18 @@ const Questions = createEntity({
         undo(opts, "question", archived ? "archived" : "unarchived"),
       ),
 
-    setCollection: ({ id }, collection, opts) =>
+    setCollection: ({ id }, collection, opts) => {
       Questions.actions.update(
         { id },
         { collection_id: canonicalCollectionId(collection && collection.id) },
         undo(opts, "question", "moved"),
-      ),
+      );
+      MetabaseAnalytics.trackEvent(
+        "Question",
+        "Change Collection",
+        collection.personal_owner_id ? "Personal" : "Shared",
+      );
+    },
 
     setPinned: ({ id }, pinned, opts) =>
       Questions.actions.update(
