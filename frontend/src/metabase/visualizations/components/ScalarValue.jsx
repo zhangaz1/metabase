@@ -28,8 +28,8 @@ const ScalarValue = ({ value, isFullscreen, isDashboard }) => (
 );
 
 export const ScalarTitle = ({ title, description, onClick }) => (
-  <div>
-    <Ellipsified tooltip={title}>
+  <div className="overflow-hidden" style={{ maxWidth: "80%" }}>
+    <Ellipsified tooltip={title} className="overflow-hidden">
       <span
         onClick={onClick}
         className={cx(
