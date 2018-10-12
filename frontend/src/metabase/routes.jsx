@@ -58,6 +58,8 @@ import CreateDashboardModal from "metabase/components/CreateDashboardModal";
 
 import { NotFound, Unauthorized } from "metabase/containers/ErrorPages";
 
+import ModesApp from "metabase/modes/containers/ModesApp";
+
 // Reference Guide
 import GettingStartedGuideContainer from "metabase/reference/guide/GettingStartedGuideContainer.jsx";
 // Reference Metrics
@@ -221,7 +223,7 @@ export const getRoutes = store => (
           <ModalRoute path="move" modal={DashboardMoveModal} />
         </Route>
 
-        <Route path="/question">
+        <Route path="/question" component={ModesApp}>
           <IndexRoute component={QueryBuilder} />
           {/* NEW QUESTION FLOW */}
           <Route path="new" title={t`New Question`}>
@@ -232,8 +234,9 @@ export const getRoutes = store => (
               component={NewQuestionMetricSearch}
             />
           </Route>
+          <Route path="/question/:cardId" component={QueryBuilder} />
         </Route>
-        <Route path="/question/:cardId" component={QueryBuilder} />
+
         <Route path="/question/:cardId/entity" component={EntityPage} />
 
         <Route path="/ready" component={PostSetupApp} />
