@@ -144,6 +144,7 @@ export default class QueryBuilder extends Component {
 
   componentWillMount() {
     this.props.initializeQB(this.props.location, this.props.params);
+    console.log("we be here?");
   }
 
   componentDidMount() {
@@ -238,7 +239,7 @@ class LegacyQueryBuilder extends Component {
     const ModeFooter = mode && mode.ModeFooter;
 
     return (
-      <div className="relative">
+      <div className="absolute top left bottom right">
         <div
           className={cx("QueryBuilder flex flex-column bg-white spread", {
             "QueryBuilder--showSideDrawer": showDrawer,

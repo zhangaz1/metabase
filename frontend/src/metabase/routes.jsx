@@ -234,10 +234,11 @@ export const getRoutes = store => (
               component={NewQuestionMetricSearch}
             />
           </Route>
-          <Route path="/question/:cardId" component={QueryBuilder} />
+          <Route path="/question/:cardId">
+            <IndexRoute component={QueryBuilder} />
+            <Route path="preview" component={EntityPage} />
+          </Route>
         </Route>
-
-        <Route path="/question/:cardId/entity" component={EntityPage} />
 
         <Route path="/ready" component={PostSetupApp} />
 
