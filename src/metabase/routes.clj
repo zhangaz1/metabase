@@ -94,6 +94,7 @@
 (defroutes ^{:doc "Top-level ring routes for Metabase."} routes
   ;; ^/$ -> index.html
   (GET "/" [] index)
+  (GET "/robots.txt" [] (resp/resource-response "robots.txt"))
   (GET "/favicon.ico" [] (resp/resource-response "frontend_client/favicon.ico"))
   ;; ^/api/health -> Health Check Endpoint
   (GET "/api/health" [] (if (init-status/complete?)
