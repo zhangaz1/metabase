@@ -27,7 +27,13 @@ const mapDispatchToProps = {
 @connect(mapStateToProps, mapDispatchToProps)
 class DashboardCopyModal extends React.Component {
   render() {
-    const { onClose, onReplaceLocation, copyDashboard, dashboard, ...props } = this.props;
+    const {
+      onClose,
+      onReplaceLocation,
+      copyDashboard,
+      dashboard,
+      ...props
+    } = this.props;
     return (
       <EntityCopyModal
         entityType="dashboards"
