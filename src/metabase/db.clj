@@ -13,7 +13,8 @@
             [metabase.db.spec :as dbspec]
             [metabase.util.i18n :refer [trs]]
             [ring.util.codec :as codec]
-            [toucan.db :as db])
+            [toucan.db :as db]
+            [clojure.string :as str])
   (:import com.mchange.v2.c3p0.ComboPooledDataSource
            java.io.StringWriter
            java.util.Properties
@@ -21,6 +22,8 @@
            [liquibase.database Database DatabaseFactory]
            liquibase.database.jvm.JdbcConnection
            liquibase.exception.LockException
+           java.net.URI
+           org.apache.http.client.utils.URIBuilder
            liquibase.resource.ClassLoaderResourceAccessor))
 
 ;;; +----------------------------------------------------------------------------------------------------------------+
@@ -30,85 +33,73 @@
 (def db-file
   "Path to our H2 DB file from env var or app config."
   ;; see http://h2database.com/html/features.html for explanation of options
-  (delay (if (config/config-bool :mb-db-in-memory)
-           ;; In-memory (i.e. test) DB
-           "mem:metabase;DB_CLOSE_DELAY=-1"
-           ;; File-based DB
-           (let [db-file-name (config/config-str :mb-db-file)
-                 db-file      (io/file db-file-name)
-                 ;; we need to enable MVCC for Quartz JDBC backend to work! Quartz depends on row-level locking, which
-                 ;; means without MVCC we "will experience dead-locks". MVCC is the default for everyone using the
-                 ;; MVStore engine anyway so this only affects people still with legacy PageStore databases
-                 options      ";DB_CLOSE_DELAY=-1;MVCC=TRUE;"]
-             (apply str "file:" (if (.isAbsolute db-file)
-                                  ;; when an absolute path is given for the db file then don't mess with it
-                                  [db-file-name options]
-                                  ;; if we don't have an absolute path then make sure we start from "user.dir"
-                                  [(System/getProperty "user.dir") "/" db-file-name options]))))))
+  (if (config/config-bool :mb-db-in-memory)
+    ;; In-memory (i.e. test) DB
+    "mem:metabase;DB_CLOSE_DELAY=-1"
+    ;; File-based DB
+    (let [db-file-name (config/config-str :mb-db-file)
+          db-file      (io/file db-file-name)
+          ;; we need to enable MVCC for Quartz JDBC backend to work! Quartz depends on row-level locking, which
+          ;; means without MVCC we "will experience dead-locks". MVCC is the default for everyone using the
+          ;; MVStore engine anyway so this only affects people still with legacy PageStore databases
+          options      ";DB_CLOSE_DELAY=-1;MVCC=TRUE;"]
+      (apply str "file:" (if (.isAbsolute db-file)
+                           ;; when an absolute path is given for the db file then don't mess with it
+                           [db-file-name options]
+                           ;; if we don't have an absolute path then make sure we start from "user.dir"
+                           [(System/getProperty "user.dir") "/" db-file-name options])))))
 
-(def ^:private jdbc-connection-regex
-  #"^(jdbc:)?([^:/@]+)://(?:([^:/@]+)(?::([^:@]+))?@)?([^:@]+)(?::(\d+))?/([^/?]+)(?:\?(.*))?$")
+(defn- connection-string->type [s]
+  (let [[_ _ subprotocol] (re-find #"^(jdbc:)?([^:/@]+)://" s)]
+    (case subprotocol
+      "h2"         :h2
+      "mysql"      :mysql
+      "postgres"   :postgres
+      "postgresql" :postgres)))
 
-(defn- parse-connection-string
-  "Parse a DB connection URI like
-  `postgres://cam@localhost.com:5432/cams_cool_db?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory` and
-  return a broken-out map."
-  [uri]
-  (when-let [[_ _ protocol user pass host port db query] (re-matches jdbc-connection-regex uri)]
-    (merge {:type     (case (keyword protocol)
-                        :postgres   :postgres
-                        :postgresql :postgres
-                        :mysql      :mysql)
-            :user     user
-            :password pass
-            :host     host
-            :port     port
-            :dbname   db}
-           (some-> query
-                   codec/form-decode
-                   walk/keywordize-keys))))
+(defn- add-parameter [connection-string param]
+  (str
+   connection-string
+   (if (str/includes? connection-string "?")
+     \&
+     \?)
+   param))
 
-(def ^:private connection-string-details
-  (delay (when-let [uri (config/config-str :mb-db-connection-uri)]
-           (parse-connection-string uri))))
+(defn- add-params-for-type [s]
+  (case (connection-string->type s)
+    :postgres (add-parameter s "OpenSourceSubProtocolOverride=true")
+    s))
 
-(defn db-type
+(def ^:private jdbc-connection-string
+  "JDBC connection URI if specified with the `MB_DB_CONNECTION_URI` env var."
+  (when-let [s (config/config-str :mb-db-connection-uri)]
+    (add-params-for-type s)))
+
+(def application-db-type
   "The type of backing DB used to run Metabase. `:h2`, `:mysql`, or `:postgres`."
-  ^clojure.lang.Keyword []
-  (or (:type @connection-string-details)
+  (or (when jdbc-connection-string
+        (connection-string->type jdbc-connection-string))
       (config/config-kw :mb-db-type)))
 
-(def db-connection-details
-  "Connection details that can be used when pretending the Metabase DB is itself a `Database` (e.g., to use the Generic
-  SQL driver functions on the Metabase DB itself)."
-  (delay (or @connection-string-details
-             (case (db-type)
-               :h2       {:type     :h2                               ; TODO - we probably don't need to specifc `:type` here since we can just call (db-type)
-                          :db       @db-file}
-               :mysql    {:type     :mysql
-                          :host     (config/config-str :mb-db-host)
-                          :port     (config/config-int :mb-db-port)
-                          :dbname   (config/config-str :mb-db-dbname)
-                          :user     (config/config-str :mb-db-user)
-                          :password (config/config-str :mb-db-pass)}
-               :postgres {:type     :postgres
-                          :host     (config/config-str :mb-db-host)
-                          :port     (config/config-int :mb-db-port)
-                          :dbname   (config/config-str :mb-db-dbname)
-                          :user     (config/config-str :mb-db-user)
-                          :password (config/config-str :mb-db-pass)}))))
-
-(defn jdbc-details
-  "Takes our own MB details map and formats them properly for connection details for JDBC."
-  ([]
-   (jdbc-details @db-connection-details))
-  ([db-details]
-   {:pre [(map? db-details)]}
-   ;; TODO: it's probably a good idea to put some more validation here and be really strict about what's in `db-details`
-   (case (:type db-details)
-     :h2       (dbspec/h2       db-details)
-     :mysql    (dbspec/mysql    (assoc db-details :db (:dbname db-details)))
-     :postgres (dbspec/postgres (assoc db-details :db (:dbname db-details))))))
+(def application-db-jdbc-spec
+  "JDBC connection spec for the application database."
+  (or
+   jdbc-connection-string
+   (case application-db-type
+     :h2       (dbspec/h2
+                {:db @db-file})
+     :mysql    (dbspec/mysql
+                {:host     (config/config-str :mb-db-host)
+                 :port     (config/config-int :mb-db-port)
+                 :db       (config/config-str :mb-db-dbname)
+                 :user     (config/config-str :mb-db-user)
+                 :password (config/config-str :mb-db-pass)})
+     :postgres (dbspec/postgres
+                {:host     (config/config-str :mb-db-host)
+                 :port     (config/config-int :mb-db-port)
+                 :db       (config/config-str :mb-db-dbname)
+                 :user     (config/config-str :mb-db-user)
+                 :password (config/config-str :mb-db-pass)}))))
 
 
 ;;; +----------------------------------------------------------------------------------------------------------------+
@@ -221,7 +212,7 @@
 (defn- conn->liquibase
   "Get a `Liquibase` object from JDBC CONN."
   (^Liquibase []
-   (conn->liquibase (jdbc-details)))
+   (conn->liquibase (jdbc-spec)))
   (^Liquibase [conn]
    (let [^JdbcConnection liquibase-conn (JdbcConnection. (jdbc/get-connection conn))
          ^Database       database       (.findCorrectDatabaseImplementation (database-factory) liquibase-conn)]
@@ -236,10 +227,10 @@
 
   see https://github.com/metabase/metabase/issues/3715"
   [conn]
-  (let [liquibases-table-name (if (#{:h2 :mysql} (db-type))
+  (let [liquibases-table-name (if (#{:h2 :mysql} application-db-type)
                                 "DATABASECHANGELOG"
                                 "databasechangelog")
-        fresh-install? (jdbc/with-db-metadata [meta (jdbc-details)] ;; don't migrate on fresh install
+        fresh-install? (jdbc/with-db-metadata [meta (jdbc-spec)] ;; don't migrate on fresh install
                          (empty? (jdbc/metadata-query
                                   (.getTables meta nil nil liquibases-table-name (into-array String ["TABLE"])))))
         query (format "UPDATE %s SET FILENAME = ?" liquibases-table-name)]
@@ -273,9 +264,9 @@
   ([]
    (migrate! :up))
   ([direction]
-   (migrate! @db-connection-details direction))
+   (migrate! application-db-jdbc-spec direction))
   ([db-details direction]
-   (jdbc/with-db-transaction [conn (jdbc-details db-details)]
+   (jdbc/with-db-transaction [conn jdbc-spec]
      ;; Tell transaction to automatically `.rollback` instead of `.commit` when the transaction finishes
      (jdbc/db-set-rollback-only! conn)
      ;; Disable auto-commit. This should already be off but set it just to be safe
@@ -345,7 +336,7 @@
                                                        (.setProperty <> (name k) (str v))))))})
 
 (defn- create-connection-pool! [spec]
-  (db/set-default-quoting-style! (case (db-type)
+  (db/set-default-quoting-style! (case db-type
                                    :postgres :ansi
                                    :h2       :h2
                                    :mysql    :mysql))
@@ -356,44 +347,28 @@
 ;;; |                                                    DB SETUP                                                    |
 ;;; +----------------------------------------------------------------------------------------------------------------+
 
-(def ^:private setup-db-has-been-called?
-  (atom false))
-
-(defn db-is-setup?
+(def db-is-setup?
   "True if the Metabase DB is setup and ready."
-  ^Boolean []
-  @setup-db-has-been-called?)
+  false)
 
-(def ^:dynamic *allow-potentailly-unsafe-connections*
+;; TODO - no longer needed here; move this to H2 namespace
+(def ^:dynamic ^:deprecated *allow-potentailly-unsafe-connections*
   "We want to make *every* database connection made by the drivers safe -- read-only, only connect if DB file exists,
-  etc.  At the same time, we'd like to be able to use driver functionality like `can-connect-with-details?` to check
-  whether we can connect to the Metabase database, in which case we'd like to allow connections to databases that
-  don't exist.
-
-  So we need some way to distinguish the Metabase database from other databases. We could add a key to the details
-  map specifying that it's the Metabase DB, but what if some shady user added that key to another database?
-
-  We could check if a database details map matched `db-connection-details` above, but what if a shady user went
-  Meta-Metabase and added the Metabase DB to Metabase itself? Then when they used it they'd have potentially unsafe
-  access.
-
-  So this is where dynamic variables come to the rescue. We'll make this one `true` when we use `can-connect?` for the
-  Metabase DB, in which case we'll allow connection to non-existent H2 (etc.) files, and leave it `false` happily and
-  forever after, making all other connnections \"safe\"."
+  etc. By default, we disallow connections to H2 databases that don't exist or that are using superuser permissions,
+  which could let you run queries that fetch information from the local filesystem; you can allow this where needed by
+  binding this to `true`."
   false)
 
 (defn- verify-db-connection
   "Test connection to database with DETAILS and throw an exception if we have any troubles connecting."
-  ([db-details]
-   (verify-db-connection (:type db-details) db-details))
-  ([engine details]
-   {:pre [(keyword? engine) (map? details)]}
-   (log/info (u/format-color 'cyan (trs "Verifying {0} Database Connection ..." (name engine))))
-   (assert (binding [*allow-potentailly-unsafe-connections* true]
-             (require 'metabase.driver)
-             ((resolve 'metabase.driver/can-connect-with-details?) engine details))
-     (format "Unable to connect to Metabase %s DB." (name engine)))
-   (log/info (trs "Verify Database Connection ... ") (u/emoji "✅"))))
+  ([]
+   (verify-db-connection application-db-jdbc-spec))
+  ([jdbc-spec]
+   (assert (jdbc/with-db-connection [conn jdbc-spec]
+             (u/format-color 'cyan (trs "Verifying {0} Database Connection ..." (name engine)))
+             (jdbc/query conn "SELECT 1 AS one"))
+     (format "Unable to connect to Metabase %s DB." (name engine))))
+  (log/info (trs "Verify Database Connection ... ") (u/emoji "✅")))
 
 
 (def ^:dynamic ^Boolean *disable-data-migrations*
@@ -448,19 +423,19 @@
 (defn setup-db!
   "Do general preparation of database by validating that we can connect.
    Caller can specify if we should run any pending database migrations."
-  [& {:keys [db-details auto-migrate]
-      :or   {db-details   @db-connection-details
+  [& {:keys [jdbc-spec auto-migrate]
+      :or   {jdbc-spec    application-db-jdbc-spec
              auto-migrate true}}]
-  (verify-db-connection db-details)
-  (run-schema-migrations! auto-migrate db-details)
-  (create-connection-pool! (jdbc-details db-details))
+  (verify-db-connection jdbc-spec)
+  (run-schema-migrations! auto-migrate jdbc-spec)
+  (create-connection-pool! jdbc-spec)
   (run-data-migrations!)
-  (reset! setup-db-has-been-called? true))
+  (alter-var-root #'db-is-setup? (constantly true)))
 
 (defn setup-db-if-needed!
   "Call `setup-db!` if DB is not already setup; otherwise this does nothing."
   [& args]
-  (when-not @setup-db-has-been-called?
+  (when-not db-is-setup?
     (apply setup-db! args)))
 
 

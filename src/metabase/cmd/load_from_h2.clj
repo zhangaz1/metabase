@@ -101,7 +101,7 @@
 
 
 (defn- h2-details [h2-connection-string-or-nil]
-  (let [h2-filename (or h2-connection-string-or-nil @metabase.db/db-file)]
+  (let [h2-filename (or h2-connection-string-or-nil metabase.db/db-file)]
     (mdb/jdbc-details {:type :h2, :db (str h2-filename ";IFEXISTS=TRUE")})))
 
 

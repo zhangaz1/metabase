@@ -25,6 +25,8 @@
   (let [db-path (test-fixture-db-path)]
     ;; now set the path at MB_DB_FILE
     (intern 'environ.core 'env (assoc env :mb-db-type "h2", :mb-db-file db-path))
+    ;; reload the namespace so vars like `db-file` get updated now that we changed the env var
+    (require 'metabase.db :reload)
     ;; set up the DB, make sure sample dataset is added
     (mdb/setup-db!)
     (sample-data/add-sample-dataset!)
