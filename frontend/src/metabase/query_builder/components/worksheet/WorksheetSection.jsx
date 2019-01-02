@@ -14,18 +14,9 @@ const WorksheetSection = ({
   children,
   onClear,
 }) => (
-  <div
-    style={style}
-    className={cx(className, "wrapper border-row-divider bg-white py3")}
-  >
+  <div style={style} className={cx(className)}>
     {(icon || name || header) && (
       <div className={cx("flex align-center", { mb2: !!children })}>
-        {icon && <Icon name={icon} style={{ color }} className="mr1" />}
-        {name && (
-          <span className="h3" style={{ color }}>
-            {name}
-          </span>
-        )}
         {header}
         {onClear && (
           <Icon

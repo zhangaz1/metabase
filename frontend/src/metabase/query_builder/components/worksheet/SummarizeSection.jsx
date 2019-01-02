@@ -46,8 +46,8 @@ class SummarizeSection extends React.Component {
           onClear();
         }}
       >
-        <div className="Grid Grid--full md-Grid--1of2 Grid--gutters">
-          <div className="Grid-cell">
+        <div>
+          <div>
             <WorksheetSectionSubHeading
             >{t`Metrics`}</WorksheetSectionSubHeading>
             <ClauseDropTarget
@@ -95,7 +95,7 @@ class SummarizeSection extends React.Component {
               </AddClauseWidget>
             </ClauseDropTarget>
           </div>
-          <div className="Grid-cell">
+          <div>
             <WorksheetSectionSubHeading
             >{t`Dimensions`}</WorksheetSectionSubHeading>
             <ClauseDropTarget

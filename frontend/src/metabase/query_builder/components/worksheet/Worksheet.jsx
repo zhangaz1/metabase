@@ -12,6 +12,8 @@ import ViewItSection from "./ViewItSection";
 
 import WorksheetSidebar from "./WorksheetSidebar";
 
+import fitViewPort from "metabase/hoc/FitViewPort";
+
 import FieldsBarWithExpressionEditor from "./FieldsBarWithExpressionEditor";
 
 import SECTIONS from "./style";
@@ -19,12 +21,13 @@ import SECTIONS from "./style";
 const SIDEBAR_MARGIN = 25;
 const SIDEBAR_WIDTH = 320;
 
+@fitViewPort
 export default class Worksheet extends React.Component {
   constructor(props) {
     super(props);
     const { query } = props;
     this.state = {
-      previewLimit: 10,
+      previewLimit: 1000,
       showFilterSection: query.filters().length > 0,
       showSummarizeSection:
         query.aggregations().length > 0 || query.breakouts().length > 0,
@@ -114,60 +117,34 @@ export default class Worksheet extends React.Component {
     const showSidebar = isPickerOpen;
 
     const sidebarWidth = SIDEBAR_WIDTH + SIDEBAR_MARGIN * 2;
-    const sectionStyle = showSidebar ? { paddingRight: sidebarWidth } : {};
+    const sectionStyle = {};
 
     return (
-      <div className="relative">
-        <DataSection
-          style={sectionStyle}
-          {...this.props}
-          setSourceTableFn={tableId => {
-            this.props.setSourceTableFn(tableId);
-            // make sure we reset state when switching tables
-            this.reset();
-          }}
-        >
-          {(showFilterSection || showSummarizeSection) && (
-            <FieldsBarWithExpressionEditor
-              color={SECTIONS.data.color}
-              fieldOptions={query.fieldOptions()}
-              isPickerOpen={isPickerOpen}
-              onOpenPicker={this.openPicker}
-              onClosePicker={this.closePicker}
-              query={query}
-              onAddExpression={(name, expression) =>
-                query.addExpression(name, expression).update(setDatasetQuery)
-              }
-            />
-          )}
-          {isRunnable &&
-            !showFilterSection &&
-            showSummarizeSection && <FilterButton onClick={this.filter} />}
-        </DataSection>
-        {showFilterSection && (
-          <FiltersSection
-            style={sectionStyle}
-            onClear={() => this.setState({ showFilterSection: false })}
-            {...this.props}
-          />
-        )}
-        {showSummarizeSection && (
-          <SummarizeSection
-            style={sectionStyle}
-            onClear={() => this.setState({ showSummarizeSection: false })}
-            {...this.props}
-          />
-        )}
-        {isRunnable && (
-          <PreviewSection
+      <div className={this.props.fitClassNames}>
+        <div style={{ flex: "0 0 30%" }}>
+          <DataSection
+            className="p3"
             style={sectionStyle}
             {...this.props}
-            preview={this.preview}
-            previewLimit={this.state.previewLimit}
-            setPreviewLimit={this.setPreviewLimit}
-            isPreviewCurrent={this.isPreviewCurrent()}
-            isPreviewDisabled={this.isPreviewDisabled()}
+            setSourceTableFn={tableId => {
+              this.props.setSourceTableFn(tableId);
+              // make sure we reset state when switching tables
+              this.reset();
+            }}
           >
+            {(showFilterSection || showSummarizeSection) && (
+              <FieldsBarWithExpressionEditor
+                color={SECTIONS.data.color}
+                fieldOptions={query.fieldOptions()}
+                isPickerOpen={isPickerOpen}
+                onOpenPicker={this.openPicker}
+                onClosePicker={this.closePicker}
+                query={query}
+                onAddExpression={(name, expression) =>
+                  query.addExpression(name, expression).update(setDatasetQuery)
+                }
+              />
+            )}
             {isRunnable &&
               !showSummarizeSection && (
                 <SummarizeButton onClick={this.summarize} />
@@ -175,20 +152,48 @@ export default class Worksheet extends React.Component {
             {isRunnable &&
               !showFilterSection &&
               !showSummarizeSection && <FilterButton onClick={this.filter} />}
-          </PreviewSection>
-        )}
-        {isRunnable && <ViewItSection style={sectionStyle} {...this.props} />}
-        {showSidebar && (
-          <WorksheetSidebar
-            query={query}
-            margin={SIDEBAR_MARGIN}
-            width={sidebarWidth}
-            onFieldClick={field => {
-              // TODO: remove this once drag-n-drop is done
-              query.addFilter(["=", field]).update(setDatasetQuery);
-            }}
-          />
-        )}
+            {showFilterSection && (
+              <FiltersSection
+                style={sectionStyle}
+                onClear={() => this.setState({ showFilterSection: false })}
+                {...this.props}
+              />
+            )}
+            {showSummarizeSection && (
+              <SummarizeSection
+                style={sectionStyle}
+                onClear={() => this.setState({ showSummarizeSection: false })}
+                {...this.props}
+              />
+            )}
+          </DataSection>
+        </div>
+        <div className="flex-full">
+          {isRunnable && (
+            <PreviewSection
+              className="bg-white"
+              style={sectionStyle}
+              {...this.props}
+              preview={this.preview}
+              previewLimit={this.state.previewLimit}
+              setPreviewLimit={this.setPreviewLimit}
+              isPreviewCurrent={this.isPreviewCurrent()}
+              isPreviewDisabled={this.isPreviewDisabled()}
+            />
+          )}
+          {isRunnable && <ViewItSection style={sectionStyle} {...this.props} />}
+          {showSidebar && (
+            <WorksheetSidebar
+              query={query}
+              margin={SIDEBAR_MARGIN}
+              width={sidebarWidth}
+              onFieldClick={field => {
+                // TODO: remove this once drag-n-drop is done
+                query.addFilter(["=", field]).update(setDatasetQuery);
+              }}
+            />
+          )}
+        </div>
       </div>
     );
   }
