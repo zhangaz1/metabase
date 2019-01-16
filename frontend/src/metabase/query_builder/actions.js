@@ -83,6 +83,9 @@ const getTemplateTagCount = (question: Question) => {
 export const SET_MODE = "metabase/qb/SET_MODE";
 export const setMode = createAction(SET_MODE);
 
+export const TOGGLE_FILTER_DRAWER = "metabase/qb/TOGGLE_FILTER_DRAWER";
+export const toggleFilterDrawer = createAction(TOGGLE_FILTER_DRAWER);
+
 export const SET_CURRENT_STATE = "metabase/qb/SET_CURRENT_STATE";
 const setCurrentState = createAction(SET_CURRENT_STATE);
 

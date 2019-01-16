@@ -293,8 +293,8 @@ class LegacyQueryBuilder extends Component {
                   />
                 </PopoverWithTrigger>
 
-                <span>
-                  <Icon name="more" />
+                <span onClick={() => this.props.toggleFilterDrawer()}>
+                  <Icon name="ellipsis" />
                 </span>
               </div>
             )}
@@ -325,10 +325,12 @@ class LegacyQueryBuilder extends Component {
             className="flex z1"
             style={{ transition: "opacity 0.25s ease-in-out" }}
           >
-            <QueryVisualization
-              {...this.props}
-              className="full wrapper mb2 z1"
-            />
+            {uiControls.isShowingFilterPanel && (
+              <div className="border-right" style={{ width: 320 }}>
+                FILTER PANEL
+              </div>
+            )}
+            <QueryVisualization {...this.props} className="full z1" />
           </div>
 
           {ModeFooter && (

@@ -42,6 +42,7 @@ import {
   UPDATE_EMBEDDING_PARAMS,
   SHOW_CHART_SETTINGS,
   SET_MODE,
+  TOGGLE_FILTER_DRAWER,
 } from "./actions";
 
 // various ui state options
@@ -74,6 +75,12 @@ export const uiControls = handleActions(
     },
     [SET_MODE]: {
       next: (state, { payload }) => ({ ...state, mode: payload }),
+    },
+    [TOGGLE_FILTER_DRAWER]: {
+      next: (state, { payload }) => ({
+        ...state,
+        isShowingFilterPanel: !state.isShowingFilterPanel,
+      }),
     },
     [SET_DATASET_QUERY]: {
       next: (state, { payload }) => ({
