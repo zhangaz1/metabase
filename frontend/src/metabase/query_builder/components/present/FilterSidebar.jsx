@@ -3,16 +3,28 @@ import { Box, Flex } from "grid-styled";
 
 import Icon from "metabase/components/Icon";
 
+import DatePicker, { getOperator } from "../filters/pickers/DatePicker.jsx";
+import TimePicker from "../filters/pickers/TimePicker.jsx";
+import NumberPicker from "../filters/pickers/NumberPicker.jsx";
+import SelectPicker from "../filters/pickers/SelectPicker.jsx";
+import TextPicker from "../filters/pickers/TextPicker.jsx";
+import FieldValuesWidget from "metabase/components/FieldValuesWidget.jsx";
+
 class FilterOptionList extends React.Component {
   render() {
     const { query, onClick } = this.props;
     return (
       <Box>
-        {query.filterFieldOptions().dimensions.map(d => (
-          <Box onClick={() => onClick(d)} p={1}>
-            <Icon name={d.icon()} mr={1} />
-            {d.displayName()}
-          </Box>
+        {query.filterFieldOptions().dimensions.map(dimension => (
+          <Flex
+            align="center"
+            onClick={() => onClick(dimension)}
+            p={1}
+            className="cursor-pointer text-brand-hover"
+          >
+            <Icon name={dimension.icon()} mr={1} size={18} />
+            <h4>{dimension.displayName()}</h4>
+          </Flex>
         ))}
       </Box>
     );
@@ -20,8 +32,14 @@ class FilterOptionList extends React.Component {
 }
 
 class FieldFilterPane extends React.Component {
+  state = {
+    currentValue: "",
+  };
   render() {
-    const { value, goBack } = this.props;
+    const { query, value, goBack } = this.props;
+    const { currentValue } = this.state;
+    window.v = value;
+    window.q = query;
     return (
       <Box bg="white" p={2}>
         <Box onClick={() => goBack()}>
@@ -30,6 +48,35 @@ class FieldFilterPane extends React.Component {
         <Box>
           <h3>{value.displayName()}</h3>
         </Box>
+        <Box>
+          {value.field().fieldType() === "NUMBER" && (
+            <input
+              className="input"
+              type="text"
+              value={currentValue}
+              onChange={ev =>
+                this.setState({ currentValue: Number(ev.target.value) })
+              }
+            />
+          )}
+        </Box>
+        <Flex align="center">
+          <a>Clear</a>
+          <a
+            className="ml-auto"
+            onClick={() => {
+              const myQ = query.addFilter([
+                "=",
+                ["field-id", value.field().id],
+                currentValue,
+              ]);
+              myQ.update(this.props.setDatasetQuery);
+              this.props.run();
+            }}
+          >
+            Apply
+          </a>
+        </Flex>
       </Box>
     );
   }
@@ -48,8 +95,11 @@ class FilterSidebar extends React.Component {
         {selectedField && (
           <Box className="z2 absolute top left bottom right" bg="white">
             <FieldFilterPane
+              query={query}
               value={selectedField}
               goBack={() => this.setState({ selectedField: null })}
+              setDatasetQuery={this.props.setDatasetQuery}
+              run={this.props.runQuestionQuery}
             />
           </Box>
         )}
