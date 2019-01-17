@@ -264,7 +264,7 @@ class LegacyQueryBuilder extends Component {
           <div id="react_qb_header">
             <QueryHeader {...this.props} />
             {uiControls.mode === "present" && (
-              <div className="flex align-center">
+              <div className="flex align-center border-bottom px3">
                 <FilterWidgetList
                   query={query}
                   filters={query.filters()}
@@ -326,7 +326,12 @@ class LegacyQueryBuilder extends Component {
             className="flex full-height z1"
             style={{ transition: "opacity 0.25s ease-in-out" }}
           >
-            <FilterSidebar {...this.props} />
+            <div
+              className="border-right relative z2"
+              style={{ boxShadow: `2px 0 3px 1px rgba(0, 0, 0, 0.08)` }}
+            >
+              <FilterSidebar {...this.props} />
+            </div>
             <QueryVisualization {...this.props} className="full z1" />
           </div>
 
