@@ -26,6 +26,7 @@ import Icon from "metabase/components/Icon";
 import FilterWidgetList from "../components/filters/FilterWidgetList";
 import PopoverWithTrigger from "metabase/components/PopoverWithTrigger";
 import FilterPopover from "../components/filters/FilterPopover";
+import FilterSidebar from "../components/present/FilterSidebar";
 
 import title from "metabase/hoc/Title";
 
@@ -322,14 +323,10 @@ class LegacyQueryBuilder extends Component {
           <div
             ref="viz"
             id="react_qb_viz"
-            className="flex z1"
+            className="flex full-height z1"
             style={{ transition: "opacity 0.25s ease-in-out" }}
           >
-            {uiControls.isShowingFilterPanel && (
-              <div className="border-right" style={{ width: 320 }}>
-                FILTER PANEL
-              </div>
-            )}
+            <FilterSidebar {...this.props} />
             <QueryVisualization {...this.props} className="full z1" />
           </div>
 
