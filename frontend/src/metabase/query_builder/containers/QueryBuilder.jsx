@@ -295,7 +295,7 @@ class LegacyQueryBuilder extends Component {
                 </PopoverWithTrigger>
 
                 <span onClick={() => this.props.toggleFilterDrawer()}>
-                  <Icon name="ellipsis" />
+                  Add filter
                 </span>
               </div>
             )}
@@ -326,12 +326,14 @@ class LegacyQueryBuilder extends Component {
             className="flex full-height z1"
             style={{ transition: "opacity 0.25s ease-in-out" }}
           >
-            <div
-              className="border-right relative z2"
-              style={{ boxShadow: `2px 0 3px 1px rgba(0, 0, 0, 0.08)` }}
-            >
-              <FilterSidebar {...this.props} />
-            </div>
+            {uiControls.isShowingFilterPanel && (
+              <div
+                className="border-right relative z2"
+                style={{ boxShadow: `2px 0 3px 1px rgba(0, 0, 0, 0.08)` }}
+              >
+                <FilterSidebar {...this.props} />
+              </div>
+            )}
             <QueryVisualization {...this.props} className="full z1" />
           </div>
 
