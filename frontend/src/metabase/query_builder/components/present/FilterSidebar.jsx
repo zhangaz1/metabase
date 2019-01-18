@@ -38,8 +38,6 @@ class FieldFilterPane extends React.Component {
   render() {
     const { query, value, goBack } = this.props;
     const { currentValue } = this.state;
-    window.v = value;
-    window.q = query;
     return (
       <Box bg="white" p={2}>
         <Box onClick={() => goBack()}>
@@ -54,9 +52,7 @@ class FieldFilterPane extends React.Component {
               className="input"
               type="text"
               value={currentValue}
-              onChange={ev =>
-                this.setState({ currentValue: Number(ev.target.value) })
-              }
+              onChange={ev => this.setState({ currentValue: ev.target.value })}
             />
           )}
         </Box>
@@ -65,13 +61,22 @@ class FieldFilterPane extends React.Component {
           <a
             className="ml-auto"
             onClick={() => {
+              const hasOperator = value => {
+                return [">", "<", "<=", ">="].some(
+                  o => value.charAt(0).indexOf(o) > -1,
+                );
+              };
+
               const myQ = query.addFilter([
-                "=",
+                hasOperator(currentValue) ? currentValue.charAt(0) : "=",
                 ["field-id", value.field().id],
-                currentValue,
+                hasOperator(currentValue)
+                  ? currentValue.slice(1)
+                  : currentValue,
               ]);
               myQ.update(this.props.setDatasetQuery);
-              this.props.run();
+              this.props.run({ ignoreCache: true });
+              goBack();
             }}
           >
             Apply
