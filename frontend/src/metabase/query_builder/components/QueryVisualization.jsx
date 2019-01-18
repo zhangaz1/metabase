@@ -102,6 +102,7 @@ export default class QueryVisualization extends Component {
 
   renderHeader() {
     const {
+      uiControls,
       question,
       isObjectDetail,
       isRunnable,
@@ -157,66 +158,68 @@ export default class QueryVisualization extends Component {
     const isPublicLinksEnabled = MetabaseSettings.get("public_sharing");
     const isEmbeddingEnabled = MetabaseSettings.get("embedding");
     return (
-      <div className="relative flex align-center flex-no-shrink mt2 mb1 sm-py3">
-        <div className="z4 absolute left hide sm-show">
-          {!isObjectDetail && (
-            <VisualizationSettings ref="settings" {...this.props} />
-          )}
-        </div>
-        <div className="z3 sm-absolute left right">
-          <Tooltip tooltip={runButtonTooltip}>
-            <RunButton
-              isRunnable={isRunnable}
-              isDirty={isResultDirty}
-              isRunning={isRunning}
-              onRun={this.runQuery}
-              onCancel={cancelQuery}
-            />
-          </Tooltip>
-        </div>
-        <div
-          className="z4 absolute right flex align-center justify-end"
-          style={{ lineHeight: 0 /* needed to align icons :-/ */ }}
-        >
-          <ShrinkableList
-            className="flex"
-            items={messages}
-            renderItem={item => (
-              <div className="flex-no-shrink flex align-center mx2 h5 text-medium">
-                <Icon className="mr1" name={item.icon} size={12} />
-                {item.message}
-              </div>
+      uiControls.mode !== "present" && (
+        <div className="relative flex align-center flex-no-shrink mt2 mb1 sm-py3">
+          <div className="z4 absolute left hide sm-show">
+            {!isObjectDetail && (
+              <VisualizationSettings ref="settings" {...this.props} />
             )}
-            renderItemSmall={item => (
-              <Tooltip tooltip={<div className="p1">{item.message}</div>}>
-                <Icon className="mx1" name={item.icon} size={16} />
-              </Tooltip>
+          </div>
+          <div className="z3 sm-absolute left right">
+            <Tooltip tooltip={runButtonTooltip}>
+              <RunButton
+                isRunnable={isRunnable}
+                isDirty={isResultDirty}
+                isRunning={isRunning}
+                onRun={this.runQuery}
+                onCancel={cancelQuery}
+              />
+            </Tooltip>
+          </div>
+          <div
+            className="z4 absolute right flex align-center justify-end"
+            style={{ lineHeight: 0 /* needed to align icons :-/ */ }}
+          >
+            <ShrinkableList
+              className="flex"
+              items={messages}
+              renderItem={item => (
+                <div className="flex-no-shrink flex align-center mx2 h5 text-medium">
+                  <Icon className="mr1" name={item.icon} size={12} />
+                  {item.message}
+                </div>
+              )}
+              renderItemSmall={item => (
+                <Tooltip tooltip={<div className="p1">{item.message}</div>}>
+                  <Icon className="mx1" name={item.icon} size={16} />
+                </Tooltip>
+              )}
+            />
+            {!isObjectDetail && (
+              <Warnings
+                warnings={this.state.warnings}
+                className="mx1"
+                size={18}
+              />
             )}
-          />
-          {!isObjectDetail && (
-            <Warnings
-              warnings={this.state.warnings}
-              className="mx1"
-              size={18}
-            />
-          )}
-          {!isResultDirty && result && !result.error ? (
-            <QueryDownloadWidget
-              className="mx1 hide sm-show"
-              card={question.card()}
-              result={result}
-            />
-          ) : null}
-          {question.isSaved() &&
-          ((isPublicLinksEnabled && (isAdmin || question.publicUUID())) ||
-            (isEmbeddingEnabled && isAdmin)) ? (
-            <QuestionEmbedWidget
-              className="mx1 hide sm-show"
-              card={question.card()}
-            />
-          ) : null}
+            {!isResultDirty && result && !result.error ? (
+              <QueryDownloadWidget
+                className="mx1 hide sm-show"
+                card={question.card()}
+                result={result}
+              />
+            ) : null}
+            {question.isSaved() &&
+            ((isPublicLinksEnabled && (isAdmin || question.publicUUID())) ||
+              (isEmbeddingEnabled && isAdmin)) ? (
+              <QuestionEmbedWidget
+                className="mx1 hide sm-show"
+                card={question.card()}
+              />
+            ) : null}
+          </div>
         </div>
-      </div>
+      )
     );
   }
 

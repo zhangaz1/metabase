@@ -23,7 +23,7 @@ export default ({ question, clicked }: ClickActionProps): ClickAction[] => {
 
   return [
     {
-      name: "filtering",
+      name: "filter",
       section: "Filtering",
       title: t`Filter`,
       action: () => startFilterForField({ field }),

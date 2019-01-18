@@ -28,6 +28,8 @@ import FilterWidgetList from "../components/filters/FilterWidgetList";
 import PopoverWithTrigger from "metabase/components/PopoverWithTrigger";
 import FilterPopover from "../components/filters/FilterPopover";
 
+import RunButton from "../components/RunButton";
+
 import FilterSidebar from "../components/present/FilterSidebar";
 import FilterSidebarInline from "../components/present/FilterSidebarInline";
 import AppliedFilters from "../components/present/AppliedFilters";
@@ -274,6 +276,17 @@ class LegacyQueryBuilder extends Component {
                 <AppliedFilters query={query} />
                 <Box ml={1} onClick={() => this.props.toggleFilterDrawer()}>
                   Add filter
+                </Box>
+                <Box ml="auto">
+                  <RunButton
+                    isRunnable={this.props.isRunnable}
+                    isDirty={this.props.isResultDirty}
+                    isRunning={this.props.isRunning}
+                    onRun={() =>
+                      this.props.runQuestionQuery({ ignoreCache: true })
+                    }
+                    onCancel={this.props.cancelQuery}
+                  />
                 </Box>
               </Flex>
             )}
