@@ -113,7 +113,7 @@ class FilterSidebar extends React.Component {
     } = this.props;
 
     return (
-      <Box w={460} className="relative" p={2}>
+      <Box className="relative" p={2}>
         <Flex onClick={() => toggleFilterDrawer()}>
           <Icon name="close" ml="auto" />
         </Flex>

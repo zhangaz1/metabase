@@ -305,12 +305,13 @@ class LegacyQueryBuilder extends Component {
             style={{ transition: "opacity 0.25s ease-in-out" }}
           >
             {uiControls.isShowingFilterPanel && (
-              <div
-                className="border-right relative z2"
+              <Box
+                w={460}
+                className="border-right relative z2 scroll-y"
                 style={{ boxShadow: `2px 0 3px 1px rgba(0, 0, 0, 0.08)` }}
               >
                 <FilterSidebar {...this.props} />
-              </div>
+              </Box>
             )}
             <QueryVisualization {...this.props} className="full z1" />
           </div>

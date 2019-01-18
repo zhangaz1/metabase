@@ -8,7 +8,7 @@ import cx from "classnames";
 export default class Header extends Component {
   static defaultProps = {
     buttons: null,
-    className: "py1 lg-py2 xl-py3 wrapper",
+    className: "py1 lg-py2 xl-py3",
     breadcrumb: null,
   };
 
