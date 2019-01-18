@@ -21,15 +21,12 @@ export default ({ question, clicked }: ClickActionProps): ClickAction[] => {
     .dimensions.filter(d => d.field().id === column.id)[0]
     .field();
 
-  window.f = field;
-  console.log(field);
-
   return [
     {
       name: "filtering",
       section: "Filtering",
       title: t`Filter`,
-      action: () => startFilterForField(field),
+      action: () => startFilterForField({ field }),
     },
   ];
 };

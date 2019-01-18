@@ -81,7 +81,8 @@ export const uiControls = handleActions(
       next: (state, { payload }) => ({
         ...state,
         isShowingFilterPanel: true,
-        referencedField: payload,
+        referencedField: payload.field,
+        filterIndex: payload.filterIndex,
       }),
     },
     [TOGGLE_FILTER_DRAWER]: {
@@ -142,6 +143,9 @@ export const uiControls = handleActions(
     chartSettings: null,
     mode: "present",
     isShowingFilterPanel: false,
+    // TODO - these should live somewhere else
+    referencedField: null,
+    filterIndex: null,
   },
 );
 

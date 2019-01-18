@@ -32,6 +32,7 @@ class FilterOptionList extends React.Component {
         {query.filterFieldOptions().dimensions.map(dimension => (
           <Flex
             align="center"
+            key={dimension.field().id}
             onClick={() => onClick(dimension)}
             p={1}
             className="cursor-pointer text-brand-hover"
@@ -46,33 +47,59 @@ class FilterOptionList extends React.Component {
 }
 
 class FieldFilterPane extends React.Component {
-  state = {
-    currentValue: "",
-  };
+  constructor(props) {
+    super(props);
+    // this sucks
+    const initialValue =
+      props.index &&
+      `${props.query.filters()[props.index][0]}${
+        props.query.filters()[props.index][2]
+      }`;
+    this.state = {
+      currentValue: initialValue || "",
+    };
+  }
   render() {
-    const { query, value, goBack } = this.props;
+    const { query, value, goBack, index } = this.props;
     const { currentValue } = this.state;
-    window.v = value;
     return (
       <Box bg="white" p={2}>
-        <Box onClick={() => goBack()}>
-          <Icon name="chevronleft" />
-        </Box>
+        <Flex align="center">
+          <Box onClick={() => goBack()}>
+            <Icon name="chevronleft" />
+          </Box>
+          <Box ml="auto" />
+        </Flex>
         <Box>
           <h3>{value.display_name}</h3>
         </Box>
         <Box>
-          {value.fieldType() === "NUMBER" && (
+          {value.fieldType() === "NUMBER" ? (
             <input
-              className="input"
+              className="input full"
               type="text"
+              placeholder="Enter a number"
               value={currentValue}
               onChange={ev => this.setState({ currentValue: ev.target.value })}
+              autoFocus
             />
+          ) : (
+            <Box>Hold tight, working on it.</Box>
           )}
         </Box>
-        <Flex align="center">
-          <a>Clear</a>
+        <Flex align="center" my={2}>
+          <a
+            onClick={() => {
+              if (!index) {
+                return false;
+              }
+              const myQ = query.removeFilter(index);
+              myQ.update(this.props.setDatasetQuery);
+              goBack();
+            }}
+          >
+            Clear
+          </a>
           <a
             className="ml-auto"
             onClick={() => {
@@ -122,15 +149,16 @@ class FilterSidebar extends React.Component {
             <FieldFilterPane
               query={query}
               value={uiControls.referencedField}
-              goBack={() => focusFilterDrawer()}
+              goBack={() => focusFilterDrawer({ field: null })}
               setDatasetQuery={this.props.setDatasetQuery}
               run={this.props.runQuestionQuery}
+              index={uiControls.filterIndex}
             />
           </Box>
         )}
         <FilterOptionList
           query={query}
-          onClick={field => focusFilterDrawer(field.field())}
+          onClick={field => focusFilterDrawer({ field: field.field() })}
         />
       </Box>
     );

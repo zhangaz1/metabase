@@ -15,10 +15,10 @@ const mapDispatchToProps = {
 @connect(mapStateToProps, mapDispatchToProps)
 class AppliedFilters extends React.Component {
   render() {
-    const { query, uiControls, focusFilterDrawer } = this.props;
+    const { query, focusFilterDrawer } = this.props;
     return (
       <Flex align="center">
-        {query.filters().map(filter => {
+        {query.filters().map((filter, index) => {
           const [operator, fieldExp, value] = filter;
           const dimension = Dimension.parseMBQL(fieldExp, query.metadata());
           const field = dimension.field();
@@ -26,7 +26,12 @@ class AppliedFilters extends React.Component {
             <Box
               className="bordered rounded shadowed"
               p={1}
-              onClick={() => focusFilterDrawer(field)}
+              onClick={() =>
+                focusFilterDrawer({
+                  field,
+                  filterIndex: index,
+                })
+              }
             >
               {field.display_name}
               {operator}
