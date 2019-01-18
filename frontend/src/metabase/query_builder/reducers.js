@@ -43,6 +43,7 @@ import {
   SHOW_CHART_SETTINGS,
   SET_MODE,
   TOGGLE_FILTER_DRAWER,
+  FOCUS_FILTER_DRAWER,
 } from "./actions";
 
 // various ui state options
@@ -76,10 +77,18 @@ export const uiControls = handleActions(
     [SET_MODE]: {
       next: (state, { payload }) => ({ ...state, mode: payload }),
     },
+    [FOCUS_FILTER_DRAWER]: {
+      next: (state, { payload }) => ({
+        ...state,
+        isShowingFilterPanel: true,
+        referencedField: payload,
+      }),
+    },
     [TOGGLE_FILTER_DRAWER]: {
       next: (state, { payload }) => ({
         ...state,
         isShowingFilterPanel: !state.isShowingFilterPanel,
+        referencedField: null,
       }),
     },
     [SET_DATASET_QUERY]: {

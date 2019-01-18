@@ -1,19 +1,5 @@
 import React from "react";
-import { connect } from "react-redux";
 import { Box, Flex } from "grid-styled";
-
-import {
-  focusFilterDrawer,
-  toggleFilterDrawer,
-} from "metabase/query_builder/actions";
-
-const mapStateToProps = state => ({
-  uiControls: state.qb.uiControls,
-});
-const mapDispatchToProps = {
-  focusFilterDrawer,
-  toggleFilterDrawer,
-};
 
 import Icon from "metabase/components/Icon";
 
@@ -52,17 +38,16 @@ class FieldFilterPane extends React.Component {
   render() {
     const { query, value, goBack } = this.props;
     const { currentValue } = this.state;
-    window.v = value;
     return (
       <Box bg="white" p={2}>
         <Box onClick={() => goBack()}>
           <Icon name="chevronleft" />
         </Box>
         <Box>
-          <h3>{value.display_name}</h3>
+          <h3>{value.displayName()}</h3>
         </Box>
         <Box>
-          {value.fieldType() === "NUMBER" && (
+          {value.field().fieldType() === "NUMBER" && (
             <input
               className="input"
               type="text"
@@ -84,7 +69,7 @@ class FieldFilterPane extends React.Component {
 
               const myQ = query.addFilter([
                 hasOperator(currentValue) ? currentValue.charAt(0) : "=",
-                ["field-id", value.id],
+                ["field-id", value.field().id],
                 hasOperator(currentValue)
                   ? currentValue.slice(1)
                   : currentValue,
@@ -102,27 +87,22 @@ class FieldFilterPane extends React.Component {
   }
 }
 
-@connect(mapStateToProps, mapDispatchToProps)
-class FilterSidebar extends React.Component {
+class FilterSidebarInline extends React.Component {
+  state = {
+    selectedField: null,
+  };
   render() {
-    const {
-      query,
-      uiControls,
-      focusFilterDrawer,
-      toggleFilterDrawer,
-    } = this.props;
+    const { query } = this.props;
+    const { selectedField } = this.state;
 
     return (
       <Box w={460} className="relative" p={2}>
-        <Flex onClick={() => toggleFilterDrawer()}>
-          <Icon name="close" ml="auto" />
-        </Flex>
-        {uiControls.referencedField && (
+        {selectedField && (
           <Box className="z2 absolute top left bottom right" bg="white">
             <FieldFilterPane
               query={query}
-              value={uiControls.referencedField}
-              goBack={() => focusFilterDrawer()}
+              value={selectedField}
+              goBack={() => this.setState({ selectedField: null })}
               setDatasetQuery={this.props.setDatasetQuery}
               run={this.props.runQuestionQuery}
             />
@@ -130,11 +110,11 @@ class FilterSidebar extends React.Component {
         )}
         <FilterOptionList
           query={query}
-          onClick={field => focusFilterDrawer(field.field())}
+          onClick={field => this.setState({ selectedField: field })}
         />
       </Box>
     );
   }
 }
 
-export default FilterSidebar;
+export default FilterSidebarInline;

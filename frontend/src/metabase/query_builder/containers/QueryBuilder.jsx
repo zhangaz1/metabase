@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import { t } from "c-3po";
 import cx from "classnames";
 import _ from "underscore";
+import { Box, Flex } from "grid-styled";
 
 import { loadTableAndForeignKeys } from "metabase/lib/table";
 
@@ -26,7 +27,10 @@ import Icon from "metabase/components/Icon";
 import FilterWidgetList from "../components/filters/FilterWidgetList";
 import PopoverWithTrigger from "metabase/components/PopoverWithTrigger";
 import FilterPopover from "../components/filters/FilterPopover";
+
 import FilterSidebar from "../components/present/FilterSidebar";
+import FilterSidebarInline from "../components/present/FilterSidebarInline";
+import AppliedFilters from "../components/present/AppliedFilters";
 
 import title from "metabase/hoc/Title";
 
@@ -249,6 +253,8 @@ class LegacyQueryBuilder extends Component {
       return <div />;
     }
 
+    window.query = query;
+
     const showDrawer =
       uiControls.isShowingDataReference ||
       uiControls.isShowingTemplateTagsEditor;
@@ -264,40 +270,12 @@ class LegacyQueryBuilder extends Component {
           <div id="react_qb_header">
             <QueryHeader {...this.props} />
             {uiControls.mode === "present" && (
-              <div className="flex align-center border-bottom px3">
-                <FilterWidgetList
-                  query={query}
-                  filters={query.filters()}
-                  removeFilter={index =>
-                    query.removeFilter(index).update(setDatasetQuery)
-                  }
-                  updateFilter={(index, filter) =>
-                    query.updateFilter(index, filter).update(setDatasetQuery)
-                  }
-                />
-                <PopoverWithTrigger
-                  id="FilterPopover"
-                  ref="filterPopover"
-                  triggerElement={<Icon name="add" />}
-                  triggerClasses="flex align-center"
-                  getTarget={() => this.refs.addFilterTarget}
-                  horizontalAttachments={["left", "center"]}
-                  autoWidth
-                >
-                  <FilterPopover
-                    isNew
-                    query={query}
-                    onCommitFilter={filter =>
-                      query.addFilter(filter).update(setDatasetQuery)
-                    }
-                    onClose={() => this.refs.filterPopover.close()}
-                  />
-                </PopoverWithTrigger>
-
-                <span onClick={() => this.props.toggleFilterDrawer()}>
+              <Flex align="center" className="border-bottom" px={3} pb={2}>
+                <AppliedFilters query={query} />
+                <Box ml={1} onClick={() => this.props.toggleFilterDrawer()}>
                   Add filter
-                </span>
-              </div>
+                </Box>
+              </Flex>
             )}
           </div>
 
