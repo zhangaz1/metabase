@@ -319,11 +319,11 @@ class LegacyQueryBuilder extends Component {
           >
             {uiControls.isShowingFilterPanel && (
               <Box
-                w={460}
+                w={520}
                 className="border-right relative z2 scroll-y"
                 style={{ boxShadow: `2px 0 3px 1px rgba(0, 0, 0, 0.08)` }}
               >
-                <FilterSidebar {...this.props} />
+                <FilterSidebarInline {...this.props} />
               </Box>
             )}
             <QueryVisualization {...this.props} className="full z1" />
