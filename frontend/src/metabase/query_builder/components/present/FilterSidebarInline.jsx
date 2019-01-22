@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Box, Flex } from "grid-styled";
+import _ from "underscore";
 
 import {
   focusFilterDrawer,
@@ -36,10 +37,17 @@ class FilterOptionList extends React.Component {
     const { query, onClick } = this.props;
     window.q = query;
     const options = query.filterFieldOptions();
+
+    const optionsByCategory = dimensionList =>
+      _.chain(dimensionList)
+        .sortBy(dimension => dimension.field().special_type)
+        .sortBy(dimension => dimension.field().base_type)
+        .value();
+
     return (
       <Box>
         {// start with the table dimensions
-        options.dimensions.map(dimension => (
+        optionsByCategory(options.dimensions).map(dimension => (
           <Flex
             align="center"
             key={dimension.field().id}
@@ -56,7 +64,7 @@ class FilterOptionList extends React.Component {
           options.fks.map(fk => (
             <Box my={3}>
               <h3>Table</h3>
-              {fk.dimensions.map(dimension => (
+              {optionsByCategory(fk.dimensions).map(dimension => (
                 <Flex
                   align="center"
                   key={dimension.field().id}
