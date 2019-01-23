@@ -5,7 +5,10 @@ import { Flex } from "grid-styled";
 
 import Icon from "metabase/components/Icon";
 
-const input = styled.input``;
+const Input = styled.input`
+  width: 60px;
+  max-width: 200px;
+`;
 
 class RangedInput extends React.Component {
   state = {
@@ -16,13 +19,13 @@ class RangedInput extends React.Component {
     const { value, secondaryValue, onChange } = this.props;
     return (
       <Flex align="center" className="hover-parent hover--visibility">
-        <input
+        <Input
           onChange={ev => onChange(ev.target.value)}
           value={value}
           className="input"
         />
         {(secondaryValue || triggeredRange) && (
-          <input
+          <Input
             value={secondaryValue}
             autoFocus={triggeredRange}
             className="input"

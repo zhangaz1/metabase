@@ -3,6 +3,9 @@ import { connect } from "react-redux";
 import { Box, Flex } from "grid-styled";
 import _ from "underscore";
 
+import Icon from "metabase/components/Icon";
+import RangedInput from "metabase/components/RangedInput";
+
 import {
   focusFilterDrawer,
   toggleFilterDrawer,
@@ -16,13 +19,11 @@ const mapDispatchToProps = {
   toggleFilterDrawer,
 };
 
-import Icon from "metabase/components/Icon";
-
 const Picker = ({ dimension, filter, onClick }) => {
   return (
     <Box ml="auto">
       {dimension.field().fieldType() === "NUMBER" ? (
-        <input className="input" type="text" autoFocus />
+        <RangedInput />
       ) : (
         <Box className="text-brand-hover" onClick={() => onClick(dimension)}>
           Pick a value
@@ -32,53 +33,95 @@ const Picker = ({ dimension, filter, onClick }) => {
   );
 };
 
+class TypeFilterGroup extends React.Component {
+  state = {
+    isOpen: true,
+  };
+
+  render() {
+    const { title, options, onClick } = this.props;
+    return (
+      <Box my={2}>
+        <Flex
+          align="center"
+          className="border-bottom"
+          onClick={() => this.setState({ isOpen: !this.state.isOpen })}
+        >
+          <h3>{title}</h3>
+        </Flex>
+        <Box
+          style={{
+            height: this.state.isOpen ? "auto" : "0",
+            overflow: "hidden",
+          }}
+        >
+          <Box py={2}>
+            {options.map(option => (
+              <Flex align="center" my={1}>
+                {option.displayName()}
+                <Box ml="auto">
+                  <Picker dimension={option} onClick={onClick} />
+                </Box>
+              </Flex>
+            ))}
+          </Box>
+        </Box>
+      </Box>
+    );
+  }
+}
+
 class FilterOptionList extends React.Component {
   render() {
     const { query, onClick } = this.props;
     window.q = query;
     const options = query.filterFieldOptions();
 
+    /*
     const optionsByCategory = dimensionList =>
       _.chain(dimensionList)
         .sortBy(dimension => dimension.field().special_type)
         .sortBy(dimension => dimension.field().base_type)
         .value();
+        */
+
+    function filterGroupForField(field) {
+      return field.special_type || field.base_type;
+    }
+
+    const optionsByCategory = dimensionList =>
+      _.groupBy(dimensionList, dimension =>
+        filterGroupForField(dimension.field()),
+      );
+
+    const tableOptions = optionsByCategory(options.dimensions);
 
     return (
       <Box>
         {// start with the table dimensions
-        optionsByCategory(options.dimensions).map(dimension => (
-          <Flex
-            align="center"
-            key={dimension.field().id}
-            p={1}
-            className="cursor-pointer"
-          >
-            <Icon name={dimension.icon()} mr={1} size={18} />
-            <h4>{dimension.displayName()}</h4>
-
-            <Picker dimension={dimension} onClick={onClick} />
-          </Flex>
+        Object.keys(tableOptions).map(category => (
+          <TypeFilterGroup
+            onClick={onClick}
+            title={category}
+            options={tableOptions[category]}
+          />
         ))}
         {options.fks &&
-          options.fks.map(fk => (
-            <Box my={3}>
-              <h3>Table</h3>
-              {optionsByCategory(fk.dimensions).map(dimension => (
-                <Flex
-                  align="center"
-                  key={dimension.field().id}
-                  p={1}
-                  className="cursor-pointer"
-                >
-                  <Icon name={dimension.icon()} mr={1} size={18} />
-                  <h4>{dimension.displayName()}</h4>
-
-                  <Picker dimension={dimension} onClick={onClick} />
-                </Flex>
-              ))},
-            </Box>
-          ))}
+          options.fks.map(fk => {
+            const fkOptions = optionsByCategory(fk.dimensions);
+            return (
+              <Box my={3}>
+                <h3>Table</h3>
+                {Object.keys(fkOptions).map(category => (
+                  <TypeFilterGroup
+                    onClick={onClick}
+                    title={category}
+                    options={fkOptions[category]}
+                  />
+                ))},
+              </Box>
+            );
+          })}
       </Box>
     );
   }
