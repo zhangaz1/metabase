@@ -7,7 +7,7 @@
   "license": "private",
   "engines": {
     "node": ">=8.11.4",
-    "npm": "8.11.4"
+    "yarn": ">=1.10.1"
   },
   "dependencies": {
     "ace-builds": "^1.2.2",
