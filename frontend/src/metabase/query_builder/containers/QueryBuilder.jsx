@@ -302,7 +302,7 @@ export default class QueryBuilder extends Component {
       uiControls: { modal, recentlySaved, queryBuilderMode },
     } = this.props;
 
-    const Panel = queryBuilderMode === "notebook" ? Notebook : View;
+    const Panel = View; //queryBuilderMode === "notebook" ? Notebook : View;
 
     return (
       <Panel

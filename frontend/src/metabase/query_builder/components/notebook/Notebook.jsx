@@ -15,8 +15,8 @@ const legacy = false;
 const Notebook = ({ className, ...props }) => {
   return (
     <Box className={cx(className, "relative")}>
-      <NotebookHeader {...props} className="absolute top right" />
-      <NotebookSteps {...props} className="pt3" />
+      {/* <NotebookHeader {...props} className="absolute top right" /> */}
+      <NotebookSteps {...props} />
 
       {legacy && (
         <div className="fixed bottom left right p2">

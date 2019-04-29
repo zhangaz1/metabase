@@ -11,7 +11,7 @@ import { DatabaseSchemaAndTableDataSelector } from "metabase/query_builder/compo
 export default function DataStep({ query }) {
   return (
     <Box mb={1}>
-      <ViewHeading className="flex">
+      {/* <ViewHeading className="flex">
         <DatabaseSchemaAndTableDataSelector
           databases={query.metadata().databasesList()}
           selectedDatabaseId={query.databaseId()}
@@ -26,7 +26,7 @@ export default function DataStep({ query }) {
             )
           }
         />
-      </ViewHeading>
+      </ViewHeading> */}
     </Box>
   );
 }

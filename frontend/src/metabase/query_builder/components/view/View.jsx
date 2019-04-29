@@ -31,6 +31,10 @@ import BreakoutSidebar from "./sidebars/BreakoutSidebar";
 import NativeQuery from "metabase-lib/lib/queries/NativeQuery";
 import StructuredQuery from "metabase-lib/lib/queries/StructuredQuery";
 
+import Notebook from "../notebook/Notebook";
+
+import { Motion, spring } from "react-motion";
+
 const UI_CONTROLS_DEFAULTS = {
   isAddingFilter: false,
   isEditingFilterIndex: null,
@@ -214,14 +218,43 @@ export default class View extends React.Component {
     return (
       <div className={this.props.fitClassNames}>
         <div className={cx("QueryBuilder flex flex-column bg-white spread")}>
-          <ViewTitleHeader {...propsWithExtras} className="flex-no-shrink" />
+          <ViewTitleHeader
+            {...propsWithExtras}
+            className="flex-no-shrink z3 bg-white"
+          />
 
           <div className="flex flex-full">
             <ViewSidebar left isOpen={!!leftSideBar}>
               {leftSideBar}
             </ViewSidebar>
 
-            <div className="flex-full flex flex-column">
+            <div className="flex-full flex flex-column relative">
+              {query instanceof StructuredQuery && (
+                <Motion
+                  defaultStyle={{ opacity: 0, translateY: -100 }}
+                  style={{
+                    opacity:
+                      queryBuilderMode === "notebook" ? spring(1) : spring(0),
+                    translateY:
+                      queryBuilderMode === "notebook"
+                        ? spring(0)
+                        : spring(-100),
+                  }}
+                >
+                  {({ opacity, translateY }) => (
+                    <div
+                      className="spread bg-white z2"
+                      style={{
+                        // opacity: opacity,
+                        transform: `translateY(${translateY}%)`,
+                      }}
+                    >
+                      <Notebook {...this.props} />
+                    </div>
+                  )}
+                </Motion>
+              )}
+
               {query instanceof NativeQuery && (
                 <div className="z2 hide sm-show border-bottom">
                   <NativeQueryEditor
@@ -231,15 +264,6 @@ export default class View extends React.Component {
                   />
                 </div>
               )}
-
-              {query instanceof StructuredQuery &&
-                queryBuilderMode === "notebook" && (
-                  <div className="z2 hide sm-show mb1 mt2">
-                    <div className="wrapper">
-                      <GuiQueryEditor {...propsWithExtras} />
-                    </div>
-                  </div>
-                )}
 
               <ViewSubHeader {...propsWithExtras} />
 
