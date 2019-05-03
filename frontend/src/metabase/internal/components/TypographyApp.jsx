@@ -3,16 +3,9 @@ import styled from "styled-components";
 import { fontFamily } from "styled-system";
 import { Box, Flex } from "grid-styled";
 
-import Text from "metabase/components/Text";
-
 import Heading from "metabase/components/Heading";
-
-const Label = Text.withComponent("h3");
-
-Label.defaultProps = {
-  color: "text-medium",
-  fontSize: 1,
-};
+import Text from "metabase/components/Text";
+import Label from "metabase/components/Label";
 
 const TypeBlock = ({ children }) => (
   <Box className="border-bottom" py={2}>

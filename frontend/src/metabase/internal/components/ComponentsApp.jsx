@@ -2,6 +2,7 @@
 
 import React, { Component } from "react";
 import { Link, Route } from "react-router";
+import { Box } from "grid-styled";
 
 import { slugify } from "metabase/lib/formatting";
 
@@ -13,13 +14,15 @@ import COMPONENTS from "../lib/components-webpack";
 import AceEditor from "metabase/components/TextEditor";
 import CopyButton from "metabase/components/CopyButton";
 
+import Heading from "metabase/components/Heading";
 import Text from "metabase/components/Text";
+import Label from "metabase/components/Label";
 
 const Section = ({ title, children }) => (
-  <div className="mb2">
-    <h3 className="my2">{title}</h3>
+  <Box mb="2">
+    <Label my={2}>{title}</Label>
     {children}
-  </div>
+  </Box>
 );
 
 export default class ComponentsApp extends Component {
@@ -30,10 +33,10 @@ export default class ComponentsApp extends Component {
     return (
       <div className="flex full">
         <nav
-          className="full-height border-right p2 pl4"
+          className="full-height bg-white border-right p2 pl4"
           style={{ flex: "0 0 33.33%" }}
         >
-          <h2 className="my2">Components</h2>
+          <Heading>Components</Heading>
           <ul className="py2">
             {COMPONENTS.filter(
               ({ component, description, examples }) =>
@@ -50,21 +53,21 @@ export default class ComponentsApp extends Component {
             ))}
           </ul>
         </nav>
-        <div className="bg-light flex-full bg-white" style={{ flex: "66.66%" }}>
+        <div className="flex-full" style={{ flex: "66.66%" }}>
           <div className="p4">
             {COMPONENTS.filter(
               ({ component, description, examples }) =>
                 !componentName || componentName === slugify(component.name),
             ).map(({ component, description, examples }, index) => (
               <div id={component.name} key={index}>
-                <h2>
+                <Heading>
                   <Link
                     to={`_internal/components/${slugify(component.name)}`}
                     className="no-decoration"
                   >
                     {component.name}
                   </Link>
-                </h2>
+                </Heading>
                 {description && <Text my={2}>{description}</Text>}
                 {component.propTypes && (
                   <Section title="Props">
