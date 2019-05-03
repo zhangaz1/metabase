@@ -15,8 +15,7 @@ import "metabase/lib/i18n-debug";
 // set the locale before loading anything else
 import "metabase/lib/i18n";
 
-// NOTE: why do we need to load this here?
-import "metabase/lib/colors";
+import colors from "metabase/lib/colors";
 
 import React from "react";
 import ReactDOM from "react-dom";
@@ -54,6 +53,7 @@ const browserHistory = useRouterHistory(createHistory)({
 
 const theme = {
   space: [4, 8, 16, 32, 64, 128],
+  colors,
 };
 
 function _init(reducers, getRoutes, callback) {

@@ -10,7 +10,6 @@
 @import "./flex.css";
 @import "./float.css";
 @import "./grid.css";
-@import "./headings.css";
 @import "./hide.css";
 @import "./hover.css";
 @import "./inputs.css";
@@ -21,5 +20,4 @@
 @import "./scroll.css";
 @import "./shadow.css";
 @import "./spacing.css";
-@import "./text.css";
 @import "./transitions.css";

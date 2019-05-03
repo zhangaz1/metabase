@@ -41,7 +41,7 @@ const WelcomeApp = () => {
 const InternalLayout = ({ children }) => {
   return (
     <div className="flex flex-column full-height">
-      <nav className="wrapper flex align-center py3 border-bottom">
+      <nav className="wrapper flex align-center py3 border-bottom bg-white">
         <a className="text-brand-hover" href="/_internal">
           <h4>Style Guide</h4>
         </a>

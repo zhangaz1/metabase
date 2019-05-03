@@ -13,6 +13,8 @@ import COMPONENTS from "../lib/components-webpack";
 import AceEditor from "metabase/components/TextEditor";
 import CopyButton from "metabase/components/CopyButton";
 
+import Text from "metabase/components/Text";
+
 const Section = ({ title, children }) => (
   <div className="mb2">
     <h3 className="my2">{title}</h3>
@@ -63,7 +65,7 @@ export default class ComponentsApp extends Component {
                     {component.name}
                   </Link>
                 </h2>
-                {description && <p className="my2">{description}</p>}
+                {description && <Text my={2}>{description}</Text>}
                 {component.propTypes && (
                   <Section title="Props">
                     <div className="border-left border-right border-bottom text-code">
