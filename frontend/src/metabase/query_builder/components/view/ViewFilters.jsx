@@ -2,7 +2,7 @@
 
 import React, { Component } from "react";
 
-import FieldList from "../FieldList";
+import FieldList from "../ViewFieldList";
 
 import FilterPopoverHeader from "../filters/FilterPopoverHeader";
 import FilterPopoverPicker from "../filters/FilterPopoverPicker";
@@ -103,7 +103,7 @@ export default class ViewFilters extends Component {
           {queries.map(query => (
             <FieldList
               className="text-purple"
-              width={410}
+              width={"100%"}
               maxHeight={Infinity} // just implement scrolling ourselves
               field={dimension && dimension.mbql()}
               fieldOptions={query.filterFieldOptions(filter)}

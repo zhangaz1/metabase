@@ -9,7 +9,7 @@ const FilterSidebar = ({ question, index, onClose }) => {
   const query = question.query();
   const filter = index != null ? query.topLevelFilters()[index] : null;
   return (
-    <SidebarContent icon="filter" title={t`Filter`} onClose={onClose}>
+    <SidebarContent icon="filter" title={t`Add a filter`} onClose={onClose}>
       <ViewFilters
         key={index}
         query={question.query()}

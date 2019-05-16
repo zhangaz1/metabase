@@ -15,7 +15,8 @@ const SidebarContent = ({ icon, title, onClose, children }) => {
             name="close"
             className="flex-align-right text-medium text-brand-hover cursor-pointer"
             onClick={onClose}
-            size={20}
+            mr={1}
+            size={18}
           />
         )}
       </div>
