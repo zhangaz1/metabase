@@ -104,6 +104,8 @@ class SearchBar extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (this.props.location.pathname !== nextProps.location.pathname) {
       this._updateSearchTextFromUrl(nextProps);
+    }
+    if (this.props.location !== nextProps.location) {
       this.setState({ active: false });
     }
   }
@@ -171,18 +173,8 @@ class SearchBar extends React.Component {
                   </Box>
                 ) : (
                   <Box>
-                    {/*
                     <h4>Recently viewed</h4>
-                    <Recents.ListLoader>
-                      {({ list }) => {
-                        if (list.length === 0) {
-                          return <Box>No results</Box>;
-                        }
-                        console.log(list);
-                        return list.map(l => l.name);
-                      }}
-                    </Recents.ListLoader>
-                    */}
+                    Coming soon...
                   </Box>
                 )}
               </Card>
