@@ -26,8 +26,6 @@ const Button = styled("button")`
   cursor: pointer;
   transition: all 300ms linear;
 
-  box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.042);
-
   &:disabled {
     cursor: not-allowed;
     opacity: 0.72;
