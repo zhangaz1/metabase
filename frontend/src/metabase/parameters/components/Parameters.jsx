@@ -220,7 +220,7 @@ const SortableParameterHandle = SortableHandle(() => (
       marginLeft: "1px",
     }}
   >
-    <Icon name="grabber2" size={12} />
+    <Icon name="grabber" size={12} />
   </div>
 ));
 
