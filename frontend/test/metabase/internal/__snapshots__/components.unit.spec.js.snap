@@ -2,62 +2,31 @@
 
 exports[`Button should render "" correctly 1`] = `
 <button
-  className="Button sc-bdVaJa bDWFJH "
+  className="Button-hYXUXp idssWA"
 >
-  <div
-    className="flex layout-centered"
-  >
-    <div>
-      Clickity click
-    </div>
-  </div>
+  Clickity click
+</button>
+`;
+
+exports[`Button should render "danger" correctly 1`] = `
+<button
+  className="Button-hYXUXp idssWA"
+>
+  No clickity click
 </button>
 `;
 
 exports[`Button should render "primary" correctly 1`] = `
 <button
-  className="Button sc-bdVaJa bDWFJH Button--primary"
+  className="Button-hYXUXp idssWA"
 >
-  <div
-    className="flex layout-centered"
-  >
-    <div>
-      Clickity click
-    </div>
-  </div>
-</button>
-`;
-
-exports[`Button should render "with an icon" correctly 1`] = `
-<button
-  className="Button sc-bdVaJa bDWFJH "
->
-  <div
-    className="flex layout-centered"
-  >
-    <svg
-      className="Icon Icon-star mr1 Icon-cxuQhR kTAgZA"
-      fill="currentcolor"
-      height={14}
-      name="star"
-      size={14}
-      viewBox="0 0 32 32"
-      width={14}
-    >
-      <path
-        d="M16 0 L21 11 L32 12 L23 19 L26 31 L16 25 L6 31 L9 19 L0 12 L11 11"
-      />
-    </svg>
-    <div>
-      Clickity click
-    </div>
-  </div>
+  Clickity click
 </button>
 `;
 
 exports[`Card should render "dark" correctly 1`] = `
 <div
-  className="Card-RQot dPIXem"
+  className="Card-kDrUqF dxjiFD"
 >
   <div
     className="p4"
@@ -69,7 +38,7 @@ exports[`Card should render "dark" correctly 1`] = `
 
 exports[`Card should render "hoverable" correctly 1`] = `
 <div
-  className="Card-RQot fuwRgM"
+  className="Card-kDrUqF bEcErt"
 >
   <div
     className="p4"
@@ -81,7 +50,7 @@ exports[`Card should render "hoverable" correctly 1`] = `
 
 exports[`Card should render "normal" correctly 1`] = `
 <div
-  className="Card-RQot knQaVQ"
+  className="Card-kDrUqF esAie"
 >
   <div
     className="p4"
@@ -127,7 +96,7 @@ exports[`CheckBox should render "Green" correctly 1`] = `
     }
   >
     <svg
-      className="Icon Icon-check Icon-cxuQhR kTAgZA"
+      className="Icon Icon-check Icon-cFRQJw btsEUX"
       fill="currentcolor"
       height={12}
       name="check"
@@ -165,7 +134,7 @@ exports[`CheckBox should render "On - Default blue" correctly 1`] = `
     }
   >
     <svg
-      className="Icon Icon-check Icon-cxuQhR kTAgZA"
+      className="Icon Icon-check Icon-cFRQJw btsEUX"
       fill="currentcolor"
       height={12}
       name="check"
@@ -203,7 +172,7 @@ exports[`CheckBox should render "Purple" correctly 1`] = `
     }
   >
     <svg
-      className="Icon Icon-check Icon-cxuQhR kTAgZA"
+      className="Icon Icon-check Icon-cFRQJw btsEUX"
       fill="currentcolor"
       height={12}
       name="check"
@@ -241,7 +210,7 @@ exports[`CheckBox should render "Red" correctly 1`] = `
     }
   >
     <svg
-      className="Icon Icon-check Icon-cxuQhR kTAgZA"
+      className="Icon Icon-check Icon-cFRQJw btsEUX"
       fill="currentcolor"
       height={12}
       name="check"
@@ -279,7 +248,7 @@ exports[`CheckBox should render "Yellow" correctly 1`] = `
     }
   >
     <svg
-      className="Icon Icon-check Icon-cxuQhR kTAgZA"
+      className="Icon Icon-check Icon-cFRQJw btsEUX"
       fill="currentcolor"
       height={12}
       name="check"
@@ -311,11 +280,11 @@ exports[`EntityMenu should render "Edit menu" correctly 1`] = `
       className="relative"
     >
       <div
-        className="Icon__IconWrapper-ksWXhn dnCxaL"
+        className="Icon__IconWrapper-jjpTqA dUcZYV"
         onClick={[Function]}
       >
         <svg
-          className="Icon Icon-pencil Icon-cxuQhR pXSiy"
+          className="Icon Icon-pencil Icon-cFRQJw cULqXl"
           fill="currentcolor"
           height={16}
           name="pencil"
@@ -346,11 +315,11 @@ exports[`EntityMenu should render "More menu" correctly 1`] = `
       className="relative"
     >
       <div
-        className="Icon__IconWrapper-ksWXhn dnCxaL"
+        className="Icon__IconWrapper-jjpTqA dUcZYV"
         onClick={[Function]}
       >
         <svg
-          className="Icon Icon-burger Icon-cxuQhR pXSiy"
+          className="Icon Icon-burger Icon-cFRQJw cULqXl"
           fill="currentcolor"
           height={16}
           name="burger"
@@ -381,11 +350,11 @@ exports[`EntityMenu should render "Multiple menus" correctly 1`] = `
       className="relative"
     >
       <div
-        className="Icon__IconWrapper-ksWXhn dnCxaL"
+        className="Icon__IconWrapper-jjpTqA dUcZYV"
         onClick={[Function]}
       >
         <svg
-          className="Icon Icon-pencil Icon-cxuQhR pXSiy"
+          className="Icon Icon-pencil Icon-cFRQJw cULqXl"
           fill="currentcolor"
           height={16}
           name="pencil"
@@ -405,11 +374,11 @@ exports[`EntityMenu should render "Multiple menus" correctly 1`] = `
       className="relative"
     >
       <div
-        className="Icon__IconWrapper-ksWXhn dnCxaL"
+        className="Icon__IconWrapper-jjpTqA dUcZYV"
         onClick={[Function]}
       >
         <svg
-          className="Icon Icon-share Icon-cxuQhR pXSiy"
+          className="Icon Icon-share Icon-cFRQJw cULqXl"
           fill="currentcolor"
           fillRule="evenodd"
           height={20}
@@ -430,11 +399,11 @@ exports[`EntityMenu should render "Multiple menus" correctly 1`] = `
       className="relative"
     >
       <div
-        className="Icon__IconWrapper-ksWXhn dnCxaL"
+        className="Icon__IconWrapper-jjpTqA dUcZYV"
         onClick={[Function]}
       >
         <svg
-          className="Icon Icon-burger Icon-cxuQhR pXSiy"
+          className="Icon Icon-burger Icon-cFRQJw cULqXl"
           fill="currentcolor"
           height={16}
           name="burger"
@@ -465,11 +434,11 @@ exports[`EntityMenu should render "Share menu" correctly 1`] = `
       className="relative"
     >
       <div
-        className="Icon__IconWrapper-ksWXhn dnCxaL"
+        className="Icon__IconWrapper-jjpTqA dUcZYV"
         onClick={[Function]}
       >
         <svg
-          className="Icon Icon-share Icon-cxuQhR pXSiy"
+          className="Icon Icon-share Icon-cFRQJw cULqXl"
           fill="currentcolor"
           fillRule="evenodd"
           height={20}
@@ -492,7 +461,7 @@ exports[`EntityMenu should render "Share menu" correctly 1`] = `
 
 exports[`PageHeading should render "normal" correctly 1`] = `
 <h1
-  className="PageHeading-iMPvjs juZTVP"
+  className="PageHeading-fSpTWN hhbYqy"
 >
   Hello World
 </h1>
@@ -500,11 +469,11 @@ exports[`PageHeading should render "normal" correctly 1`] = `
 
 exports[`Position should render "Absolute" correctly 1`] = `
 <div
-  className="Position-kiwZOl jyvUWC sc-bwzfXH kLwrie"
+  className="Position-jzLIuP ErlYa sc-bdVaJa bTKLQy"
 >
   Some content
   <div
-    className="Position-kiwZOl dhkeTA sc-bwzfXH gZPQmB"
+    className="Position-kIjQsa jSkNMq sc-bdVaJa itORHd"
   >
     Some content positioned absolutely to its parent
   </div>
@@ -513,7 +482,7 @@ exports[`Position should render "Absolute" correctly 1`] = `
 
 exports[`Position should render "Relative" correctly 1`] = `
 <div
-  className="Position-kiwZOl jyvUWC sc-bwzfXH ihgQcP"
+  className="Position-jzLIuP ErlYa sc-bdVaJa iHZvIS"
 >
   Some content relative to its parent
 </div>
@@ -521,11 +490,11 @@ exports[`Position should render "Relative" correctly 1`] = `
 
 exports[`ProgressBar should render "Animated" correctly 1`] = `
 <div
-  className="ProgressBar__ProgressWrapper-lDFZw gfaDTt"
+  className="ProgressBar__ProgressWrapper-jRgUsA gvhTcj"
   color="#509EE3"
 >
   <div
-    className="ProgressBar__Progress-hndiLL gttMaI"
+    className="ProgressBar__Progress-eJeDGZ cNQOna"
     width={35}
   />
 </div>
@@ -533,11 +502,11 @@ exports[`ProgressBar should render "Animated" correctly 1`] = `
 
 exports[`ProgressBar should render "Default" correctly 1`] = `
 <div
-  className="ProgressBar__ProgressWrapper-lDFZw gfaDTt"
+  className="ProgressBar__ProgressWrapper-jRgUsA gvhTcj"
   color="#509EE3"
 >
   <div
-    className="ProgressBar__Progress-hndiLL jCqeMr"
+    className="ProgressBar__Progress-eJeDGZ eDHGLL"
     width={75}
   />
 </div>
@@ -790,7 +759,7 @@ exports[`Select should render "Default" correctly 1`] = `
       className="AdminSelect-content mr1"
     />
     <svg
-      className="Icon Icon-chevrondown AdminSelect-chevron flex-align-right Icon-cxuQhR kTAgZA"
+      className="Icon Icon-chevrondown AdminSelect-chevron flex-align-right Icon-cFRQJw btsEUX"
       fill="currentcolor"
       height={12}
       name="chevrondown"
@@ -824,7 +793,7 @@ exports[`Select should render "With search" correctly 1`] = `
       className="AdminSelect-content mr1"
     />
     <svg
-      className="Icon Icon-chevrondown AdminSelect-chevron flex-align-right Icon-cxuQhR kTAgZA"
+      className="Icon Icon-chevrondown AdminSelect-chevron flex-align-right Icon-cFRQJw btsEUX"
       fill="currentcolor"
       height={12}
       name="chevrondown"
@@ -890,7 +859,7 @@ exports[`StackedCheckBox should render "Checked with color" correctly 1`] = `
       }
     >
       <svg
-        className="Icon Icon-check Icon-cxuQhR kTAgZA"
+        className="Icon Icon-check Icon-cFRQJw btsEUX"
         fill="currentcolor"
         height={12}
         name="check"
@@ -959,7 +928,7 @@ exports[`StackedCheckBox should render "Checked" correctly 1`] = `
       }
     >
       <svg
-        className="Icon Icon-check Icon-cxuQhR kTAgZA"
+        className="Icon Icon-check Icon-cFRQJw btsEUX"
         fill="currentcolor"
         height={12}
         name="check"
