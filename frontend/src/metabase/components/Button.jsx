@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import sys from "system-components";
+import styled from "styled-components";
+import { space, color } from "styled-system";
 
 import Icon from "metabase/components/Icon.jsx";
 import cx from "classnames";
@@ -82,13 +83,10 @@ BaseButton.propTypes = {
   borderless: PropTypes.bool,
 };
 
-const Button = sys(
-  {
-    is: BaseButton,
-  },
-  "space",
-  "color",
-);
+const Button = styled(BaseButton)`
+  ${space}
+  ${color}
+`;
 
 Button.displayName = "Button";
 

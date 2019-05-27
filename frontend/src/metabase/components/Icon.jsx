@@ -3,7 +3,7 @@
 import React, { Component } from "react";
 import RetinaImage from "react-retina-image";
 import styled from "styled-components";
-import { color, space, hover } from "styled-system";
+import { color, space } from "styled-system";
 import cx from "classnames";
 import colors from "metabase/lib/colors";
 
@@ -94,7 +94,6 @@ class BaseIcon extends Component {
 const Icon = styled(BaseIcon)`
   ${space}
   ${color}
-  ${hover}
   flex-shrink: 0
 `;
 export default Tooltipify(Icon);

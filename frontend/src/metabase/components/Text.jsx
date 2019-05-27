@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { space } from "system-components";
+import { space } from "styled-system";
 import colors from "metabase/lib/colors";
 
 const Text = styled.p`
