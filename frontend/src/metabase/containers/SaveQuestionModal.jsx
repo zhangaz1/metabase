@@ -197,6 +197,7 @@ export default class SaveQuestionModal extends Component {
           formError,
           <Button onClick={this.props.onClose}>{t`Cancel`}</Button>,
           <ButtonWithStatus
+            variant="primary"
             disabled={!this.state.valid}
             onClickOperation={this.formSubmitted}
           />,

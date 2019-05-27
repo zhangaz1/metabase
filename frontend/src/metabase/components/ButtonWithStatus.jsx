@@ -22,6 +22,7 @@ export default class ButtonWithStatus extends Component {
     titleForState?: string[],
     disabled?: boolean,
     className?: string,
+    variant: string,
   };
 
   state = {
@@ -55,6 +56,7 @@ export default class ButtonWithStatus extends Component {
 
     return (
       <Button
+        variant={this.props.variant}
         className={this.props.className}
         primary={!disabled}
         success={progressState === "completed"}

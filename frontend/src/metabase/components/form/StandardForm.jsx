@@ -54,15 +54,11 @@ const StandardForm = ({
       <div className="ml-auto flex align-center">
         {error && <FormMessage message={error} formError />}
         {onClose && (
-          <Button
-            type="button"
-            className="mr1"
-            onClick={onClose}
-          >{t`Cancel`}</Button>
+          <Button type="button" mr={1} onClick={onClose}>{t`Cancel`}</Button>
         )}
         <Button
           type="submit"
-          primary={!(submitting || invalid)}
+          variant={!(submitting || invalid) && "primary"}
           disabled={submitting || invalid}
         >
           {submitTitle || (values.id != null ? t`Update` : t`Create`)}
@@ -72,7 +68,7 @@ const StandardForm = ({
             type="button"
             disabled={submitting || !dirty}
             onClick={resetForm}
-            className="ml1"
+            ml={1}
           >
             {t`Reset`}
           </Button>

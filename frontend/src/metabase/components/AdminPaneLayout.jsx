@@ -14,13 +14,13 @@ const AdminPaneTitle = ({
   <section className="clearfix px2">
     {buttonText && buttonLink && (
       <Link to={buttonLink} className="inline-block float-right">
-        <Button primary>{buttonText}</Button>
+        <Button variant="primary">{buttonText}</Button>
       </Link>
     )}
     {buttonText && buttonAction && (
       <Button
         className="float-right"
-        primary={!buttonDisabled}
+        variant={!buttonDisabled && "primary"}
         disabled={buttonDisabled}
         onClick={buttonAction}
       >
