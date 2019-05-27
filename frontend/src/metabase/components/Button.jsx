@@ -2,26 +2,21 @@ import styled from "styled-components";
 import {
   space,
   color,
-  background,
   borderRadius,
   buttonStyle,
   compose,
 } from "styled-system";
 
-import colors, { lighten } from "metabase/lib/colors";
+import colors, { lighten, darken } from "metabase/lib/colors";
 
-// HACK - this needs to be "button" right now in order to get forms
-// to submit due to the lack of "as" since we're on an older version
-// of styled-system due to our outdated React version
-// eventually this can be styled(Box) and we can use "as: Button" in places where that's required
-//
-//
 const buttonProps = compose(
   space,
   color,
   borderRadius,
 );
+
 const Button = styled("button")`
+  border: 1px solid;
   ${buttonProps};
 
   ${buttonStyle};
@@ -30,6 +25,13 @@ const Button = styled("button")`
   font-weight: 700;
   cursor: pointer;
   transition: all 300ms linear;
+
+  box-shadow: 0 1px 2px 1px rgba(0, 0, 0, 0.042);
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.72;
+  }
 `;
 
 Button.defaultProps = {
@@ -44,23 +46,29 @@ const PRIMARY_COLOR = colors["brand"];
 Button.variants = {
   default: {
     color: colors["text-dark"],
-    backgroundColor: "white",
+    borderColor: darken(colors["bg-medium"], 0.12),
+    backgroundColor: colors["bg-light"],
     "&:hover": {
       color: PRIMARY_COLOR,
+      backgroundColor: lighten(colors["bg-light"], 0.08),
     },
   },
   primary: {
     color: "white",
     backgroundColor: PRIMARY_COLOR,
+    borderColor: PRIMARY_COLOR,
     "&:hover": {
-      backgroundColor: lighten(PRIMARY_COLOR, 0.2),
+      backgroundColor: lighten(PRIMARY_COLOR, 0.12),
+      borderColor: lighten(PRIMARY_COLOR, 0.12),
     },
   },
   danger: {
     color: "white",
     backgroundColor: DANGER_COLOR,
+    borderColor: DANGER_COLOR,
     "&:hover": {
       backgroundColor: lighten(DANGER_COLOR, 0.2),
+      borderColor: lighten(DANGER_COLOR, 0.2),
     },
   },
 };
