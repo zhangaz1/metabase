@@ -43,6 +43,8 @@ import { syncHistoryWithStore } from "react-router-redux";
 import HTML5Backend from "react-dnd-html5-backend";
 import { DragDropContextProvider } from "react-dnd";
 
+import Button from "metabase/components/Button";
+
 // remove trailing slash
 const BASENAME = window.MetabaseRoot.replace(/\/+$/, "");
 
@@ -54,6 +56,7 @@ const browserHistory = useRouterHistory(createHistory)({
 
 const theme = {
   space: [4, 8, 16, 32, 64, 128],
+  buttons: { ...Button.variants },
 };
 
 function _init(reducers, getRoutes, callback) {

@@ -1,92 +1,69 @@
-import React from "react";
-import PropTypes from "prop-types";
 import styled from "styled-components";
-import { space, color } from "styled-system";
+import {
+  space,
+  color,
+  background,
+  borderRadius,
+  buttonStyle,
+  compose,
+} from "styled-system";
 
-import Icon from "metabase/components/Icon.jsx";
-import cx from "classnames";
-import _ from "underscore";
+import colors, { lighten } from "metabase/lib/colors";
 
-const BUTTON_VARIANTS = [
-  "small",
-  "medium",
-  "large",
-  "round",
-  "primary",
-  "danger",
-  "warning",
-  "cancel",
-  "success",
-  "purple",
-  "borderless",
-  "onlyIcon",
-];
+// HACK - this needs to be "button" right now in order to get forms
+// to submit due to the lack of "as" since we're on an older version
+// of styled-system due to our outdated React version
+// eventually this can be styled(Box) and we can use "as: Button" in places where that's required
+//
+//
+const buttonProps = compose(
+  space,
+  color,
+  borderRadius,
+);
+const Button = styled("button")`
+  ${buttonProps};
 
-const BaseButton = ({
-  className,
-  icon,
-  iconRight,
-  iconSize,
-  iconColor,
-  children,
-  ...props
-}) => {
-  let variantClasses = BUTTON_VARIANTS.filter(variant => props[variant]).map(
-    variant => "Button--" + variant,
-  );
+  ${buttonStyle};
 
-  const onlyIcon = !children;
-
-  return (
-    <button
-      {..._.omit(props, ...BUTTON_VARIANTS)}
-      className={cx("Button", className, variantClasses)}
-    >
-      <div className="flex layout-centered">
-        {icon && (
-          <Icon
-            color={iconColor}
-            name={icon}
-            size={iconSize ? iconSize : 14}
-            className={cx({ mr1: !onlyIcon })}
-          />
-        )}
-        <div>{children}</div>
-        {iconRight && (
-          <Icon
-            color={iconColor}
-            name={iconRight}
-            size={iconSize ? iconSize : 14}
-            className={cx({ ml1: !onlyIcon })}
-          />
-        )}
-      </div>
-    </button>
-  );
-};
-
-BaseButton.propTypes = {
-  className: PropTypes.string,
-  icon: PropTypes.string,
-  iconSize: PropTypes.number,
-  children: PropTypes.any,
-
-  small: PropTypes.bool,
-  medium: PropTypes.bool,
-  large: PropTypes.bool,
-
-  primary: PropTypes.bool,
-  warning: PropTypes.bool,
-  cancel: PropTypes.bool,
-  purple: PropTypes.bool,
-
-  borderless: PropTypes.bool,
-};
-
-const Button = styled(BaseButton)`
-  ${space}
-  ${color}
+  font-family: Lato, sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 300ms linear;
 `;
+
+Button.defaultProps = {
+  p: [1, 2],
+  borderRadius: 6,
+  variant: "default",
+};
+
+const DANGER_COLOR = colors["error"];
+const PRIMARY_COLOR = colors["brand"];
+
+Button.variants = {
+  default: {
+    color: colors["text-dark"],
+    backgroundColor: "white",
+    "&:hover": {
+      color: PRIMARY_COLOR,
+    },
+  },
+  primary: {
+    color: "white",
+    backgroundColor: PRIMARY_COLOR,
+    "&:hover": {
+      backgroundColor: lighten(PRIMARY_COLOR, 0.2),
+    },
+  },
+  danger: {
+    color: "white",
+    backgroundColor: DANGER_COLOR,
+    "&:hover": {
+      backgroundColor: lighten(DANGER_COLOR, 0.2),
+    },
+  },
+};
 
 Button.displayName = "Button";
 
