@@ -1,34 +1,26 @@
-/* eslint "react/prop-types": "warn" */
+/* @flow */
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import { t } from "ttag";
 import { Box, Flex } from "grid-styled";
 
 import User from "metabase/entities/users";
+import Form from "metabase/containers/Form";
 
 import Radio from "metabase/components/Radio";
 import UserAvatar from "metabase/components/UserAvatar";
 
-import SetUserPassword from "./SetUserPassword";
+type Props = {
+  tab: string,
+  user: {},
+  setTab: (tab: string) => void,
+  updatePassword: (details: {}) => Promise<any>,
+};
 
 export default class UserSettings extends Component {
-  static propTypes = {
-    tab: PropTypes.string.isRequired,
-    user: PropTypes.object.isRequired,
-    setTab: PropTypes.func.isRequired,
-    updatePassword: PropTypes.func.isRequired,
-  };
-
-  onUpdatePassword(details) {
-    this.props.updatePassword(
-      details.user_id,
-      details.password,
-      details.old_password,
-    );
-  }
+  props: Props;
 
   render() {
-    const { tab, user, setTab } = this.props;
+    const { tab, user, setTab, updatePassword } = this.props;
 
     return (
       <Box>
@@ -67,9 +59,30 @@ export default class UserSettings extends Component {
           {tab === "details" ? (
             <User.Form {...this.props} formName="user" />
           ) : tab === "password" ? (
-            <SetUserPassword
-              submitFn={this.onUpdatePassword.bind(this)}
-              {...this.props}
+            <Form
+              submitTitle={t`Update`}
+              onSubmit={details => updatePassword(details)}
+              form={{
+                fields: [
+                  {
+                    name: "current_password",
+                    title: t`Current password`,
+                    type: "password",
+                    validate: currentPassword =>
+                      !currentPassword && t`Please enter your current password`,
+                  },
+                  {
+                    name: "password",
+                    title: t`New password`,
+                    type: "password",
+                  },
+                  {
+                    name: "confirm_new_password",
+                    title: t`Confirm new password`,
+                    type: "password",
+                  },
+                ],
+              }}
             />
           ) : null}
         </Box>
