@@ -61,7 +61,13 @@ export default class UserSettings extends Component {
           ) : tab === "password" ? (
             <Form
               submitTitle={t`Update`}
-              onSubmit={details => updatePassword(details)}
+              onSubmit={({ current_password, new_password }) =>
+                updatePassword(
+                  this.props.user.id,
+                  current_password,
+                  new_password,
+                )
+              }
               form={{
                 fields: [
                   {
@@ -72,7 +78,7 @@ export default class UserSettings extends Component {
                       !currentPassword && t`Please enter your current password`,
                   },
                   {
-                    name: "password",
+                    name: "new_password",
                     title: t`New password`,
                     type: "password",
                   },
