@@ -1,5 +1,35 @@
 ## Dashboards
 
+<details><summary>Click here to see a list of topics in this section</summary>
+  
+- [What is a dashboard?](#what-is-a-dashboard)
+
+- [How to create a dashboard](#how-to-create-a-dashboard)
+
+- [Adding headings or descriptions with text cards](#adding-headings-or-descriptions-with-text-cards)
+
+- [Arranging cards](#arranging-cards)
+
+- [Archiving a dashboard](#archiving-a-dashboard)
+
+- [Finding dashboards](#finding-dashboards)
+
+- [Fullscreen dashboards](#fullscreen-dashboards)
+
+- [Auto refresh](#auto-refresh)
+
+- [Sharing dashboards with public links](#sharing-dashboards-with-public-links)
+
+- [Configuring a dashboard through its URL](#configuring-a-dashboard-through-its-url)
+
+- [Tips on creating helpful dashboards](#tips-on-creating-helpful-dashboards)
+
+</details>
+
+
+
+
+
 ### What is a dashboard?
 A **dashboard** is a collection of saved questions that you want to refer back to and view regularly. It displays groups of questions and their corresponding answers.
 
