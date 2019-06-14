@@ -43,12 +43,7 @@ export default class FormField extends Component {
     }
 
     return (
-      <div
-        className={cx("Form-field", {
-          "Form--fieldError": !!error,
-          hide: hidden,
-        })}
-      >
+      <div className={cx("Form-field", { hide: hidden })}>
         {displayName && (
           <label
             className={cx("Form-label", { "Form-offset": offset })}
