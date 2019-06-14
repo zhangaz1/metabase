@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import cx from "classnames";
+import _ from "underscore";
 import { t, jt } from "ttag";
 import FormField from "metabase/components/form/FormField.jsx";
 import FormLabel from "metabase/components/form/FormLabel.jsx";
@@ -8,11 +9,6 @@ import FormMessage from "metabase/components/form/FormMessage.jsx";
 import Toggle from "metabase/components/Toggle.jsx";
 
 import { shallowEqual } from "recompose";
-
-// TODO - this should be somewhere more centralized
-function isEmpty(str) {
-  return !str || 0 === str.length;
-}
 
 const AUTH_URL_PREFIXES = {
   bigquery:
@@ -35,7 +31,24 @@ const CREDENTIALS_URL_PREFIXES = {
     "https://console.developers.google.com/apis/credentials/oauthclient?project=",
 };
 
-const isTunnelField = field => /^tunnel-/.test(field.name);
+const FIELD_OVERRIDES = {
+  "use-jvm-timezone": {
+    "display-name": t`Use the Java Virtual Machine (JVM) timezone`,
+    description: t`We suggest you leave this off unless you're doing manual timezone casting in
+      many or most of your queries with this data.`,
+  },
+  "tunnel-enabled": {
+    "display-name": t`Use an SSH-tunnel for database connections`,
+    description: t`Some database installations can only be accessed by connecting through an SSH bastion host.
+      This option also provides an extra layer of security when a VPN is not available.
+      Enabling this is usually slower than a direct connection.`,
+  },
+  "let-user-control-scheduling": {
+    "display-name": t`This is a large database, so let me choose when Metabase syncs and scans`,
+    description: t`By default, Metabase does a lightweight hourly sync and an intensive daily scan of field values.
+      If you have a large database, we recommend turning this on and reviewing when and how often the field value scans happen.`,
+  },
+};
 
 /**
  * This is a form for capturing database details for a given `engine` supplied via props.
@@ -63,28 +76,59 @@ export default class DatabaseDetailsForm extends Component {
     submitting: PropTypes.boolean,
   };
 
-  validateForm() {
+  getFields() {
     const { engine, engines } = this.props;
+    return [
+      {
+        name: "name",
+        "display-name": t`Name`,
+        placeholder: t`How would you like to refer to this database?`,
+        required: true,
+      },
+      ...engines[engine]["details-fields"],
+      {
+        name: "let-user-control-scheduling",
+        type: "boolean",
+      },
+    ];
+  }
+
+  // automatically hides fields matching the prefix of boolean fields like `*-enabled`
+  // e.x. `tunnel-enabled` will show/hide `tunnel-host` etc
+  getVisibleFields() {
+    const { hiddenFields = {} } = this.props;
+    const { details } = this.state;
+    const fields = this.getFields();
+    const hiddenPrefixes = [];
+    return fields.filter(field => {
+      // assumes `-enabled` field comes before any other prefixed fields it would disable
+      const match = field.name.match(/^(.*-)enabled$/);
+      if (match && !details[field.name]) {
+        hiddenPrefixes.push(match[1]);
+        return !hiddenFields[field.name];
+      } else {
+        return (
+          !hiddenFields[field.name] &&
+          !_.any(hiddenPrefixes, prefix => field.name.startsWith(prefix))
+        );
+      }
+    });
+  }
+
+  validateForm() {
     const { details } = this.state;
 
     let valid = true;
-
-    // name is required
-    if (!details.name) {
-      valid = false;
-    }
-
-    // go over individual fields
-    for (const field of engines[engine]["details-fields"]) {
-      // tunnel fields aren't required if tunnel isn't enabled
-      if (!details["tunnel-enabled"] && isTunnelField(field)) {
-        continue;
-      } else if (field.required && isEmpty(details[field.name])) {
+    // go over individual fields (hidden fields aren't required)
+    for (const field of this.getVisibleFields()) {
+      if (
+        field.required &&
+        (details[field.name] == null || details[field.name] == "")
+      ) {
         valid = false;
         break;
       }
     }
-
     if (this.state.valid !== valid) {
       this.setState({ valid });
     }
@@ -147,136 +191,27 @@ export default class DatabaseDetailsForm extends Component {
 
   renderFieldInput(field, fieldIndex) {
     const { details } = this.state;
-    const value = (details && details[field.name]) || "";
-
-    switch (field.type) {
-      case "boolean":
-        return (
-          <div className="Form-input Form-offset full Button-group">
-            <div
-              className={cx(
-                "Button",
-                details[field.name] === true ? "Button--active" : null,
-              )}
-              onClick={e => {
-                this.onChange(field.name, true);
-              }}
-            >
-              Yes
-            </div>
-            <div
-              className={cx(
-                "Button",
-                details[field.name] === false ? "Button--danger" : null,
-              )}
-              onClick={e => {
-                this.onChange(field.name, false);
-              }}
-            >
-              No
-            </div>
-          </div>
-        );
-      default:
-        return (
-          <input
-            type={field.type === "password" ? "password" : "text"}
-            className="Form-input Form-offset full"
-            ref={field.name}
-            name={field.name}
-            value={value}
-            placeholder={field.default || field.placeholder}
-            onChange={e => this.onChange(field.name, e.target.value)}
-            required={field.required}
-            autoFocus={fieldIndex === 0}
-          />
-        );
-    }
+    return (
+      <input
+        type={field.type === "password" ? "password" : "text"}
+        className="Form-input Form-offset full"
+        name={field.name}
+        value={details[field.name] || ""}
+        placeholder={field.default || field.placeholder}
+        onChange={e => this.onChange(field.name, e.target.value)}
+        required={field.required}
+        autoFocus={fieldIndex === 0}
+      />
+    );
   }
 
   renderField(field, fieldIndex) {
     const { engine } = this.props;
-    window.ENGINE = engine;
+    const { details } = this.state;
 
-    if (field.name === "tunnel-enabled") {
-      const on =
-        this.state.details["tunnel-enabled"] == undefined
-          ? false
-          : this.state.details["tunnel-enabled"];
-      return (
-        <FormField key={field.name} fieldName={field.name}>
-          <div className="flex align-center Form-offset">
-            <div className="Grid-cell--top">
-              <Toggle
-                value={on}
-                onChange={val => this.onChange("tunnel-enabled", val)}
-              />
-            </div>
-            <div className="px2">
-              <h3>{t`Use an SSH-tunnel for database connections`}</h3>
-              <div style={{ maxWidth: "40rem" }} className="pt1">
-                {t`Some database installations can only be accessed by connecting through an SSH bastion host.
-                                 This option also provides an extra layer of security when a VPN is not available.
-                                 Enabling this is usually slower than a direct connection.`}
-              </div>
-            </div>
-          </div>
-        </FormField>
-      );
-    } else if (isTunnelField(field) && !this.state.details["tunnel-enabled"]) {
-      // don't show tunnel fields if tunnel isn't enabled
-      return null;
-    } else if (field.name === "use-jvm-timezone") {
-      const on =
-        this.state.details["use-jvm-timezone"] == undefined
-          ? false
-          : this.state.details["use-jvm-timezone"];
-      return (
-        <FormField key={field.name} fieldName={field.name}>
-          <div className="flex align-center Form-offset">
-            <div className="Grid-cell--top">
-              <Toggle
-                value={on}
-                onChange={val => this.onChange("use-jvm-timezone", val)}
-              />
-            </div>
-            <div className="px2">
-              <h3>{t`Use the Java Virtual Machine (JVM) timezone`}</h3>
-              <div style={{ maxWidth: "40rem" }} className="pt1">
-                {t`We suggest you leave this off unless you're doing manual timezone casting in
-                                many or most of your queries with this data.`}
-              </div>
-            </div>
-          </div>
-        </FormField>
-      );
-    } else if (field.name === "let-user-control-scheduling") {
-      const on =
-        this.state.details["let-user-control-scheduling"] == undefined
-          ? false
-          : this.state.details["let-user-control-scheduling"];
-      return (
-        <FormField key={field.name} fieldName={field.name}>
-          <div className="flex align-center Form-offset">
-            <div className="Grid-cell--top">
-              <Toggle
-                value={on}
-                onChange={val =>
-                  this.onChange("let-user-control-scheduling", val)
-                }
-              />
-            </div>
-            <div className="px2">
-              <h3>{t`This is a large database, so let me choose when Metabase syncs and scans`}</h3>
-              <div style={{ maxWidth: "40rem" }} className="pt1">
-                {t`By default, Metabase does a lightweight hourly sync and an intensive daily scan of field values.
-                                If you have a large database, we recommend turning this on and reviewing when and how often the field value scans happen.`}
-              </div>
-            </div>
-          </div>
-        </FormField>
-      );
-    } else if (field.name === "client-id" && CREDENTIALS_URL_PREFIXES[engine]) {
+    field = { ...field, ...(FIELD_OVERRIDES[field.name] || {}) };
+
+    if (field.name === "client-id" && CREDENTIALS_URL_PREFIXES[engine]) {
       const { details } = this.state;
       const projectID = details && details["project-id"];
       // if (projectID) {
@@ -289,7 +224,7 @@ export default class DatabaseDetailsForm extends Component {
               <a className="link" href={credentialsURL} target="_blank">
                 {t`Click here`}
               </a>
-            )} to generate a Client ID and Client Secret for your project.`}
+            )} to generate a Client ID and Client Secret for your project.`}{" "}
             {t`Choose "Other" as the application type. Name it whatever you'd like.`}
           </div>
         </div>
@@ -366,6 +301,28 @@ export default class DatabaseDetailsForm extends Component {
           {enableAPILink}
         </FormField>
       );
+    } else if (field.type === "boolean") {
+      const on = details[field.name] == undefined ? false : details[field.name];
+      return (
+        <FormField key={field.name} fieldName={field.name}>
+          <div className="flex align-center Form-offset">
+            <div className="Grid-cell--top">
+              <Toggle
+                value={on}
+                onChange={val => this.onChange(field.name, val)}
+              />
+            </div>
+            <div className="px2">
+              <h3>{field["display-name"]}</h3>
+              {field.description && (
+                <div style={{ maxWidth: "40rem" }} className="pt1">
+                  {field.description}
+                </div>
+              )}
+            </div>
+          </div>
+        </FormField>
+      );
     } else {
       return (
         <FormField key={field.name} fieldName={field.name}>
@@ -378,12 +335,9 @@ export default class DatabaseDetailsForm extends Component {
   }
 
   render() {
-    let {
-      engine,
-      engines,
+    const {
       formError,
       formSuccess,
-      hiddenFields,
       submitButtonText,
       isNewDatabase,
       submitting,
@@ -393,28 +347,14 @@ export default class DatabaseDetailsForm extends Component {
     const willProceedToNextDbCreationStep =
       isNewDatabase && details["let-user-control-scheduling"];
 
-    const fields = [
-      {
-        name: "name",
-        "display-name": t`Name`,
-        placeholder: t`How would you like to refer to this database?`,
-        required: true,
-      },
-      ...engines[engine]["details-fields"],
-      {
-        name: "let-user-control-scheduling",
-        required: true,
-      },
-    ];
-
-    hiddenFields = hiddenFields || {};
+    const visibleFields = this.getVisibleFields();
 
     return (
       <form onSubmit={this.formSubmitted.bind(this)} noValidate>
         <div className="FormInputGroup pb2">
-          {fields
-            .filter(field => !hiddenFields[field.name])
-            .map((field, fieldIndex) => this.renderField(field, fieldIndex))}
+          {visibleFields.map((field, fieldIndex) =>
+            this.renderField(field, fieldIndex),
+          )}
         </div>
 
         <div className="Form-actions">

@@ -20,16 +20,21 @@ const StandardForm = ({
   handleSubmit,
   resetForm,
 
-  submitTitle,
   formDef: form,
+
+  submitTitle,
   className,
+  style = {},
   resetButton = false,
-  newForm = true,
   onClose = null,
 
   ...props
 }) => (
-  <form onSubmit={handleSubmit} className={cx(className, { NewForm: newForm })}>
+  <form
+    onSubmit={handleSubmit}
+    className={cx(className, "NewForm")}
+    style={{ maxWidth: 600, ...style }}
+  >
     <div>
       {form.fields(values).map(formField => {
         const nameComponents = formField.name.split(".");
@@ -41,17 +46,16 @@ const StandardForm = ({
             displayName={
               formField.title || nameComponents[nameComponents.length - 1]
             }
-            offset={!newForm}
+            description={formField.description}
             {...field}
             hidden={formField.type === "hidden"}
           >
-            <FormWidget field={field} offset={!newForm} {...formField} />
-            {!newForm && <span className="Form-charm" />}
+            <FormWidget field={field} {...formField} />
           </FormField>
         );
       })}
     </div>
-    <div className={cx("flex", { "Form-offset": !newForm })}>
+    <div className="flex">
       <div className="ml-auto flex align-center">
         {error && <FormMessage message={error} formError />}
         {onClose && (

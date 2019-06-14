@@ -101,6 +101,7 @@ export default class Form extends React.Component {
         initialValues: initialValues,
         onSubmit: values => this.handleSubmit(form.normalize(values)),
       };
+      // this allows us to change fields based on form state
       const mapStateToProps = (state, ownProps) => {
         const values = getValues(state.form[this._formName]);
         if (values) {

@@ -14,6 +14,7 @@ export default class FormField extends Component {
 
     hidden: PropTypes.bool,
     displayName: PropTypes.string,
+    description: PropTypes.string,
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node,
@@ -25,7 +26,14 @@ export default class FormField extends Component {
   };
 
   render() {
-    const { displayName, offset, formError, children, hidden } = this.props;
+    const {
+      displayName,
+      description,
+      offset,
+      formError,
+      children,
+      hidden,
+    } = this.props;
     const name = this.props.name || this.props.fieldName;
 
     let error = this.props.error || getIn(formError, ["data", "errors", name]);
@@ -50,6 +58,7 @@ export default class FormField extends Component {
             {error && <span className="text-error mx1">{error}</span>}
           </label>
         )}
+        {description && <div className="mb1">{description}</div>}
         {children}
       </div>
     );
