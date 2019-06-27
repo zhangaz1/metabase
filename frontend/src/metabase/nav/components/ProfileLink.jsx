@@ -44,6 +44,12 @@ export default class ProfileLink extends Component {
         link: Urls.accountSettings(),
         event: `Navbar;Profile Dropdown;Edit Profile`,
       },
+      {
+        title: t`Activity`,
+        icon: null,
+        link: "/activity",
+        event: `Navbar;Profile Dropdown;Activity ${tag}`,
+      },
       ...(admin && [
         {
           title: adminContext ? t`Exit admin` : t`Admin`,

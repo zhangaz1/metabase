@@ -70,7 +70,7 @@ export default class NativeQueryButton extends React.Component {
   }
 
   render() {
-    const { question, size } = this.props;
+    const { question } = this.props;
     const { loading, error } = this.state;
 
     const engineType = getEngineNativeType(question.database().engine);
@@ -81,7 +81,7 @@ export default class NativeQueryButton extends React.Component {
       <span>
         <Icon
           name="sql"
-          size={size}
+          className="text-medium text-brand-hover cursor-pointer"
           tooltip={tooltip}
           onClick={this.handleOpen}
         />

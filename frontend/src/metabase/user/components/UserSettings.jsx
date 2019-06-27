@@ -9,6 +9,8 @@ import User from "metabase/entities/users";
 import Radio from "metabase/components/Radio";
 import UserAvatar from "metabase/components/UserAvatar";
 
+import Toggle from "metabase/components/Toggle";
+
 import SetUserPassword from "./SetUserPassword";
 
 export default class UserSettings extends Component {
@@ -65,7 +67,33 @@ export default class UserSettings extends Component {
         </Flex>
         <Box w={["100%", 540]} ml="auto" mr="auto" px={[1, 2]} pt={[1, 3]}>
           {tab === "details" ? (
-            <User.Form {...this.props} formName="user" />
+            <Box>
+              <User.Form {...this.props} formName="user" />
+              <h3>Prefer sql?</h3>
+              <Toggle
+                value={
+                  window.localStorage.getItem("MB_USER_CREATE_PREFERENCE") ===
+                  "sql"
+                }
+                onChange={() => {
+                  if (
+                    window.localStorage.getItem("MB_USER_CREATE_PREFERENCE") ===
+                    "sql"
+                  ) {
+                    window.localStorage.setItem(
+                      "MB_USER_CREATE_PREFERENCE",
+                      null,
+                    );
+                  } else {
+                    window.localStorage.setItem(
+                      "MB_USER_CREATE_PREFERENCE",
+                      "sql",
+                    );
+                  }
+                  window.location.reload();
+                }}
+              />
+            </Box>
           ) : tab === "password" ? (
             <SetUserPassword
               submitFn={this.onUpdatePassword.bind(this)}

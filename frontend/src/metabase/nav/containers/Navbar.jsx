@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import cx from "classnames";
 import { t } from "ttag";
-import { Box, Flex } from "grid-styled";
+import { Flex } from "grid-styled";
 import styled from "styled-components";
 import { space, width } from "styled-system";
-import colors from "metabase/lib/colors";
+import colors, { darken } from "metabase/lib/colors";
 import color from "color";
 
 import { connect } from "react-redux";
@@ -13,7 +13,6 @@ import { push } from "react-router-redux";
 
 import * as Urls from "metabase/lib/urls";
 
-import Button from "metabase/components/Button.jsx";
 import Icon, { IconWrapper } from "metabase/components/Icon";
 import Link from "metabase/components/Link";
 import LogoIcon from "metabase/components/LogoIcon.jsx";
@@ -271,6 +270,15 @@ export default class Navbar extends Component {
   }
 
   renderMainNav() {
+    let createText = "Ask a question";
+    let createIcon = "editdocument";
+    let createLink = this.props.query.question().getUrl();
+
+    if (window.localStorage.getItem("MB_USER_CREATE_PREFERENCE") === "sql") {
+      createText = "Write SQL";
+      createIcon = "sql";
+      createLink = this.props.plainNativeQuery.question().getUrl();
+    }
     const hasDataAccess =
       this.props.databases && this.props.databases.length > 0;
     return (
@@ -298,30 +306,27 @@ export default class Navbar extends Component {
         />
         <Flex ml="auto" align="center" pl={[1, 2]} className="relative z2">
           {hasDataAccess && (
-            <Link
+            <NavLink
               mr={[1, 2]}
               to="browse"
               className="flex align-center flex-no-shrink"
               data-metabase-event={`NavBar;Data Browse`}
             >
-              <Tooltip tooltip={t`Browse data`}>
-                <Icon size={17} name="table" mr={1} />
-              </Tooltip>
-              <h4 className="hide sm-show">{t`Browse data`}</h4>
-            </Link>
+              <Icon size={17} name="table" mr={1} />
+              <h4>{t`Browse data`}</h4>
+            </NavLink>
           )}
           {hasDataAccess && (
-            <Link
+            <NavLink
               mr={[1, 2]}
-              to={this.props.plainNativeQuery.question().getUrl()}
+              to={createLink}
               className="flex align-center hide sm-show flex-no-shrink"
               data-metabase-event={`NavBar;Data Browse`}
             >
-              <Tooltip tooltip={t`Write SQL`}>
-                <Icon size={17} name="sql" mr={1} />
+              <Tooltip tooltip={createText}>
+                <Icon size={17} name={createIcon} />
               </Tooltip>
-              <h4>{t`Write SQL`}</h4>
-            </Link>
+            </NavLink>
           )}
           <EntityMenu
             tooltip={t`Create`}
@@ -340,21 +345,8 @@ export default class Navbar extends Component {
                 link: Urls.newPulse(),
                 event: `NavBar;New Pulse Click;`,
               },
-              {
-                title: t`New custom question`,
-                icon: `document`,
-                link: hasDataAccess && this.props.query.question().getUrl(),
-                event: `NavBar;New Question;`,
-              },
             ]}
           />
-          <Tooltip tooltip={t`Activity`}>
-            <Link mx={2} to="activity" data-metabase-event={`NavBar;Activity`}>
-              <IconWrapper>
-                <Icon size={20} name="bell" />
-              </IconWrapper>
-            </Link>
-          </Tooltip>
           <ProfileLink {...this.props} />
         </Flex>
         {this.renderModal()}
@@ -401,3 +393,13 @@ export default class Navbar extends Component {
     }
   }
 }
+
+const NavLink = styled(Link).attrs({
+  p: 1,
+})`
+  border-radius: 6px;
+  &:hover {
+    background-color: ${darken(colors["brand"], 0.2)};
+  }
+  transition: background 300ms linear;
+`;
