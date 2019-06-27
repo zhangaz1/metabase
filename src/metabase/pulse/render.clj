@@ -11,7 +11,8 @@
             [metabase.util
              [i18n :refer [trs tru]]
              [urls :as urls]]
-            [schema.core :as s]))
+            [schema.core :as s])
+  (:import java.util.TimeZone))
 
 (def ^:private ^:const card-width 400)
 
@@ -112,8 +113,8 @@
 (s/defn ^:private render-pulse-card :- common/RenderedPulseCard
   "Render a single `card` for a `Pulse` to Hiccup HTML. `result` is the QP results."
   [render-type timezone card results]
-  (let [{title :content title-attachments :attachments} (make-title-if-needed render-type card)
-        {pulse-body :content body-attachments :attachments} (render-pulse-card-body render-type timezone card results)]
+  (let [{title      :content, title-attachments :attachments} (make-title-if-needed render-type card)
+        {pulse-body :content, body-attachments  :attachments} (render-pulse-card-body render-type timezone card results)]
     {:attachments (merge title-attachments body-attachments)
      :content     [:a {:href   (card-href card)
                        :target "_blank"
@@ -152,6 +153,6 @@
                    content]}))
 
 (defn render-pulse-card-to-png
-  "Render a `pulse-card` as a PNG. `data` is the `:data` from a QP result (I think...)"
-  ^bytes [timezone pulse-card result]
-  (png/render-html-to-png (render-pulse-card :inline timezone pulse-card result) card-width))
+  "Render a `pulse-card` as a PNG. `results` are QP results."
+  ^bytes [^TimeZone timezone, pulse-card results]
+  (png/render-html-to-png (render-pulse-card :inline timezone pulse-card results) card-width))
