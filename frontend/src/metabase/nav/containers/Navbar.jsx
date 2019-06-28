@@ -313,7 +313,7 @@ export default class Navbar extends Component {
               data-metabase-event={`NavBar;Data Browse`}
             >
               <Icon size={17} name="table" mr={1} />
-              <h4>{t`Browse data`}</h4>
+              <h4>{t`Explore`}</h4>
             </NavLink>
           )}
           {hasDataAccess && (
