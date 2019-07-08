@@ -271,10 +271,13 @@ export default class Navbar extends Component {
 
   renderMainNav() {
     let createText = "Ask a question";
-    let createIcon = "editdocument";
+    let createIcon = "edit_document";
     let createLink = this.props.query.question().getUrl();
 
-    if (window.localStorage.getItem("MB_USER_CREATE_PREFERENCE") === "sql") {
+    if (
+      window.localStorage.getItem("MB_USER_CREATE_PREFERENCE") &&
+      window.localStorage.getItem("MB_USER_CREATE_PREFERENCE") === "sql"
+    ) {
       createText = "Write SQL";
       createIcon = "sql";
       createLink = this.props.plainNativeQuery.question().getUrl();
@@ -306,7 +309,7 @@ export default class Navbar extends Component {
         />
         <Flex ml="auto" align="center" pl={[1, 2]} className="relative z2">
           {hasDataAccess && (
-            <NavLink
+            <NavButton
               mr={[1, 2]}
               to="browse"
               className="flex align-center flex-no-shrink"
@@ -314,7 +317,7 @@ export default class Navbar extends Component {
             >
               <Icon size={17} name="table" mr={1} />
               <h4>{t`Explore`}</h4>
-            </NavLink>
+            </NavButton>
           )}
           {hasDataAccess && (
             <NavLink
@@ -393,6 +396,20 @@ export default class Navbar extends Component {
     }
   }
 }
+
+const NavButton = styled(Link).attrs({
+  px: 2,
+  py: "12px",
+})`
+  background-color: white;
+  color: ${colors["brand"]};
+  border-radius: 6px;
+  transition: all 300ms linear;
+  &:hover {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    color: ${darken(colors["brand"], 0.2)};
+  }
+`;
 
 const NavLink = styled(Link).attrs({
   p: 1,

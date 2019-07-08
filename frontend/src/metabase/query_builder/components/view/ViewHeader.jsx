@@ -146,10 +146,6 @@ export class ViewSubHeader extends React.Component {
       queryBuilderMode,
     } = this.props;
 
-    const isFiltersExpanded =
-      questionHasFilters(question) &&
-      (this.state.isFiltersExpanded || !question.isSaved());
-
     const middle = [];
     const left = [];
     const right = [];
