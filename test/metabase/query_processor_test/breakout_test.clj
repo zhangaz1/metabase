@@ -21,7 +21,7 @@
             [metabase.test.data.datasets :as datasets]
             [metabase.test.util.log :as tu.log]
             [toucan.db :as db]
-            [toucan.util.test :as tt]))
+            [toucan.util.test :as tt]) )
 
 ;;; single column
 (qp.test/expect-with-non-timeseries-dbs
@@ -280,12 +280,12 @@
 
 ;; do Settings show up for breakout Fields?
 (qp.test/expect-with-non-timeseries-dbs
-  [{:name     (:name (qp.test/breakout-col :venues :price))
-    :settings {:is_priceless false}}
-   {:name (:name (qp.test/aggregate-col :count))}]
+  [(assoc (qp.test/breakout-col :venues :price)
+     :settings {:is_priceless false})
+   (qp.test/aggregate-col :count)]
   (tu/with-temp-vals-in-db Field (data/id :venues :price) {:settings {:is_priceless false}}
-    (let [results (data/run-mbql-query venues
-                    {:aggregation [[:count]]
-                     :breakout    [$price]})]
-      (for [col (qp.test/cols results)]
-        (select-keys col [:name :settings])))))
+    (qp.test/cols
+      (data/run-mbql-query venues
+        {:aggregation [[:count]]
+         :breakout    [$price]
+         :limit       1}))))

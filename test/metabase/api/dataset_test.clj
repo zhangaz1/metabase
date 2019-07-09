@@ -13,6 +13,7 @@
             [metabase.mbql.schema :as mbql.s]
             [metabase.models
              [card :refer [Card]]
+             [field :refer [Field]]
              [permissions :as perms]
              [permissions-group :as group]
              [query-execution :refer [QueryExecution]]]
@@ -96,6 +97,16 @@
      :query-execution
      (format-response (most-recent-query-execution))}))
 
+;; Do `:settings` come back for `:cols` with the basic endpoint?
+(expect
+  [(tu/obj->json->obj
+    (assoc (qp.test/col :venues :price)
+      :settings {:is_priceless false}))]
+  (tu/with-temp-vals-in-db Field (data/id :venues :price) {:settings {:is_priceless false}}
+    (qp.test/cols
+      ((test-users/user->client :rasta) :post 200 "dataset"
+       (data/mbql-query venues {:fields [$price], :limit 1})))))
+
 
 ;; Even if a query fails we still expect a 200 response from the api
 (expect
@@ -139,9 +150,9 @@
                                                        (re-find #"Syntax error in SQL statement")
                                                        boolean))))
         result              (tu.log/suppress-output
-                              ((test-users/user->client :rasta) :post 200 "dataset" {:database (data/id)
-                                                                                     :type     "native"
-                                                                                     :native   {:query "foobar"}}))]
+                             ((test-users/user->client :rasta) :post 200 "dataset" {:database (data/id)
+                                                                                    :type     "native"
+                                                                                    :native   {:query "foobar"}}))]
     {:api-response
      (check-error-message (dissoc (format-response result) :stacktrace))
 

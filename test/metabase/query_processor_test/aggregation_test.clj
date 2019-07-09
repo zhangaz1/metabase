@@ -282,7 +282,8 @@
     :settings {:is_priceless false})
   (tu/with-temp-vals-in-db Field (data/id :venues :price) {:settings {:is_priceless false}}
     (let [results (data/run-mbql-query venues
-                    {:aggregation [[:sum $price]]})]
+                    {:aggregation [[:sum $price]]
+                     :limit       1})]
       (or (some-> (qp.test/cols results) first)
           results))))
 

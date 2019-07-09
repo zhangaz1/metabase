@@ -89,6 +89,12 @@
   "Format QP response in the format expected by the frontend client, and save a QueryExecution entry."
   [respond raise query-execution {:keys [status], :as result}]
   (cond
+    ;; Successful query (~= HTTP 200): save QueryExecution & return "status = completed" response
+    (= status :completed)
+    (respond (succeed query-execution result))
+
+    ;; various error conditions
+
     ;; if the result itself is invalid there's something wrong in the QP -- not just with the query. Pass an
     ;; Exception up to the top-level handler; this is basically a 500 situation
     (nil? result)
@@ -114,11 +120,7 @@
     (do
       (when-not qp.i/*disable-qp-logging*
         (log/warn (trs "Query failure") (u/pprint-to-str 'red result)))
-      (respond (fail query-execution result)))
-
-    ;; Successful query (~= HTTP 200): save QueryExecution & return "status = completed" response
-    (= status :completed)
-    (respond (succeed query-execution result))))
+      (respond (fail query-execution result)))))
 
 
 ;;; +----------------------------------------------------------------------------------------------------------------+
