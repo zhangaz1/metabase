@@ -282,8 +282,8 @@
     :settings {:is_priceless false})
   (tu/with-temp-vals-in-db Field (data/id :venues :price) {:settings {:is_priceless false}}
     (let [results (data/run-mbql-query venues
-                    {:aggregation [[:sum [:field-id $price]]]})]
-      (or (-> results :data :cols first)
+                    {:aggregation [[:sum $price]]})]
+      (or (some-> (qp.test/cols results) first)
           results))))
 
 ;; Do we properly handle queries that have more than one of the same aggregation? (#5393)

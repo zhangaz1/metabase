@@ -163,7 +163,7 @@
                        :condition    [:= $flock_id &f.flock.id]
                        :alias        "f"
                        :fields       :all}]
-           :order-by [[:asc [:field-id $name]]]})))))
+           :order-by [[:asc $name]]})))))
 
 ;; Can we include no Fields (with `:none`)
 (datasets/expect-with-drivers (qp.test/non-timeseries-drivers-with-feature :left-join)
@@ -194,7 +194,7 @@
                        :condition    [:= $flock_id &f.flock.id]
                        :alias        "f"
                        :fields       :none}]
-           :order-by [[:asc [:field-id $name]]]})))))
+           :order-by [[:asc $name]]})))))
 
 ;;Can we include a list of specific Fields?
 (datasets/expect-with-drivers (qp.test/non-timeseries-drivers-with-feature :left-join)
@@ -226,7 +226,7 @@
                        :condition    [:= $flock_id &f.flock.id]
                        :alias        "f"
                        :fields       [&f.flock.name]}]
-           :order-by [[:asc [:field-id $name]]]})))))
+           :order-by [[:asc $name]]})))))
 
 ;; Do Joins with `:fields``:all` work if the joined table includes Fields that come back wrapped in `:datetime-field`
 ;; forms?

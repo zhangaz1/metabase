@@ -277,3 +277,15 @@
    (data/run-mbql-query venues
      {:breakout [$price]
       :fields   [$price]})))
+
+;; do Settings show up for breakout Fields?
+(qp.test/expect-with-non-timeseries-dbs
+  [{:name     (:name (qp.test/breakout-col :venues :price))
+    :settings {:is_priceless false}}
+   {:name (:name (qp.test/aggregate-col :count))}]
+  (tu/with-temp-vals-in-db Field (data/id :venues :price) {:settings {:is_priceless false}}
+    (let [results (data/run-mbql-query venues
+                    {:aggregation [[:count]]
+                     :breakout    [$price]})]
+      (for [col (qp.test/cols results)]
+        (select-keys col [:name :settings])))))

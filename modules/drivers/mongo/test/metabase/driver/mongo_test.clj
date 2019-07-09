@@ -296,7 +296,7 @@
     ;; Field will be included
     (->
      (data/run-mbql-query categories
-       {:order-by [[:asc [:field-id $id]]]
+       {:order-by [[:asc $id]]
         :limit    3})
      qp.t/data
      (select-keys [:columns :rows]))))

@@ -423,7 +423,7 @@
   (-> (qp.test-util/with-everything-store
         ((annotate/add-column-info (constantly {}))
          (data/mbql-query venues
-           {:expressions {"discount_price" [:* 0.9 [:field-id $price]]}
+           {:expressions {"discount_price" [:* 0.9 $price]}
             :fields      [$name [:expression "discount_price"]]
             :limit       10})))
       :cols

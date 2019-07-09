@@ -218,7 +218,7 @@
       (qp.test/rows
         (data/run-mbql-query venues
           {:aggregation [:+ [:metric (u/get-id metric)] 1]
-           :breakout    [[:field-id $price]]})))))
+           :breakout    [$price]})))))
 
 ;; check that we can handle METRICS (ick) inside a NAMED clause
 (datasets/expect-with-drivers (qp.test/non-timeseries-drivers-with-feature :expression-aggregations)
@@ -234,7 +234,7 @@
       (qp.test/rows+column-names
         (data/run-mbql-query venues
           {:aggregation [[:named [:metric (u/get-id metric)] "My Cool Metric"]]
-           :breakout    [[:field-id $price]]})))))
+           :breakout    [$price]})))))
 
 ;; check that METRICS (ick) with a nested aggregation still work inside a NAMED clause
 (datasets/expect-with-drivers (qp.test/non-timeseries-drivers-with-feature :expression-aggregations)
@@ -251,7 +251,7 @@
       (qp.test/rows+column-names
         (data/run-mbql-query venues
           {:aggregation [[:named [:metric (u/get-id metric)] "My Cool Metric"]]
-           :breakout    [[:field-id $price]]})))))
+           :breakout    [$price]})))))
 
 ;; check that named aggregations come back with the correct column metadata (#4002)
 (datasets/expect-with-drivers (qp.test/non-timeseries-drivers-with-feature :expression-aggregations)

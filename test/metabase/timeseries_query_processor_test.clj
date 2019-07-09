@@ -945,6 +945,6 @@
     (qp.test/rows
       (data/run-mbql-query checkins
         {:aggregation  [[:avg $venue_price]]
-         :breakout     [[:field-id $venue_category_name]]
+         :breakout     [$venue_category_name]
          :order-by     [[:desc [:aggregation 0]]]
          :limit        4}))))
