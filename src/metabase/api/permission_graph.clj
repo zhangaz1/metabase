@@ -5,7 +5,10 @@
   then postwalk to actually perform the conversion."
   (:require [clojure.spec.alpha :as s]
             [clojure.spec.gen.alpha :as gen]
-            [clojure.walk :as walk]))
+            [clojure.walk :as walk]
+            [clojure.core.match :as match]
+            [metabase.mbql.util :as mbql.u]
+            [medley.core :as m]))
 
 (defmulti convert
   "convert values from the naively converted json to what we REALLY WANT"
@@ -109,3 +112,39 @@
                         (if (and (vector? x) (get-method convert (first x)))
                           (convert x)
                           x)))))
+
+(defn kwid?
+  [k]
+  (and (keyword? k) (re-find #"^\d+$" (name k))))
+
+(defn kwstr?
+  [k]
+  (and (keyword? k) (re-find #"[a-z][A-Z]" (name k))))
+
+(defn kwid->int
+  [k]
+  (-> k name Integer/parseInt))
+
+(defn new-convert
+  [g]
+  (let [pairs (into [] g)]
+    (reduce (fn [m pair]
+              (merge m (first (mbql.u/match pair
+                                [:groups group] [:groups (new-convert group)]
+                                [kwid? map?]    [(kwid->int (first &match)) (new-convert (second &match))]
+                                ))))
+            {}
+            pairs)))
+
+{:groups {:1 {:schemas {:PUBLIC {:1 "all"}
+                        :YES    {:1 "all"}}}}}
+
+
+(defn convert-3
+  [g]
+  (walk/prewalk (fn [x]
+                  (cond (kwid? x)                       (kwid->int x)
+                        (:schemas x)                    (m/map-keys name (:schemas x))
+                        (#{"all" "none" "segmented"} x) (keyword x)
+                        :else                           x))
+                g))
