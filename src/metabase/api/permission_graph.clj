@@ -120,11 +120,11 @@
 
 
 ;; Option 2: just use core.match to clean the graph
-(defn kwid->int
+(defn- kw->int
   [k]
   (-> k name Integer/parseInt))
 
-(defn convert-node
+(defn- convert-node
   [node kw-convert & [child-tag]]
   (reduce-kv (fn [m id child]
                (assoc m (kw-convert id)
@@ -135,13 +135,15 @@
              node))
 
 (defn convert-graph
-  [pair]
-  (match/match pair
+  "The permissions graph is received as JSON. That JSON is naively converted. This performs a further conversion to
+  convert graph keys and values to the types we want to work with."
+  [graph]
+  (match/match graph
     {:groups   groups    
-     :revision r}      {:groups   (convert-node groups kwid->int :groups)
+     :revision r}      {:groups   (convert-node groups kw->int :groups)
                         :revision r}
-    [:groups  groups]  (convert-node groups  kwid->int :group)
+    [:groups  groups]  (convert-node groups  kw->int :group)
     [:group   gc]      (convert-node gc      identity :schemas)
     [:schemas schemas] (convert-node schemas name :db)
-    [:db db]           (convert-node db      kwid->int :tables)
+    [:db db]           (convert-node db      kw->int :tables)
     [:tables tables]   (m/map-vals keyword tables)))
