@@ -41,7 +41,7 @@
   [:as {body :body}]
   {body su/Map}
   (api/check-superuser)
-  (perms/update-graph! (pg/convert-3 body))
+  (perms/update-graph! (pg/convert-graph body))
   (perms/graph))
 
 

@@ -10,6 +10,8 @@
             [metabase.mbql.util :as mbql.u]
             [medley.core :as m]))
 
+(declare convert-graph)
+
 (defmulti convert
   "convert values from the naively converted json to what we REALLY WANT"
   first)
@@ -103,6 +105,9 @@
 (s/def ::collection-permissions-graph
   (s/keys :req-un [:metabase.api.permission-graph.collection/groups]))
 
+;;; --------------------------------------------------- Convert ----------------------------------------------------
+
+;; Option 1: use spec to conform the graph and then convert it
 (defn converted-json->graph
   "The permissions graph is received as JSON. That JSON is naively converted. This performs a further conversion to
   convert graph keys and values to the types we want to work with."
@@ -113,38 +118,30 @@
                           (convert x)
                           x)))))
 
-(defn kwid?
-  [k]
-  (and (keyword? k) (re-find #"^\d+$" (name k))))
 
-(defn kwstr?
-  [k]
-  (and (keyword? k) (re-find #"[a-z][A-Z]" (name k))))
-
+;; Option 2: just use core.match to clean the graph
 (defn kwid->int
   [k]
   (-> k name Integer/parseInt))
 
-(defn new-convert
-  [g]
-  (let [pairs (into [] g)]
-    (reduce (fn [m pair]
-              (merge m (first (mbql.u/match pair
-                                [:groups group] [:groups (new-convert group)]
-                                [kwid? map?]    [(kwid->int (first &match)) (new-convert (second &match))]
-                                ))))
-            {}
-            pairs)))
+(defn convert-node
+  [node kw-convert & [child-tag]]
+  (reduce-kv (fn [m id child]
+               (assoc m (kw-convert id)
+                      (if (map? child)
+                        (convert-graph [child-tag child])
+                        (keyword child))))
+             {}
+             node))
 
-{:groups {:1 {:schemas {:PUBLIC {:1 "all"}
-                        :YES    {:1 "all"}}}}}
-
-
-(defn convert-3
-  [g]
-  (walk/prewalk (fn [x]
-                  (cond (kwid? x)                       (kwid->int x)
-                        (:schemas x)                    (m/map-keys name (:schemas x))
-                        (#{"all" "none" "segmented"} x) (keyword x)
-                        :else                           x))
-                g))
+(defn convert-graph
+  [pair]
+  (match/match pair
+    {:groups   groups    
+     :revision r}      {:groups   (convert-node groups kwid->int :groups)
+                        :revision r}
+    [:groups  groups]  (convert-node groups  kwid->int :group)
+    [:group   gc]      (convert-node gc      identity :schemas)
+    [:schemas schemas] (convert-node schemas name :db)
+    [:db db]           (convert-node db      kwid->int :tables)
+    [:tables tables]   (m/map-vals keyword tables)))
