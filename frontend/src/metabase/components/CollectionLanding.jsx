@@ -19,7 +19,6 @@ import * as Urls from "metabase/lib/urls";
 import { color } from "metabase/lib/colors";
 
 import Button from "metabase/components/Button";
-import Card from "metabase/components/Card";
 import Modal from "metabase/components/Modal";
 import StackedCheckBox from "metabase/components/StackedCheckBox";
 import EntityItem from "metabase/components/EntityItem";
@@ -52,7 +51,6 @@ import ItemsDragLayer from "metabase/containers/dnd/ItemsDragLayer";
 import EmptyState from "metabase/components/EmptyState";
 
 const ROW_HEIGHT = 72;
-const PAGE_PADDING = [2, 3, 4];
 
 const ANALYTICS_CONTEXT = "Collection Landing";
 
@@ -211,46 +209,26 @@ class DefaultLanding extends React.Component {
       !collectionIsEmpty;
     return (
       <Box>
-        <Box>
-          <Flex
-            align="center"
-            pt={2}
-            pb={3}
-            px={4}
-            bg={pinned.length ? color("bg-medium") : null}
-          >
+        <Box mx={4} my={3}>
+          <BrowserCrumbs
+            analyticsContext={ANALYTICS_CONTEXT}
+            crumbs={[
+              ...ancestors.map(ancestor => ({
+                title: (
+                  <CollectionDropTarget collection={ancestor} margin={8}>
+                    {ancestor.name}
+                  </CollectionDropTarget>
+                ),
+                to: Urls.collection(ancestor.id),
+              })),
+            ]}
+          />
+        </Box>
+        <Box className="bordered rounded bg-white" mx={4}>
+          <Flex align="center">
             <Box>
-              <Box mb={1}>
-                <BrowserCrumbs
-                  analyticsContext={ANALYTICS_CONTEXT}
-                  crumbs={[
-                    ...ancestors.map(ancestor => ({
-                      title: (
-                        <CollectionDropTarget collection={ancestor} margin={8}>
-                          {ancestor.name}
-                        </CollectionDropTarget>
-                      ),
-                      to: Urls.collection(ancestor.id),
-                    })),
-                  ]}
-                />
-              </Box>
-              <Flex align="center">
-                <PageHeading className="text-wrap">
-                  {collection.name}
-                </PageHeading>
-                {collection.description && (
-                  <Tooltip tooltip={collection.description}>
-                    <Icon
-                      name="info"
-                      ml={1}
-                      mt="4px"
-                      color={color("bg-dark")}
-                      hover={{ color: color("brand") }}
-                    />
-                  </Tooltip>
-                )}
-              </Flex>
+              <PageHeading className="text-wrap">{collection.name}</PageHeading>
+              {collection.description && <p>{collection.description}</p>}
             </Box>
 
             <Flex ml="auto">
@@ -281,77 +259,11 @@ class DefaultLanding extends React.Component {
           </Flex>
           <Box>
             <Box>
-              {collectionHasPins ? (
-                <Box px={PAGE_PADDING} pt={2} pb={3} bg={color("bg-medium")}>
-                  <CollectionSectionHeading>{t`Pins`}</CollectionSectionHeading>
-                  <PinDropTarget
-                    pinIndex={pinned[pinned.length - 1].collection_position + 1}
-                    noDrop
-                    marginLeft={8}
-                    marginRight={8}
-                  >
-                    <Grid>
-                      {pinned.map((item, index) => (
-                        <GridItem
-                          w={[1, 1 / 3]}
-                          className="relative"
-                          key={index}
-                        >
-                          <ItemDragSource item={item} collection={collection}>
-                            <PinnedItem
-                              key={`${item.model}:${item.id}`}
-                              index={index}
-                              item={item}
-                              collection={collection}
-                            />
-                            <PinPositionDropTarget
-                              pinIndex={item.collection_position}
-                              left
-                            />
-                            <PinPositionDropTarget
-                              pinIndex={item.collection_position + 1}
-                              right
-                            />
-                          </ItemDragSource>
-                        </GridItem>
-                      ))}
-                      {pinned.length % 2 === 1 ? (
-                        <GridItem w={1 / 4} className="relative">
-                          <PinPositionDropTarget
-                            pinIndex={
-                              pinned[pinned.length - 1].collection_position + 1
-                            }
-                          />
-                        </GridItem>
-                      ) : null}
-                    </Grid>
-                  </PinDropTarget>
-                </Box>
-              ) : (
-                <PinDropTarget pinIndex={1} hideUntilDrag>
-                  {({ hovered }) => (
-                    <div
-                      className={cx(
-                        "p2 flex layout-centered",
-                        hovered ? "text-brand" : "text-light",
-                      )}
-                    >
-                      <Icon name="pin" mr={1} />
-                      {t`Drag something here to pin it to the top`}
-                    </div>
-                  )}
-                </PinDropTarget>
-              )}
               <Box pt={[1, 2]} px={[2, 4]}>
                 <Grid>
                   {showSidebar && (
                     <GridItem w={collectionWidth}>
                       <Box pr={2} className="relative">
-                        <Box py={2}>
-                          <CollectionSectionHeading>
-                            {t`Collections`}
-                          </CollectionSectionHeading>
-                        </Box>
                         <CollectionList
                           analyticsContext={ANALYTICS_CONTEXT}
                           currentCollection={collection}
@@ -364,11 +276,77 @@ class DefaultLanding extends React.Component {
                   )}
                   {collectionHasItems && (
                     <GridItem w={itemWidth}>
+                      {collectionHasPins ? (
+                        <Box>
+                          <PinDropTarget
+                            pinIndex={
+                              pinned[pinned.length - 1].collection_position + 1
+                            }
+                            noDrop
+                            marginLeft={8}
+                            marginRight={8}
+                          >
+                            <Grid>
+                              {pinned.map((item, index) => (
+                                <GridItem
+                                  w={[1, 1 / 3]}
+                                  className="relative"
+                                  key={index}
+                                >
+                                  <ItemDragSource
+                                    item={item}
+                                    collection={collection}
+                                  >
+                                    <PinnedItem
+                                      key={`${item.model}:${item.id}`}
+                                      index={index}
+                                      item={item}
+                                      collection={collection}
+                                    />
+                                    <PinPositionDropTarget
+                                      pinIndex={item.collection_position}
+                                      left
+                                    />
+                                    <PinPositionDropTarget
+                                      pinIndex={item.collection_position + 1}
+                                      right
+                                    />
+                                  </ItemDragSource>
+                                </GridItem>
+                              ))}
+                              {pinned.length % 2 === 1 ? (
+                                <GridItem w={1 / 4} className="relative">
+                                  <PinPositionDropTarget
+                                    pinIndex={
+                                      pinned[pinned.length - 1]
+                                        .collection_position + 1
+                                    }
+                                  />
+                                </GridItem>
+                              ) : null}
+                            </Grid>
+                          </PinDropTarget>
+                        </Box>
+                      ) : (
+                        <PinDropTarget pinIndex={1} hideUntilDrag>
+                          {({ hovered }) => (
+                            <div
+                              className={cx(
+                                "p2 flex layout-centered",
+                                hovered ? "text-brand" : "text-light",
+                              )}
+                            >
+                              <Icon name="pin" mr={1} />
+                              {t`Drag something here to pin it to the top`}
+                            </div>
+                          )}
+                        </PinDropTarget>
+                      )}
                       <Box>
                         <ItemTypeFilterBar
                           analyticsContext={ANALYTICS_CONTEXT}
                         />
-                        <Card mt={1} className="relative">
+                        <Box mt={1} className="relative">
                           {unpinnedItems.length > 0 ? (
                             <PinDropTarget pinIndex={null} margin={8}>
                               <Box
@@ -434,7 +412,7 @@ class DefaultLanding extends React.Component {
                               </PinDropTarget>
                             </Box>
                           )}
-                        </Card>
+                        </Box>
                       </Box>
                     </GridItem>
                   )}
@@ -580,10 +558,9 @@ const PinnedItem = ({ item, index, collection }) => (
   <Link
     to={item.getUrl()}
     className="hover-parent hover--visibility"
-    hover={{ color: color("brand") }}
     data-metabase-event={`${ANALYTICS_CONTEXT};Pinned Item;Click;${item.model}`}
   >
-    <Card hoverable p={3}>
+    <Box p={3}>
       <Icon name={item.getIcon()} color={item.getColor()} size={28} mb={2} />
       <Flex align="center">
         <h3>{item.getName()}</h3>
@@ -603,7 +580,7 @@ const PinnedItem = ({ item, index, collection }) => (
           </Box>
         )}
       </Flex>
-    </Card>
+    </Box>
   </Link>
 );
 
@@ -672,15 +649,6 @@ class CollectionLanding extends React.Component {
     );
   }
 }
-
-const CollectionSectionHeading = ({ children }) => (
-  <h5
-    className="text-uppercase"
-    style={{ color: color("text-medium"), fontWeight: 900 }}
-  >
-    {children}
-  </h5>
-);
 
 const CollectionEditMenu = ({ isRoot, isAdmin, collectionId }) => {
   const items = [];
