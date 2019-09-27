@@ -7,18 +7,14 @@ import { color } from "metabase/lib/colors";
 
 // TODO: merge with Breadcrumbs
 
-const Crumb = ({ children }) => (
-  <h5 className="text-uppercase text-medium" style={{ fontWeight: 900 }}>
-    {children}
-  </h5>
-);
+const Crumb = ({ children }) => <h4 style={{ fontWeight: 900 }}>{children}</h4>;
 
 const BrowserCrumbs = ({ crumbs, analyticsContext }) => (
   <Flex align="center">
     {crumbs
       .filter(c => c)
       .map((crumb, index, crumbs) => [
-        <Flex align="center">
+        <Flex align="center" className="text-medium">
           {crumb.to ? (
             <Link
               className="text-brand-hover cursor-pointer"
