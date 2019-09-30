@@ -28,95 +28,84 @@ class CollectionList extends React.Component {
       currentUser,
       currentCollection,
       isRoot,
-      w,
       asCards,
     } = this.props;
     return (
       <Box className="relative">
-        <Grid>
-          {collections
-            .filter(c => c.id !== currentUser.personal_collection_id)
-            .map(collection => (
-              <GridItem w={w} key={collection.id}>
-                <CollectionDropTarget collection={collection}>
-                  {({ highlighted, hovered }) => (
-                    <ItemDragSource
-                      item={collection}
-                      collection={currentCollection}
-                    >
-                      <CollectionItem
-                        collection={collection}
-                        highlighted={highlighted}
-                        hovered={hovered}
-                        event={`${analyticsContext};Collection List;Collection click`}
-                        asCard={asCards}
-                      />
-                    </ItemDragSource>
-                  )}
-                </CollectionDropTarget>
-              </GridItem>
-            ))}
-          {isRoot && (
-            <GridItem w={w} className="relative">
-              <CollectionDropTarget
-                collection={{ id: currentUser.personal_collection_id }}
-              >
-                {({ highlighted, hovered }) => (
+        {collections
+          .filter(c => c.id !== currentUser.personal_collection_id)
+          .map(collection => (
+            <CollectionDropTarget collection={collection} key={collection.id}>
+              {({ highlighted, hovered }) => (
+                <ItemDragSource
+                  item={collection}
+                  collection={currentCollection}
+                >
                   <CollectionItem
-                    collection={{
-                      name: t`My personal collection`,
-                      id: currentUser.personal_collection_id,
-                    }}
-                    iconName="star"
+                    collection={collection}
                     highlighted={highlighted}
                     hovered={hovered}
-                    event={`${analyticsContext};Collection List;Personal collection click`}
+                    event={`${analyticsContext};Collection List;Collection click`}
                     asCard={asCards}
                   />
-                )}
-              </CollectionDropTarget>
-            </GridItem>
-          )}
-          {isRoot && currentUser.is_superuser && (
-            <GridItem w={w}>
+                </ItemDragSource>
+              )}
+            </CollectionDropTarget>
+          ))}
+        {isRoot && (
+          <CollectionDropTarget
+            collection={{ id: currentUser.personal_collection_id }}
+            className="relative"
+          >
+            {({ highlighted, hovered }) => (
               <CollectionItem
                 collection={{
-                  name: PERSONAL_COLLECTIONS.name,
-                  // Bit of a hack. The route /collection/users lists
-                  // user collections but is not itself a colllection,
-                  // but using the fake id users here works
-                  id: "users",
+                  name: t`My personal collection`,
+                  id: currentUser.personal_collection_id,
                 }}
-                iconName="person"
-                event={`${analyticsContext};Collection List;All user collections click`}
+                iconName="star"
+                highlighted={highlighted}
+                hovered={hovered}
+                event={`${analyticsContext};Collection List;Personal collection click`}
                 asCard={asCards}
               />
-            </GridItem>
-          )}
-          {currentCollection && currentCollection.can_write && (
-            <GridItem w={w}>
-              <Link
-                to={Urls.newCollection(currentCollection.id)}
-                color={color("text-medium")}
-                hover={{ color: color("brand") }}
-                p={w === 1 ? [1, 2] : 0}
-                data-metabase-event={`${analyticsContext};Collection List; New Collection Click`}
-              >
-                <Flex align="center" py={1}>
-                  <Icon name="add" mr={1} bordered />
-                  <h4>{t`New collection`}</h4>
-                </Flex>
-              </Link>
-            </GridItem>
-          )}
-        </Grid>
+            )}
+          </CollectionDropTarget>
+        )}
+        {isRoot && currentUser.is_superuser && (
+          <CollectionItem
+            collection={{
+              name: PERSONAL_COLLECTIONS.name,
+              // Bit of a hack. The route /collection/users lists
+              // user collections but is not itself a colllection,
+              // but using the fake id users here works
+              id: "users",
+            }}
+            iconName="person"
+            event={`${analyticsContext};Collection List;All user collections click`}
+            asCard={asCards}
+          />
+        )}
+        {currentCollection && currentCollection.can_write && (
+          <Link
+            to={Urls.newCollection(currentCollection.id)}
+            color={color("text-medium")}
+            hover={{ color: color("brand") }}
+            p={0}
+            data-metabase-event={`${analyticsContext};Collection List; New Collection Click`}
+          >
+            <Flex align="center" py={1}>
+              <Icon name="add" mr={1} bordered />
+              <h4>{t`New collection`}</h4>
+            </Flex>
+          </Link>
+        )}
       </Box>
     );
   }
 }
 
 CollectionList.defaultProps = {
-  w: [1, 1 / 2, 1 / 4],
   asCards: false,
 };
 

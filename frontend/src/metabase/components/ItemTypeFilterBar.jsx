@@ -34,7 +34,7 @@ export const FILTERS = [
 const ItemTypeFilterBar = props => {
   const { location, analyticsContext } = props;
   return (
-    <Flex align="center" className="border-bottom mt1">
+    <Flex align="center" mt={1}>
       {props.filters.map(f => {
         let isActive = location && location.query.type === f.filter;
 
@@ -42,7 +42,7 @@ const ItemTypeFilterBar = props => {
           isActive = true;
         }
 
-        const linkColor = isActive ? color("brand") : "inherit";
+        const linkColor = isActive ? color("white") : color("brand");
 
         return (
           <Link
@@ -52,27 +52,24 @@ const ItemTypeFilterBar = props => {
             }}
             color={linkColor}
             hover={{ color: color("brand") }}
-            className="flex-full flex align-center justify-center sm-block text-brand-hover text-medium"
+            bg={isActive ? color("brand") : "transparent"}
+            className="bordered"
             mr={[0, 2]}
             key={f.filter}
             py={1}
+            px={2}
+            style={{ borderRadius: 99 }}
             data-metabase-event={`${analyticsContext};Item Filter;${f.name}`}
-            style={{
-              borderBottom: `2px solid ${
-                isActive ? color("brand") : "transparent"
-              }`,
-            }}
           >
             <Icon name={f.icon} className="sm-hide" size={20} />
-            <h5
-              className="text-uppercase hide sm-show"
+            <h4
+              className="hide sm-show"
               style={{
-                color: isActive ? color("brand") : "inherit",
                 fontWeight: 900,
               }}
             >
               {f.name}
-            </h5>
+            </h4>
           </Link>
         );
       })}

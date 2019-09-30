@@ -11,13 +11,6 @@ import { color } from "metabase/lib/colors";
 const ItemLink = props => (
   <Link
     to={`collection/${props.collection.id}`}
-    bg={
-      props.hovered
-        ? color("brand")
-        : props.highlighted
-        ? color("bg-light")
-        : color("bg-medium")
-    }
     color={props.hovered ? "white" : color("text-medium")}
     className="block rounded relative text-brand-hover"
     data-metabase-event={props.event}
