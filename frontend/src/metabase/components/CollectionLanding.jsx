@@ -226,24 +226,28 @@ class DefaultLanding extends React.Component {
         <Box className="bordered rounded bg-white" mx={4} p={4}>
           <Grid>
             <GridItem w={1 / 5}>
-              <Flex align="center" mb={3}>
+              <Flex align="center">
                 <PageHeading className="text-wrap">
                   {collection.name}
                 </PageHeading>
                 {collection &&
                   collection.can_write &&
                   !collection.personal_owner_id && (
-                    <CollectionEditMenu
-                      collectionId={collectionId}
-                      isAdmin={isAdmin}
-                      isRoot={isRoot}
-                    />
+                    <span className="text-light">
+                      <CollectionEditMenu
+                        collectionId={collectionId}
+                        isAdmin={isAdmin}
+                        isRoot={isRoot}
+                      />
+                    </span>
                   )}
               </Flex>
               {collection.description && (
-                <p className="text-paragraph">{collection.description}</p>
+                <p className="text-paragraph text-medium m0">
+                  {collection.description}
+                </p>
               )}
-              <Box pr={2} className="relative bordered rounded bg-light">
+              <Box pr={2} mt={3} className="relative bordered rounded bg-light">
                 <CollectionList
                   analyticsContext={ANALYTICS_CONTEXT}
                   currentCollection={collection}
