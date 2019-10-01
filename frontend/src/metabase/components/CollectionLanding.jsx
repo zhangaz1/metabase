@@ -187,7 +187,6 @@ class DefaultLanding extends React.Component {
 
     const collectionWidth = unpinned.length > 0 ? [1, 1 / 3] : 1;
     const itemWidth = unpinned.length > 0 ? [1, 2 / 3] : 0;
-    const collectionGridSize = unpinned.length > 0 ? 1 : [1, 1 / 4];
 
     let unpinnedItems = unpinned;
 
@@ -206,6 +205,7 @@ class DefaultLanding extends React.Component {
       // there should also be at least one item, otherwise we have a different
       // new collection CTA
       !collectionIsEmpty;
+
     return (
       <Box>
         <Box mx={4} my={3}>
@@ -256,8 +256,8 @@ class DefaultLanding extends React.Component {
                 />
               </Box>
             </GridItem>
-            <GridItem w={4 / 5} pl={3}>
-              <Box w={"100%"}>
+            <GridItem w={4 / 5}>
+              <Box w={"100%"} pl={4}>
                 {collectionHasItems && (
                   <Box>
                     {collectionHasPins ? (
