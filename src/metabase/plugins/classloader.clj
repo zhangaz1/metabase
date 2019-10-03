@@ -96,7 +96,7 @@
   ;; as elsewhere make sure Clojure is using our context classloader (which should normally be true anyway) because
   ;; that's the one that will have access to the JARs we've added to the classpath at runtime
   (binding [*use-context-classloader* true]
-    (apply clojure.core/require args)))
+    (apply (var-get #'clojure.core/serialized-require) args)))
 
 
 (defn- classloader-hierarchy
