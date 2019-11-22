@@ -11,7 +11,7 @@
              [util :as u]]
             [metabase.driver.sql-jdbc.connection :as sql-jdbc.conn]
             [metabase.driver.sql.query-processor :as sql.qp])
-  (:import (java.sql Connection DatabaseMetaData ResultSetMetaData Statement)))
+  (:import (java.sql Connection DatabaseMetaData ResultSetMetaData)))
 
 ;;; +----------------------------------------------------------------------------------------------------------------+
 ;;; |                                            Interface (Multimethods)                                            |
