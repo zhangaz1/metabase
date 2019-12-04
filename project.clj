@@ -38,28 +38,28 @@
   ;; !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   :dependencies
   [[org.clojure/clojure "1.10.1"]
-   [org.clojure/core.async "0.4.500"
+   [org.clojure/core.async "0.6.532"
     :exclusions [org.clojure/tools.reader]]
    [org.clojure/core.match "0.3.0"]                                   ; optimized pattern matching library for Clojure
-   [org.clojure/core.memoize "0.7.1"]                                 ; needed by core.match; has useful FIFO, LRU, etc. caching mechanisms
+   [org.clojure/core.memoize "0.8.2"]                                 ; needed by core.match; has useful FIFO, LRU, etc. caching mechanisms
    [org.clojure/data.csv "0.1.4"]                                     ; CSV parsing / generation
    [org.clojure/java.classpath "0.3.0"]                               ; examine the Java classpath from Clojure programs
-   [org.clojure/java.jdbc "0.7.9"]                                    ; basic JDBC access from Clojure
-   [org.clojure/math.combinatorics "0.1.4"]                           ; combinatorics functions
+   [org.clojure/java.jdbc "0.7.10"]                                   ; basic JDBC access from Clojure
+   [org.clojure/math.combinatorics "0.1.6"]                           ; combinatorics functions
    [org.clojure/math.numeric-tower "0.0.4"]                           ; math functions like `ceil`
-   [org.clojure/tools.logging "0.4.1"]                                ; logging framework
-   [org.clojure/tools.namespace "0.2.11"]
-   [amalloy/ring-buffer "1.2.2"
+   [org.clojure/tools.logging "0.5.0"]                                ; logging framework
+   [org.clojure/tools.namespace "0.3.1"]
+   [amalloy/ring-buffer "1.3.0"
     :exclusions [org.clojure/clojure
                  org.clojure/clojurescript]]                          ; fixed length queue implementation, used in log buffering
    [amalloy/ring-gzip-middleware "0.1.4"]                             ; Ring middleware to GZIP responses if client can handle it
    [aleph "0.4.6" :exclusions [org.clojure/tools.logging]]            ; Async HTTP library; WebSockets
    [bigml/histogram "4.1.3"]                                          ; Histogram data structure
-   [buddy/buddy-core "1.5.0"                                          ; various cryptograhpic functions
+   [buddy/buddy-core "1.6.0"                                          ; various cryptograhpic functions
     :exclusions [commons-codec]]
-   [buddy/buddy-sign "3.0.0"]                                         ; JSON Web Tokens; High-Level message signing library
-   [cheshire "5.8.1"]                                                 ; fast JSON encoding (used by Ring JSON middleware)
-   [clj-http "3.9.1"                                                  ; HTTP client
+   [buddy/buddy-sign "3.1.0"]                                         ; JSON Web Tokens; High-Level message signing library
+   [cheshire "5.9.0"]                                                 ; fast JSON encoding (used by Ring JSON middleware)
+   [clj-http "3.10.0"                                                 ; HTTP client
     :exclusions [commons-codec
                  commons-io
                  slingshot]]
@@ -72,15 +72,15 @@
                  org.apache.httpcomponents/httpclient
                  net.sourceforge.nekohtml/nekohtml
                  ring/ring-core]]
-   [com.clearspring.analytics/stream "2.9.6"                          ; Various sketching algorithms
+   [com.clearspring.analytics/stream "2.9.8"                          ; Various sketching algorithms
     :exclusions [org.slf4j/slf4j-api
                  it.unimi.dsi/fastutil]]
    [com.draines/postal "2.0.3"]                                       ; SMTP library
    [com.jcraft/jsch "0.1.55"]                                         ; SSH client for tunnels
-   [com.h2database/h2 "1.4.197"]                                      ; embedded SQL database
+   [com.h2database/h2 "1.4.200"]                                      ; embedded SQL database
    [com.mattbertolini/liquibase-slf4j "2.0.0"]                        ; Java Migrations lib logging. We don't actually use this AFAIK (?)
    [com.taoensso/nippy "2.14.0"]                                      ; Fast serialization (i.e., GZIP) library for Clojure
-   [commons-codec/commons-codec "1.12"]                               ; Apache Commons -- useful codec util fns
+   [commons-codec/commons-codec "1.13"]                               ; Apache Commons -- useful codec util fns
    [commons-io/commons-io "2.6"]                                      ; Apache Commons -- useful IO util fns
    [commons-validator/commons-validator "1.6"                         ; Apache Commons -- useful validation util fns
     :exclusions [commons-beanutils
@@ -91,14 +91,14 @@
    [dk.ative/docjure "1.13.0"]                                        ; Excel export
    [environ "1.1.0"]                                                  ; easy environment management
    [hiccup "1.0.5"]                                                   ; HTML templating
-   [honeysql "0.9.5" :exclusions [org.clojure/clojurescript]]         ; Transform Clojure data structures to SQL
+   [honeysql "0.9.8" :exclusions [org.clojure/clojurescript]]         ; Transform Clojure data structures to SQL
    [instaparse "1.4.10"]                                              ; Make your own parser
    [io.forward/yaml "1.0.9"                                           ; Clojure wrapper for YAML library SnakeYAML (which we already use for liquidbase)
     :exclusions [org.clojure/clojure
                  org.flatland/ordered
                  org.yaml/snakeyaml]]
    [javax.xml.bind/jaxb-api "2.4.0-b180830.0359"]                     ; add the `javax.xml.bind` classes which we're still using but were removed in Java 11
-   [kixi/stats "0.4.4" :exclusions [org.clojure/data.avl]]            ; Various statistic measures implemented as transducers
+   [kixi/stats "0.5.2" :exclusions [org.clojure/data.avl]]            ; Various statistic measures implemented as transducers
    [log4j/log4j "1.2.17"                                              ; logging framework. TODO - consider upgrading to Log4j 2 -- see https://logging.apache.org/log4j/log4j-2.6.1/manual/migration.html
     :exclusions [javax.mail/mail
                  javax.jms/jms
@@ -107,7 +107,7 @@
    [me.raynes/fs "1.4.6"]                                             ; Filesystem tools
    [medley "1.2.0"]                                                   ; lightweight lib of useful functions
    [metabase/connection-pool "1.0.3"]                                 ; simple wrapper around C3P0. JDBC connection pools
-   [metabase/mbql "1.4.0"]                                            ; MBQL language schema & util fns
+   [metabase/mbql "1.4.1"]                                            ; MBQL language schema & util fns
    [metabase/throttle "1.0.2"]                                        ; Tools for throttling access to API endpoints and other code pathways
    [net.sf.cssbox/cssbox "4.12" :exclusions [org.slf4j/slf4j-api]]    ; HTML / CSS rendering
    [org.apache.commons/commons-lang3 "3.9"]                           ; helper methods for working with java.lang stuff
@@ -167,7 +167,7 @@
     [[clj-http-fake "1.0.3" :exclusions [slingshot]]                  ; Library to mock clj-http responses
      [jonase/eastwood "0.3.6" :exclusions [org.clojure/clojure]]      ; to run Eastwood
      [methodical "0.9.4-alpha"]
-     [pjstadig/humane-test-output "0.9.0"]
+     [pjstadig/humane-test-output "0.10.0"]
      [ring/ring-mock "0.3.2"]]
 
     :plugins
