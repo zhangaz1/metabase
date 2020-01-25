@@ -391,9 +391,14 @@ jobs:
   fe-linter-eslint:
     executor: node
     steps:
-      - run-yarn-command:
-          command-name: Run ESLint linter
-          command: lint-eslint
+      - run:
+          command: |
+            mkdir -p eslint/reports
+            lint-eslint --format junit --output-file eslint/reports/eslint.xml
+      - store_test_results:
+          path: eslint/reports
+      - store_artifacts:
+          path: eslint/reports
 
   fe-linter-prettier:
     executor: node
@@ -419,9 +424,17 @@ jobs:
   fe-tests-unit:
     executor: node
     steps:
-      - run-yarn-command:
-          command-name: Run frontend unit tests
-          command: run test-unit
+      - run:
+          command: |
+            mkdir -p jest/reports
+            yarn add --dev jest-junit
+            yarn test-unit --ci --runInBand --reporters=default --reporters=jest-junit
+          environment:
+            JEST_JUNIT_OUTPUT_DIR: "jest/reports/junit/js-test-results.xml"
+      - store_test_results:
+          path: jest/reports
+      - store_artifacts:
+          path: jest/reports
 
   fe-tests-integration:
     executor: node
