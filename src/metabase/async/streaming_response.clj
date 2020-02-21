@@ -74,33 +74,11 @@
        (finally
          (a/close! chan#)))))
 
-;; TODO - this code is basically duplicated with the code in the QP catch-exceptions middleware; we should refactor to
-;; remove the duplication
-(defn- exception-chain [^Throwable e]
-  (->> (iterate #(.getCause ^Throwable %) e)
-       (take-while some?)
-       reverse))
-
-(defn- format-exception [e]
-  (let [format-ex*           (fn [^Throwable e]
-                               {:message    (.getMessage e)
-                                :class      (.getCanonicalName (class e))
-                                :stacktrace (mapv str (.getStackTrace e))
-                                :data       (ex-data e)})
-        [e & more :as chain] (exception-chain e)]
-    (merge
-     (format-ex* e)
-     {:_status (or (some #((some-fn :status-code :status) (ex-data %))
-                         chain)
-                   500)}
-     (when (seq more)
-       {:via (map format-ex* more)}))))
-
 (defn write-error!
   "Write an error to the output stream, formatting it nicely."
   [^OutputStream os obj]
   (if (instance? Throwable obj)
-    (recur os (format-exception obj))
+    (recur os (Throwable->map obj))
     (try
       (with-open [writer (BufferedWriter. (OutputStreamWriter. os StandardCharsets/UTF_8))]
         (json/generate-stream obj writer)
