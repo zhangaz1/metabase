@@ -68,6 +68,14 @@ export function main() {
   return cy.get("nav").next();
 }
 
+// Metabase utility functions for navigating the UI
+export function selectDashboardFilter(selection, filterName) {
+  selection.contains("Select…").click();
+  popover()
+    .contains(filterName)
+    .click({ force: true });
+}
+
 export function openOrdersTable() {
   cy.visit("/question/new?database=1&table=2");
 }
