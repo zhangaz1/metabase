@@ -43,7 +43,7 @@ describe("scenarios > admin > datamodel > table", () => {
       cy.get("@description").should("have.value", "new description");
     });
 
-    it("shouild allow changing the visibility and reason", () => {
+    it("should allow changing the visibility and reason", () => {
       cy.visit(ORDERS_URL);
 
       // visibility
