@@ -98,13 +98,7 @@ describe("scenarios > visualizations > chart drill", () => {
         query: {
           "source-table": 2,
           aggregation: [["count"]],
-          breakout: [
-            [
-              "datetime-field",
-              ["field-id", 15],
-              "week",
-            ],
-          ],
+          breakout: [["datetime-field", ["field-id", 15], "week"]],
         },
         type: "query",
       },
@@ -114,7 +108,7 @@ describe("scenarios > visualizations > chart drill", () => {
 
     // Load the question up
     cy.visit("/collection/root");
-    cy.contains("Orders by Created At: Week").click({force: true});
+    cy.contains("Orders by Created At: Week").click({ force: true });
     cy.contains("January, 2019");
 
     // drill into the first bar
