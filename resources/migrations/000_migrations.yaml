@@ -6212,3 +6212,12 @@ databaseChangeLog:
       changes:
         - dropTable:
             tableName: query_queryexecution
+
+  - changeSet:
+      id: 163
+      author: camsaul
+      comment: 'Added 0.36.0'
+      changes:
+        - dropColumn:
+            tableName: report_card
+            columnName: read_permissions
