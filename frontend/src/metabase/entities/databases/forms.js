@@ -45,6 +45,11 @@ const DATABASE_DETAIL_OVERRIDES = {
       return null;
     },
   }),
+  "ssl-cert": (engine, details) => ({
+    title: t`Server SSL certificate chain`,
+    placeholder: t`Paste the contents of the server's SSL certificate chain here`,
+    type: "text",
+  }),
 };
 
 const AUTH_URL_PREFIXES = {
@@ -167,6 +172,12 @@ function getFieldsForEngine(engine, details) {
       ) {
         continue;
       }
+
+      // NOTE: special case to hide the SSL cert field if SSL is disabled
+      if (field.name === "ssl-cert" && !details["ssl"]) {
+        continue;
+      }
+
       const overrides = DATABASE_DETAIL_OVERRIDES[field.name];
       // convert database details-fields to Form fields
       fields.push({
